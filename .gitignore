@@ -1,0 +1,27 @@
+# Ambientes Virtuais Python
+.venv*/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Repositórios clonados de terceiros (1.8 GB de código externo com seus próprios históricos .git)
+# Conforme DEC-001 e DEC-002, o rastreamento dos repositórios originais é feito via links e scripts de setup
+repos/
+
+# Caches de ferramentas, IDEs e sistemas
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs e arquivos temporários de execução
+*.log
+scratch/
+tmp/

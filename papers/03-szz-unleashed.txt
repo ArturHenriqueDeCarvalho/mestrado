@@ -1,0 +1,689 @@
+SZZ Unleashed: An Open Implementation of the SZZ Algorithm
+
+arXiv:1903.01742v2 [cs.SE] 19 Aug 2019
+
+– Featuring Example Usage in a Study of Just-in-Time Bug Prediction for the Jenkins Project
+Markus Borg
+
+Oscar Svensson
+
+ICT SICS
+RISE Research Institutes of Sweden AB
+Lund, Sweden
+markus.borg@ri.se
+
+Dept. of Computer Science
+Lund University
+Lund, Sweden
+wgcp92@gmail.com
+
+Kristian Berg
+
+Daniel Hansson
+
+Dept. of Computer Science
+Lund University
+Lund, Sweden
+kristianberg.jobb@gmail.com
+
+Verifyter AB
+Lund, Sweden
+daniel.hansson@verifyter.com
+
+ABSTRACT
+Numerous empirical software engineering studies rely on detailed
+information about bugs. While issue trackers often contain information about when bugs were fixed, details about when they were
+introduced to the system are often absent. As a remedy, researchers
+often rely on the SZZ algorithm as a heuristic approach to identify
+bug-introducing software changes. Unfortunately, as reported in a
+recent systematic literature review, few researchers have made their
+SZZ implementations publicly available. Consequently, there is a
+risk that research effort is wasted as new projects based on SZZ output need to initially reimplement the approach. Furthermore, there
+is a risk that newly developed (closed source) SZZ implementations
+have not been properly tested, thus conducting research based on
+their output might introduce threats to validity. We present SZZ
+Unleashed, an open implementation of the SZZ algorithm for git
+repositories. This paper describes our implementation along with
+a usage example for the Jenkins project, and conclude with an
+illustrative study on just-in-time bug prediction. We hope to continue evolving SZZ Unleashed on GitHub, and warmly invite the
+community to contribute.
+
+CCS CONCEPTS
+• Software and its engineering → Software configuration management and version control systems; Software maintenance
+tools; Maintaining software.
+
+KEYWORDS
+SZZ, defect prediction, mining software repositories, issue tracking
+ACM Reference Format:
+Markus Borg, Oscar Svensson, Kristian Berg, and Daniel Hansson. 2019. SZZ
+Unleashed: An Open Implementation of the SZZ Algorithm: – Featuring
+Example Usage in a Study of Just-in-Time Bug Prediction for the Jenkins
+Permission to make digital or hard copies of part or all of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for third-party components of this work must be honored.
+For all other uses, contact the owner/author(s).
+Conference’17, July 2017, Washington, DC, USA
+© 2019 Copyright held by the owner/author(s).
+ACM ISBN 123-4567-24-567/08/06.
+https://doi.org/10.475/123_4
+
+Project. In Proceedings of ACM Conference (Conference’17). ACM, New York,
+NY, USA, 6 pages. https://doi.org/10.475/123_4
+
+1
+
+INTRODUCTION
+
+Empirical software engineering research often rely on detailed
+bug information. Bug information is often maintained in issue
+trackers such as Jira or BugZilla, which has enabled numerous
+publications related to mining software repositories [2, 6]. However,
+while issue trackers often contain details about both bugs (e.g.,
+version information, references to failed test case executions) and
+the subsequent bug fixes (e.g., who developed the fix and a reference
+to a specific commit with the resolution), information about the
+root cause of a bug and when it was introduced are often missing.
+In many software engineering research studies, knowing which
+individual commit that introduced a bug is essential – examples
+include work on fault prediction [10], test case selection [7], and
+static code analysis [17]. One approach to address missing bug
+information is to heuristically deduce it. Successful approaches to
+extend the information stored in issue trackers can be of great value
+to empirical software engineering. However, for such an approach
+to be useful, it has to deliver reliable output that both industry and
+academia trust [4, 8].
+A popular approach to extend bug information is to propose
+“bug-introducing changes” for the existing Bug Reports (BR). The
+dominant algorithm to do this is called SZZ, after the three authors
+of the seminal paper [20]: Śliwerski, Zimmermann, and Zeller. In
+a recent study on reproducability and credibility of software engineering research, Rodriguez-Perez et al. presented a systematic
+literature review on research that used SZZ [18]. They identified
+187 studies, and found that researchers typically implement their
+own versions of SZZ rather than building on what others have
+previously done. Rodriguez-Perez et al. suggest that one reason
+is that researchers rarely make the SZZ implementations publicly
+available, thus any researcher relying on SZZ must first implement
+it from scratch. While there are some partial SZZ implementations
+available [3, 19], Rodriguez-Perez et al. call for researchers to publish source code to allow others to fork the project.
+In this paper, we respond to Rodriguez-Perez et al.’s call for improved reproducability through an open source implementation of
+SZZ. We introduce SZZ Unleashed – available on GitHub under an
+
+M. Borg et al.
+
+Conference’17, July 2017, Washington, DC, USA
+MIT license since June 2018 [22]. The source code was developed as
+part of a MSc. thesis project at Axis Communications AB in Lund,
+Sweden. We have tested SZZ Unleashed on the repository of the
+Jenkins automation server1 and used the results to train a random
+forest classifier for Just-In-Time (JIT) bug prediction [12], i.e., to
+identify high-risk changes at commit-time. At the time of this writing, SZZ Unleashed has been forked four times – at least twice by
+senior researchers from academia – and we have approved the first
+external pull request. Since members of the research community
+have already found and forked SZZ Unleashed, we conclude that
+there is a demand for our implementation.
+The rest of the paper is structured as follows. In Section 2 we
+introduce the SZZ algorithm and some later improvements. Section 3 presents the implementation of SZZ Unleashed along with
+an example for the Jenkins project. In Section 4, we illustrate how
+the SZZ Unleashed output for the Jenkins project can be used, by
+training a random forest classifier for JIT bug prediction. Finally,
+Section 5 concludes the paper and presents how we would like SZZ
+Unleashed to evolve.
+
+2
+
+BACKGROUND – THE SZZ ALGORITHM
+
+The SZZ algorithm was developed as an approach to identify bugintroducing commits in a software repository. It was introduced by
+Śliwerski et al. [20], and was later given its name after the initials of
+the three authors. While the SZZ algorithm was developed for the
+CVS version control system and its corresponding commit practices,
+SZZ has evolved also for software repositories that use git. The SZZ
+algorithm is organized in two subsequent phases.
+In the first phase, BRs in the issue tracker are linked to bug-fixing
+commits. This is done by using regular expressions to find explicit
+references to BRs in commit messages. If the content of the issue
+tracker is less structured, then commit messages that contain the
+word “fix” – or whatever convention is used in the project under
+study – are assumed to be bug fixes. For each of the bug-fixing
+commits that were identified, the modified lines in the source code
+are extracted.
+Figure 1 shows the steps in the second phase. For each bug-fixing
+commit from the first phase (A), SZZ uses the git blame command
+(B) to identify all commits that previously made changes to the
+same lines of code. Git blame shows what revision and author last
+modified each line of a file, i.e., executing git blame on a bug-fixing
+commit results in a set of commits that might have introduced the
+bug. We refer to these a bug-introducing commit candidates (C).
+For each candidate, SZZ determines whether it can be ruled out
+as bug-introducing or not (D). First, the commit time of a candidate
+is compared to the time when the corresponding BR was submitted.
+If the commit time is later than the report submission time, the
+candidate can be bug-introducing only if it is 1) a partial fix, i.e., a fix
+that did not completely resolve the bug it intended to resolve – as
+made evident by a later bug-fixing commit for the same issue, or if
+it is 2) responsible for another bug, i.e., the candidate is responsible
+for a bug different from the one resolved by the bug-fixing commit
+that blamed the candidate. This means that another bug-fixing
+commit can have its bug origin in this commit because they have
+1 https://github.com/jenkinsci/jenkins
+
+both made changes to the same file. We present more details in
+Section 3, where we describe our implementation of SZZ.
+Kim et al. presented improvements to the SZZ algorithm [13],
+including annotation graphs created by origin analysis [9] and an
+approach to filter out cosmetic changes to source code. Figure 2
+presents an annotation graph for a source code file, created by
+mapping different revision of the source code by using the git
+annotate command (exists also in CVS and SVN, now replaced by
+git blame). Each node shows a version of a single line of code and
+edges illustrate relations between revisions. The first four lines (A)
+are unmodified between the three revisions. Nodes 4–6 in revision 2
+did not exist in the revision 1, i.e., these lines of code were inserted.
+Consequently, the fifth line in revision 1 (node 4) is instead mapped
+to node 7 in revision 2. Nodes 16 and 17 in Revision 2 are not
+mapped to any lines in Revision 3, i.e., they were deleted.
+If multiple adjacent lines are changed, then the annotation graph
+technique will fail to map those lines between revisions. Adjacent
+lines of code that are modified map will simply be mapped to the
+same set of lines in the next revision. This can be seen for nodes
+7–14 in Revision 1, which are mapped to nodes 10–17 in revision 2.
+Consequently, SZZ relying on annotation graphs is not very precise
+in tracing changes across revisions.
+Williams and Spacco addressed the lack of SZZ precision by replacing the annotation graph with an distance-based approach they
+call line number mapping [25]. The core concept, based on work
+by Canfora et al. [1], is that individual lines of code are mapped
+between revisions by calculating normalized Levenshtein edit distances between all candidate mappings, and considering the pair
+with the lowest distance to be a valid mapping. Although the mapping is not always correct, the authors claim that the added precision is useful for SZZ. The current implementation of SZZ Unleashed is based on Jaccard distances, but could easily be extended
+to other measures.
+
+3
+
+SZZ UNLEASHED – IMPLEMENTATION
+
+SZZ Unleashed is a Java implementation, with some supporting
+Python scripts, of the SZZ algorithm for git repositories. The implementation is based on the seminal paper by Śliwerski et al. [20]
+and later enhancements by Williams and Spacco [25]. To facilitate
+interaction with git repositories, SZZ Unleashed uses the JGit library [21] maintained by the Eclipse Foundation. Using this library,
+we reduced the use of text parsing and could work directly on the git
+revision structure. Working with SZZ Unleashed means following
+the general SZZ workflow:
+(1) Extract closed BRs from an issue tracker (prerequisite step)
+(2) Link individual BRs to bug-fixing commits (SZZ Phase 1)
+(3) Identify bug-introducing commits for the bug-fixing commits
+(SZZ Phase 2)
+We explain the implementation of SZZ Unleashed through a running example on the core repository of the Jenkins project. Jenkins
+constitutes an appropriate example with numerous contributors,
+including developers in proprietary organizations, consisting of
+roughly 1 MLoC (predominantly Java) with a well-managed Jira
+server for issue tracking. The Jenkins project uses a convention to
+explicitly state unique identifiers (ID) of BRs in bug-fixing commit
+messages, i.e., SZZ Phase 1 is straight-forward. Furthermore, the
+
+SZZ Unleashed: An Open Implementation of the SZZ Algorithm
+
+Conference’17, July 2017, Washington, DC, USA
+
+Figure 1: Overview of the second phase of the SZZ algorithm.
+where issuetype eliminates other types of issues such as feature
+requests, status eliminates issues that are still open, resolution
+eliminates duplicated BRs, component excludes issues concerning
+other repositories, created can is used to set a time interval, and
+ORDER BY sorts the BRs in reverse chronological order.
+The unique IDs of the BRs are used to find bug-fixing commits by
+executing regular expression (regex) patterns on the git log of the
+software repository under study. For the Jenkins repository, three
+different formats for referencing BRs exist, namely JENKINS-XXX,
+HUDSON-XXX and #XXX, where XXX is the BR ID. The Python
+script below specifies the regex pattern that could be used, where
+key is the ID of a BR formatted as JENKINS-XXX and nbr is the
+associated number XXX. If there is a match for the #XXX pattern,
+we perform an extra regex search to verify that the commit message
+also contains the word ‘fix’, otherwise the corresponding commit
+is not considered as bug-fixing.
+Figure 2: Annotation graph mapping lines of source code between revisions.
+
+Jira REST API and associated Jira Query Language (JQL) greatly
+simplifies extraction of BRs.
+Detailed instructions to get started with SZZ Unleashed is available in the README on GitHub [22]. Prerequisites to build SZZ
+Unleashed include Gradle and Java 8. Furthermore, to replicate the
+running example, Python is needed to run the scripts for extracting
+defect reports from Jenkin’s issue tracker and to process them into
+the input format used by SZZ Unleashed. Alternatively, users can
+download and run the Docker image available on GitHub.
+
+3.1
+
+Phase 1 – Bug-fixing commits
+
+As shown in Figure 1, Phase 1 results in a set of bug-fixing commits.
+First, we need to extract BRs from an issue tracker. For the Jira
+server used by the Jenkins community, we execute the following
+JQL query:
+project = JENKINS
+AND issuetype = Bug
+AND status in (Resolved, Closed)
+AND resolution = Fixed
+AND component = core
+AND created <= "2018-02-20 10:34"
+ORDER BY created DESC
+
+String pattern = key + '\D|' + '#' + nbr + \
+'\D|HUDSON-' + nbr + '\D'
+The above regex pattern can match multiple commit messages
+for each BR. SZZ Unleashed uses another regex to identify the true
+bug-fixing commit among these matches, i.e., we exclude ‘merge’,
+‘cherry pick’, and ‘nothing’ commits. Among the remaining commits, SZZ Unleashed considers the most recent commit as bugfixing. The following Python code shows the implementation:
+def commit_selector_heuristic(commits):
+for commit in commits:
+if(re.search('[Mm]erge|[Cc]herry|[Nn]oting', commit)):
+continue
+return commit
+return commits[0]
+
+3.2
+
+Phase 2 – Bug-Introducing Commits
+
+SZZ Unleashed largely implements the approach Williams and
+Spacco [25], i.e., line number mappings are used to backtrack through
+the change history. However, our implementation is not languagespecific, thus we do not filter out cosmetic changes. Figure 3 shows
+an example of SZZ Unleashed Phase 2. Note that the graph does
+not show all lines of code, but rather the lines that were altered
+by the commits. Each changed line of source code is tracked to
+its creation or a more recent version. How deeply SZZ Unleashed
+should traverse the graph is configurable, but the default value is 3.
+Running git blame on Commit 6 in Figure 3 with depth = 1 would
+find all but one commit (Commit 2). Using a higher depth setting,
+
+M. Borg et al.
+
+Conference’17, July 2017, Washington, DC, USA
+
+Table 1: Descriptive statistics of the extracted Jenkins
+dataset and five analogous datasets from previous work [12].
+
+however, we can trace to the original commit of any line of code.
+Thus, with depth >= 3, node 0 in Commit 6 would be traced to
+node 0 in Commit 2.
+Suppose that Phase 1 of SZZ Unleashed identified Commit 3 as
+a bug-fixing commit for BR A. In phase two, git blame is used to
+identify Commit 2 and Commit 1 – these would be bug-introducing
+commit candidates. Next, suppose that Commit 2 was made after
+BR A was submitted, i.e., it is ‘Newer’ as shown in (D) in Figure 1,
+and its commit message does not identify it as a partial bug-fix, i.e.,
+there is no explicit reference to a BR. However, Commit 2 can still
+be bug-introducing for another BR if any of Commit 4, Commit 5
+or Commit 6 are bug-fixing commits. Suppose that Commit 6 is a
+bug-fixing commit for BR B, then Commit 2 will be categorized as a
+bug-introducing commit – since it made changes to the same lines
+of code.
+
+an approach to respect the time dimension when defining training
+and test data. Using the terminology introduced by the authors,
+we used the following configuration of time ‘gaps’: SGAP=331,
+GAP=73, EGAP=781, Update=200, Training duration=1,700, and
+Test duration=400 (all units in days).
+
+4
+
+4.2
+
+ILLUSTRATIVE STUDY – JIT BUG
+PREDICTION
+
+This section presents an example of how the output from SZZ Unleashed can be used. We use the output to train a classifier to identify
+bug-introducing commits, i.e., JIT bug prediction (referred to as JIT
+quality assurance by Kemal et al. [12]). The overall idea is to indicate commits that might require particularly careful code reviews,
+i.e., providing risk profiles for individual commits.
+
+4.1
+
+Research goal and method
+
+How to sample training and test data when evaluating classifiers
+intended for deployment in issue trackers is critical. First, previous work on supervised learning for issue trackers revealed that
+disregarding the time dimension, as is done in traditional crossvalidation, might lead to overly positive results [11, 23] – training
+a classifier on data “from the future” is apparently questionable.
+Second, class imbalance problems might require techniques for
+oversampling and undersampling, e.g., only 3.6% of the commits
+are bug-introducing in our Jenkins dataset (cf. Table 1).
+We train random forest classifiers to predict bug-introducing
+commits, i.e, JIT bug prediction. We choose random forest for two
+reasons: 1) the trained models are reasonably interpretable and 2)
+Yang et al. previously obtained good results in a similar context [26].
+Based on intial trial runs, we set the number of trees to 200. Based
+on the Jenkins datatset created using SZZ Unleashed, we investigate
+two research questions:
+RQ1 How does oversampling and undersampling affect the JIT
+bug prediction for highly imbalanced classes?
+RQ2 Does cross-validation generate better results than a timesensitive evaluation setup?
+We investigate RQ1 by comparing a baseline without particular
+sampling techniques to three approaches that result in an equal proportion of positive and negative training examples – all available in
+the sci-kit learn library imbalanced-learn [14]. SMOTE oversamples,
+Cluster Centroids undersamples, and SMOTE+Tomek combines
+oversampling and undersampling. As shown in Table 1, our Jenkins
+dataset contains only 3.6% positive examples, i.e., the class imbalance problem is more evident than in previous work.
+We study RQ2 by comparing stratified 10-fold cross-validation to
+“Online Change Classification” as described by Tan et al. [23], i.e.,
+
+Dataset
+Jenkins
+Bugzilla
+Columba
+JDT
+Mozilla
+Postgres
+
+#Bugs
+954 (3.6%)
+1,696 (36.1%)
+1,361 (30.5%)
+5,089 (14.4%)
+5,149 (5.2%)
+5,119 (25.1%)
+
+#Fixes
+2,979 (11.3%)
+3,973 (86.0%)
+1,463 (32.8%)
+10,799 (30.5%)
+62,888 (64.0%)
+8,933 (43.7%)
+
+#(Fixes ∩ Bugs)
+808 (3.1%)
+1,586 (34.3%)
+439 (9.6%)
+2,218 (6.3%)
+3,943 (4.0%)
+2,043 (10.0%)
+
+#Commits
+26,378
+4,620
+4,455
+35,386
+98,275
+20,431
+
+Data collection and feature selection
+
+In line with the description in Section 3, we use SZZ Unleashed
+to extract bug-introducing commits from 12 years of development
+history in the Jenkins core repository (from Nov 5, 2006 until Feb 20,
+2018). Table 1 shows descriptive statistics of the resulting dataset
+and analogous statistics from five datasets collected by Kamei et
+al. [12]. Bug-introducing commits and bug-fixing commits are listed
+as ‘Bugs’ and ‘Fixes’, respectively – along with commits that are
+categorized as both. Percentages show the fraction of ‘Bugs’ and
+‘Fixes’ among the total number of commits.
+Based on previous work on bug prediction, we represent commits
+by 16 features as presented in Table 2. Ft1–Ft3 are related to code
+churn as defined by Nagappan and Ball et al. [16], Ft4–Ft13 were
+all used by Kamei et al. [12], and Ft14–Ft16 consider coupling as
+proposed by D’Ambros et al. [5]. We used code-maat version 1.1
+to calculate the values for the coupling features [24]. Table 2 also
+shows the relative significance of the 16 features in the random
+forest classifiers (described next). We observe that the ranking of
+features is similar to findings from previous work [10, 15].
+Table 2: Features used to represent commits.
+ID
+Ft1
+Ft2
+Ft3
+Ft4
+Ft5
+Ft6
+Ft7
+Ft8
+Ft9
+Ft10
+Ft11
+Ft12
+Ft13
+Ft14
+Ft15
+Ft16
+
+4.3
+
+Feature
+Lines of code added / Total lines of code
+Lines of code deleted / Total lines of code
+Files churned / Number of files
+Lines of code in previous version
+Number of modified subsystems
+Number of modified sub-directories
+Entropy (spreading of changes)
+Purpose of a change (e.g., bug fix)
+Number of previous committers
+Time between committer’s contributions
+Number of unique changes
+Overall experience of committer
+Recent experience of committer
+Number of highly coupled files
+Number of coupled files for all degrees
+Number of non-modified coupled files
+
+Rel. Sign.
+0.17
+0.04
+0.08
+0.07
+0.11
+0.09
+0.16
+0.03
+0.08
+0.04
+0.04
+0.04
+0.03
+0.00
+0.01
+0.01
+
+Results and discussion
+
+Table 3 shows the classification accuracy of the random forest
+classifiers for eight different experimental runs. The table shows
+
+SZZ Unleashed: An Open Implementation of the SZZ Algorithm
+
+Conference’17, July 2017, Washington, DC, USA
+
+Figure 3: Lines of modified code in six commits to an example file. Arrows show the result of line mapping between commits.
+Table 3: Classification accuracy for JIT bug prediction.
+Stratified 10-fold Cross-Validation
+Sampling technique
+Precision
+Recall
+Baseline
+0.156± 0.246 0.026± 0.042
+SMOTE
+0.123± 0.076 0.212± 0.136
+SMOTE+Tomek
+0.117± 0.071 0.206± 0.130
+Cluster Centroids
+0.037± 0.001 0.945± 0.037
+Online Change Classification
+Sampling technique
+Precision
+Recall
+Baseline
+0.210± 0.177 0.017± 0.014
+SMOTE
+0.147± 0.041 0.104± 0.034
+SMOTE+Tomek
+0.163± 0.018 0.126± 0.043
+Cluster Centroids
+0.028± 0.004 0.917± 0.037
+
+F1 score
+0.029± 0.034
+0.154± 0.096
+0.148± 0.091
+0.072± 0.002
+F1 score
+0.031± 0.026
+0.116± 0.031
+0.137± 0.030
+0.054± 0.008
+
+precision, recall, and F1 score for two evaluation setups: 1) stratified
+10-fold cross-validation and 2) online change classification. For both
+setups, we report results from applying four different sampling
+techniques. All values are reported with standard deviations.
+We find that oversampling is essential for JIT bug prediction subject to the class imbalance problem (RQ1). Both for cross-validation
+and online change classification, using SMOTE or SMOTE+Tomek
+obtains considerably higher F1 scores compared to the baseline.
+Oversampling results in decreased precision, but also substantial
+improvements in recall. It is clear that using the baseline sampling
+leads to a too conservative classifier (recall < 3%) for the highly
+imbalanced Jenkins dataset. Note that also undersampling using
+Cluster Centroids improves recall and F1 score, but the resulting
+precision (< 4%) would never be useful in practice – probably the
+resulting training set contains too few examples for the classifier
+to learn from.
+
+Our investigation of time-sensitivity largely confirms findings
+from previous work, i.e., disregarding the time dimension in issue trackers might lead to overly positive classifier evaluations
+(RQ2). Table 3 shows that F1 scores for cross-validation are higher
+than for online change classification. Jonsson et al. reported that
+“cross-validation consistently yielded higher prediction accuracy than
+conducting more realistic evaluations on bug reports sorted by the
+submission date” [11] in a study on multi-class classification for bug
+assignment. Analogous to our work, Tan et al. performed binary
+classification for JIT bug prediction. They concluded that “crossvalidation presents a false impression of higher precisions” [23].
+On the other hand, our findings partly contrast previous conclusions. Tan et al. specifically points out that cross-validations results
+in falsely high precision results. In our study, however, we instead
+observe this phenomenon for recall. For sampling using SMOTE
+and SMOTE+Tomek, cross-validation obtains roughly twice as high
+recall as the time-sensitive setup. Thus, we conclude that using
+cross-validation can lead to overly positive results both for precision and recall – both should be carefully investigated in empirical
+studies.
+On a final note, we do not think JIT bug prediction corresponding
+to an F1 score of 0.10–0.15 is sufficiently accurate to be of practical
+value for developers. The false positives would be too many for developers to trust the predictions, and at the same time the classifier
+would miss too many truly bug-introducing commits. Moreover,
+the SZZ algorithm has limitations [18] – possibly the classification
+accuracy could reach the utility break-point if instead a manually
+annotated training set of commits was used. Nonetheless, such investigations, and a deeper analysis of threats to validity of our small
+empirical inquiry, is beyond the scope of the illustrative example
+presented in this section.
+
+Conference’17, July 2017, Washington, DC, USA
+
+5
+
+CONCLUSION
+
+Numerous software engineering studies rely on the SZZ algorithm.
+Unfortunately, due to the lack of publicly available tool solutions,
+most researchers must implement their own versions. While the
+learning process for the individual researcher might be valuable,
+we argue that the lack of a public SZZ tool might lead to 1) the
+community reinventing the wheel, 2) hampered reproducability,
+and 3) research results based on non-disclosed SZZ implementations
+that might contain bugs.
+We respond to the call by Rodriguez et al. [18] and present
+SZZ Unleashed, an implementation of the SZZ algorithm publicly
+available on GitHub under an MIT license. SZZ Unleashed is implemented in Java, with some supporting Python scripts, and includes
+line number mappings – an improvement proposed by Williams
+and Spacco [25]. We have already approved the first external pull
+request and we warmly welcome further contributions from the
+community.
+To illustrate how SZZ Unleashed can be used, both this paper
+and the GitHub repository are accompanied by an example study
+of JIT bug prediction using a random forest classifier for the Jenkins project. We report modest classification accuracy (F1 score of
+roughly 15%), but corroborate two findings from previous work.
+First, oversampling is essential in JIT bug prediction for highly
+imbalanced classes. Second, solely presenting results from crossvalidation is not appropriate when evaluating classifiers for software engineering data with timestamps – there is a high risk of
+obtaining an excessively positive classification accuracy.
+
+ACKNOWLEDGMENTS
+Our thanks go to Sven Selberg and Axis Communication AB for
+hosting the MSc thesis project resulting in this paper. This work
+has been financially supported by the ITEA3 initiative TESTOMAT
+Project through Vinnova – Sweden’s innovation agency.
+
+REFERENCES
+[1] G. Canfora, L. Cerulo, and M. Di Penta. 2007. Identifying Changed Source Code
+Lines from Version Repositories. In Proc. of the 4th International Workshop on
+Mining Software Repositories. https://doi.org/10.1109/MSR.2007.14
+[2] Y. Cavalcanti, P. Silveira Neto, I. Machado, T. Vale, E. Almeida, and S. Meira.
+2014. Challenges and Opportunities for Software Change Request Repositories:
+A Systematic Mapping Study. Journal of Software: Evolution and Process 26, 7
+(2014), 620–653. https://doi.org/10.1002/smr.1639
+[3] J. Correia. 2017. old-szz. https://github.com/intelligentagents/old-szz
+[4] J. Czerwonka, R. Das, N. Nagappan, A. Tarvo, and A. Teterev. 2011. CRANE:
+Failure Prediction, Change Analysis and Test Prioritization in Practice âĂŞ Experiences from Windows. In Proc. of the 4th Conference on Software Testing,
+Verification and Validation. 357–366. https://doi.org/10.1109/ICST.2011.24
+[5] M. D’Ambros, M. Lanza, and R. Robbes. 2009. On the Relationship Between
+Change Coupling and Software Defects. In 2009 16th Working Conference on
+Reverse Engineering. 135–144. https://doi.org/10.1109/WCRE.2009.19
+[6] M. de Freitas Farias, R. Novais, M. Junior, L. da Silva Carvalho, M. Mendonca, and
+R. Spinola. 2016. A Systematic Mapping Study on Mining Software Repositories.
+In Proc. of the 31st Annual ACM Symposium on Applied Computing. 1472–1479.
+https://doi.org/10.1145/2851613.2851786
+[7] E. Engström, P. Runeson, and M. Skoglund. 2010. A Systematic Review on
+Regression Test Selection Techniques. Information and Software Technology 52, 1
+(2010), 14–30. https://doi.org/10.1016/j.infsof.2009.07.001
+[8] N. Fenton and M. Neil. 1999. A Critique of Software Defect Prediction Models.
+Transactions on Software Engineering 25, 5 (1999), 675–689. https://doi.org/10.
+1109/32.815326
+[9] M. Godfrey and L. Zou. 2005. Using Origin Analysis to Detect Merging and
+Splitting of Source Code Entities. Transactions on Software Engineering 31, 2
+(2005), 166–181. https://doi.org/10.1109/TSE.2005.28
+
+M. Borg et al.
+[10] T. Hall, S. Beecham, D. Bowes, D. Gray, and S. Counsell. 2012. A Systematic
+Literature Review on Fault Prediction Performance in Software Engineering.
+Transactions on Software Engineering 38, 6 (2012), 1276–1304. https://doi.org/10.
+1109/TSE.2011.103
+[11] L. Jonsson, M. Borg, D. Broman, K. Sandahl, S. Eldh, and P. Runeson. 2016. Automated Bug Assignment: Ensemble-based Machine Learning in Large Scale
+Industrial Contexts. Empirical Software Engineering 21, 4 (2016), 1533–1578.
+[12] Y. Kamei, E. Shihab, B. Adams, A. Hassan, A. Mockus, A. Sinha, and N. Ubayashi.
+2013. A Large-scale Empirical Study of Just-in-Time Quality Assurance. In
+Transactions on Software Engineering, Vol. 39. 757–773. https://doi.org/10.1109/
+TSE.2012.70
+[13] Sunghun Kim, Thomas Zimmermann, Kai Pan, and Whitehead James. 2006. Automatic identification of bug-introducing changes. In Proc. of the 21st International
+Conference on Automated Software Engineering. 81–90.
+[14] G. Lemaitre, F. Nogueira, and C. Aridas. 2017. Imbalanced-learn: A Python
+Toolbox to Tackle the Curse of Imbalanced Datasets in Machine Learning. Journal
+of Machine Learning Research 18, 17 (2017), 1–5.
+[15] R. Moser, W. Pedrycz, and G. Succi. 2008. A Comparative Analysis of the Efficiency
+of Change Metrics and Static Code Attributes for Defect Prediction. In Proc.of
+the 30th International Conference on Software Engineering. 181–190. https://doi.
+org/10.1145/1368088.1368114
+[16] N. Nagappan and T. Ball. 2005. Use of Relative Code Churn Measures to Predict
+System Defect Density. In Proc. of the 27th International Conference on Software
+Engineering. 284–292.
+[17] F. Rahman, S. Khatri, E. Barr, and P. Devanbu. 2014. Comparing Static Bug Finders
+and Statistical Prediction. In Proc. of the 36th International Conference on Software
+Engineering. 424–434. https://doi.org/10.1145/2568225.2568269
+[18] G. Rodriguez-Perez, G. Robles, and J. Gonzalez-Barahona. 2018. Reproducibility
+and Credibility in Empirical Software Engineering: A Case Study based on a
+Systematic Literature Review of the use of the SZZ algorithm. Information and
+Software Technology (2018).
+[19] C. Rosen, B. Grawi, and E. Shihab. 2015. Commit Guru: Analytics and Risk Prediction of Software Commits. In Proc. of the 2015 10th Joint Meeting on Foundations
+of Software Engineering. 966–969. https://doi.org/10.1145/2786805.2803183
+[20] J. Sliwerski, T. Zimmermann, and A. Zeller. 2005. When Do Changes Induce
+Fixes?. In Proc. of the 2005 International Workshop on Mining Software Repositories,
+Vol. 30. 1–5.
+[21] M. Sohn, S. Pearce, A. Loskutov, C. Aniszczyk, C. Halstrick, C. Ranger, D. Borowitz,
+D. Pursehouse, G. Wagenknecht, J. Nieder, K. Sawicki, M. Kinzler, R. Rosenberg,
+R. Stocker, S. Zivkov, S. Lay, T. Parker, and T. Wolf. 2017. Eclipse JGit. https:
+//github.com/eclipse/jgit
+[22] O. Svensson and K. Berg. 2018. SZZ Unleashed. https://github.com/wogscpar/
+SZZUnleashed
+[23] M. Tan, L. Tan, S. Dara, and C. Mayeux. 2015. Online Defect Prediction for Imbalanced Data. In Proc. of the 37th International Conference on Software Engineering.
+99–108.
+[24] A. Tornhill. 2017. code-maat. https://github.com/adamtornhill/code-maat
+[25] C. Williams and J. Spacco. 2008. SZZ Revisited: Verifying When Changes Induce
+Fixes. In Proc. of the 2008 Workshop on Defects in Large Software Systems. 32–36.
+[26] X. Yang, D. Lo, X. Xia, and J. Sun. 2017. TLEL: A Two-layer Ensemble Learning Approach for Just-in-Time Defect Prediction. Information and Software Technology
+87 (2017), 206–220.
+
+
