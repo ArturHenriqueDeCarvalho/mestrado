@@ -101,3 +101,32 @@ Este documento registra formalmente todas as escolhas, adaptações, critérios 
 * **Pesquisas Afetadas**: Todas as 6 pesquisas (`01-llm-szz` a `06-jit-smart`).
 * **Impacto na Escrita do Artigo (Seções Afetadas)**:
   - *Questões de Pesquisa (RQs)*, *Desenho Experimental*, *Resultados Empíricos* e *Discussão*.
+
+---
+
+### DEC-007: Protocolo de Versionamento Atômico e Rastreabilidade Git por Etapas Experimentais
+
+* **Data**: 04/11/2026
+* **Decisão Metodológica**:
+  - Adotar estritamente o padrão de **Versionamento Atômico em Engenharia de Software Empírica (ESE)** para toda a execução experimental do Mestrado.
+  - O fluxo de trabalho proíbe branches genéricas acumulativas e segue rigorosamente a regra: **1 Branch Atômica por Etapa $\rightarrow$ 1 Conjunto de Scripts/Resultados Específicos $\rightarrow$ 1 Commit Semântico $\rightarrow$ Merge na `main`**.
+  - As 10 etapas sequenciais são padronizadas da seguinte forma:
+    1. **Fase 1: Replicação e Validação Individual dos Ambientes (Passo a Passo)**
+       - `step-01/setup-e-replicacao-szz-tse`: Ambiente, extração dos 126.526 commits e validação dos 4 rótulos SZZ (`B`, `AG`, `MA`, `RA`) nos 10 projetos Apache.
+       - `step-02/setup-e-replicacao-pyszz-v2`: Ambiente, binários externos (`srcML`, `RefactoringMiner`) e execução das 9 variantes SZZ sobre repositórios de teste.
+       - `step-03/setup-e-replicacao-szz-unleashed`: Ambiente Java/JGit e Python, validação do fatJar e baseline JIT do Jenkins.
+       - `step-04/setup-e-replicacao-llm-szz`: Ambiente, cadeias de prompts reflexivos e baseline no benchmark de CVEs C/C++ e Java.
+       - `step-05/setup-e-replicacao-cc2vec`: Ambiente PyTorch/CPU, representação vetorial hierárquica e tarefa downstream de predição JIT.
+       - `step-06/setup-e-replicacao-jit-smart`: Ambiente CodeBERT/Multi-Task e validação do benchmark `JIT-Defect4J` (21 projetos Java).
+    2. **Fase 2: O Foco Central da Pesquisa (Sobreposições e Classificadores com IA)**
+       - `step-07/analise-sobreposicao-resultados-szz`: Análise quantitativa de sobreposição (Jaccard, Simpson, Kappa de Cohen, UTP e zona de discordância inter-algoritmos).
+       - `step-08/classificadores-impacto-rotulagem-szz`: Treinamento da bateria de classificadores (ML clássico vs. Neural) sobre cada rótulo SZZ e cálculo de `Wasted Effort LOC`.
+       - `step-09/classificadores-impacto-arquiteturas-ia`: Treinamento e comparação pareada Sem IA vs. Deep Learning vs. Transformers/Co-Learning no `JIT-Defect4J`.
+       - `step-10/resiliencia-ia-zona-consenso-divergencia`: Teste de sensibilidade e resiliência dos classificadores ao ruído na zona cinzenta vs. zona de consenso.
+* **Motivo & Racional Científico**:
+  1. **Auditabilidade Exata**: Permite que a banca examinadora do Mestrado e revisores de periódicos verifiquem no Git exatamente o commit e o código que produziram cada dado e gráfico do artigo.
+  2. **Isolamento de Erros e Regressões**: Se qualquer dependência ou script falhar, apenas a respectiva branch atômica é afetada, sem contaminação dos demais experimentos.
+  3. **Rastreabilidade Fim a Fim na Metodologia**: A seção de Metodologia e Procedimentos Experimentais do artigo pode citar com precisão a sequência cronológica e técnica seguida.
+* **Pesquisas Afetadas**: Todas as 6 pesquisas (`01-llm-szz` a `06-jit-smart`).
+* **Impacto na Escrita do Artigo (Seções Afetadas)**:
+  - *Metodologia / Procedimentos Experimentais*, *Reprodutibilidade e Pacote de Replicação (Artifact Badging)*.
