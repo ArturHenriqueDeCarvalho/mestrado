@@ -325,11 +325,11 @@ O fluxo metodológico do estudo de avaliação e do PySZZ v2 é estruturado em:
 
 | Afirmação / Dado Documentado | Documento Fonte | Seção / Página | Evidência Textual no Artigo |
 | :--- | :--- | :--- | :--- |
-| **Definição da RQ Principal** | `02-pyszz-v2.pdf` | Seção IV, pág. 4 | "How do different variants of SZZ perform in identifying bug-inducing changes?" |
-| **Volume Minerado no GH Archive** | `02-pyszz-v2.pdf` | Seção III-A, pág. 3 | "...mined the time period going from March 1st 2011 to April 30th 2020, extracting 19,603,736 commits..." |
-| **Heurísticas NLP spaCy H1, H2, H3** | `02-pyszz-v2.pdf` | Seção III-A, pág. 3-4 | "H1: Exclude Commits Without Reference and Reverts... H2: Coarsely Filter... H3: Finely Filter..." |
-| **Tamanho do Dataset (1.115 commits)** | `02-pyszz-v2.pdf` | Seção III-C, Tabela III, pág. 4 | "Total: 1,115 commits in 951 repositories (oracle_all); 129 in oracle_issues." |
-| **R-SZZ como Campeão em Precisão** | `02-pyszz-v2.pdf` | Seção V, Tabela V, pág. 5-6 | "R-SZZ is the most precise on both oracles, achieving a 66% precision on oracle_all and 64% on oracle_issues... boosting to 73% with date filter." |
-| **Colapso de Precisão do SZZ Unleashed** | `02-pyszz-v2.pdf` | Seção V, pág. 6 | "SZZ@UNL achieves a 72% recall... with, however, a precision of 9% and 6%... due to a set of outlier bug-fixing commits." |
-| **Apenas 11% dos bugs têm issue pública** | `02-pyszz-v2.pdf` | Seção III-C, pág. 4 | "...only 212 of these (11.0%) mention the fixed issue. This indicates that SZZ implementations that rely on issue trackers can only be run on a minority of bug-fixing commits." |
-| **3 Padrões de Falha do SZZ** | `02-pyszz-v2.pdf` | Seção V-A, pág. 7 | "1) The buggy line is not always impacted in the bug-fix; 2) SZZ is sensible to history rewritings (rebase/revert); 3) Looking at the big picture..." |
+| **Definição da RQ Principal** | `04-lszz-pyszz-icse2021.pdf` | Seção IV, pág. 4 | "How do different variants of SZZ perform in identifying bug-inducing changes?" |
+| **Volume Minerado no GH Archive** | `04-lszz-pyszz-icse2021.pdf` | Seção III-A, pág. 3 | "...mined the time period going from March 1st 2011 to April 30th 2020, extracting 19,603,736 commits..." |
+| **Heurísticas NLP spaCy H1, H2, H3** | `04-lszz-pyszz-icse2021.pdf` | Seção III-A, pág. 3-4 | "H1: Exclude Commits Without Reference and Reverts... H2: Coarsely Filter... H3: Finely Filter..." |
+| **Tamanho do Dataset (1.115 commits)** | `04-lszz-pyszz-icse2021.pdf` | Seção III-C, Tabela III, pág. 4 | "Total: 1,115 commits in 951 repositories (oracle_all); 129 in oracle_issues." |
+| **R-SZZ como Campeão em Precisão** | `04-lszz-pyszz-icse2021.pdf` | Seção V, Tabela V, pág. 5-6 | "R-SZZ is the most precise on both oracles, achieving a 66% precision on oracle_all and 64% on oracle_issues... boosting to 73% with date filter." |
+| **Colapso de Precisão do SZZ Unleashed** | `04-lszz-pyszz-icse2021.pdf` | Seção V, pág. 6 | "SZZ@UNL achieves a 72% recall... with, however, a precision of 9% and 6%... due to a set of outlier bug-fixing commits." |
+| **Apenas 11% dos bugs têm issue pública** | `04-lszz-pyszz-icse2021.pdf` | Seção III-C, pág. 4 | "...only 212 of these (11.0%) mention the fixed issue. This indicates that SZZ implementations that rely on issue trackers can only be run on a minority of bug-fixing commits." |
+| **3 Padrões de Falha do SZZ** | `04-lszz-pyszz-icse2021.pdf` | Seção V-A, pág. 7 | "1) The buggy line is not always impacted in the bug-fix; 2) SZZ is sensible to history rewritings (rebase/revert); 3) Looking at the big picture..." |

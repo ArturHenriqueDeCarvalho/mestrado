@@ -329,11 +329,11 @@ As métricas são estritamente definidas como [Seção IV-C]:
 
 | Afirmação / Dado Documentado | Documento Fonte | Seção / Página | Evidência Textual no Artigo |
 | :--- | :--- | :--- | :--- |
-| **Definição das 5 RQs** | `01-llm-szz.pdf` | Seção IV, pág. 2-3 | "We assess the effectiveness of our proposed method by addressing the following five research questions: RQ1... RQ5..." |
-| **Limiar Levenshtein = 0.5** | `01-llm-szz.pdf` | Seção III-B & IV-E, pág. 3 | "The experiments indicated that the optimal performance was achieved when the Levenshtein distance was set to 0.5." |
-| **Tamanho do Dataset (169 CVEs)** | `01-llm-szz.pdf` | Seção IV-A, Tabela I, pág. 3 | "Consequently, the Java vulnerability count was adjusted to 69... C/C++ Dataset: 100, Java Dataset: 69." |
-| **Resultados Comparativos com SZZs** | `01-llm-szz.pdf` | Seção IV-G, Tabela VI, pág. 4 | "In terms of precision, LLM-SZZ performed the best, achieving a precision of 0.838... Java: 0.768..." |
-| **Ablação CVE vs Diff** | `01-llm-szz.pdf` | Seção IV-F, Tabelas IV e V, pág. 3-4 | "...with the fixing-commit diff having a greater effect... code prompts allow LLMs to better grasp the intricate details..." |
-| **Desempenho em Deep Vulnerabilities** | `01-llm-szz.pdf` | Seção IV-H, Tabela VIII, pág. 4 | "Deep Vulnerabilities Recall: LLM-SZZ 0.900 (C/C++) vs V-SZZ 0.675..." |
-| **Limitação de Excessive Backtracking** | `01-llm-szz.pdf` | Seção IV-I, Tabela IX, pág. 4 | "...whereas LLM-SZZ is more prone to excessive backtracking (14 cases vs 10 in V-SZZ)..." |
-| **Causa de falha do GPT-4o vs 3.5** | `01-llm-szz.pdf` | Seção IV-J, Tabela X, pág. 4-5 | "...GPT-4o’s stricter logic may miss weak or implicit signals... GPT-3.5 Turbo, being more lenient, better identifies potentially relevant cues." |
+| **Definição das 5 RQs** | `07-llm-szz-fse2024.pdf` | Seção IV, pág. 2-3 | "We assess the effectiveness of our proposed method by addressing the following five research questions: RQ1... RQ5..." |
+| **Limiar Levenshtein = 0.5** | `07-llm-szz-fse2024.pdf` | Seção III-B & IV-E, pág. 3 | "The experiments indicated that the optimal performance was achieved when the Levenshtein distance was set to 0.5." |
+| **Tamanho do Dataset (169 CVEs)** | `07-llm-szz-fse2024.pdf` | Seção IV-A, Tabela I, pág. 3 | "Consequently, the Java vulnerability count was adjusted to 69... C/C++ Dataset: 100, Java Dataset: 69." |
+| **Resultados Comparativos com SZZs** | `07-llm-szz-fse2024.pdf` | Seção IV-G, Tabela VI, pág. 4 | "In terms of precision, LLM-SZZ performed the best, achieving a precision of 0.838... Java: 0.768..." |
+| **Ablação CVE vs Diff** | `07-llm-szz-fse2024.pdf` | Seção IV-F, Tabelas IV e V, pág. 3-4 | "...with the fixing-commit diff having a greater effect... code prompts allow LLMs to better grasp the intricate details..." |
+| **Desempenho em Deep Vulnerabilities** | `07-llm-szz-fse2024.pdf` | Seção IV-H, Tabela VIII, pág. 4 | "Deep Vulnerabilities Recall: LLM-SZZ 0.900 (C/C++) vs V-SZZ 0.675..." |
+| **Limitação de Excessive Backtracking** | `07-llm-szz-fse2024.pdf` | Seção IV-I, Tabela IX, pág. 4 | "...whereas LLM-SZZ is more prone to excessive backtracking (14 cases vs 10 in V-SZZ)..." |
+| **Causa de falha do GPT-4o vs 3.5** | `07-llm-szz-fse2024.pdf` | Seção IV-J, Tabela X, pág. 4-5 | "...GPT-4o’s stricter logic may miss weak or implicit signals... GPT-3.5 Turbo, being more lenient, better identifies potentially relevant cues." |

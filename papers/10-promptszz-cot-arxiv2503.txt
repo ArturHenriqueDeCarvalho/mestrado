@@ -1,0 +1,1806 @@
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+Arastoo Zibaeirad
+
+Marco Vieira
+
+University of North Carolina at Charlotte
+Charlotte, NC, USA
+azibaeir@charlotte.edu
+
+University of North Carolina at Charlotte
+Charlotte, NC, USA
+marco.vieira@charlotte.edu
+
+arXiv:2503.17885v1 [cs.SE] 22 Mar 2025
+
+Abstract
+Automating software vulnerability detection (SVD) remains
+a critical challenge in an era of increasingly complex and interdependent software systems. Despite significant advances
+in Large Language Models (LLMs) for code analysis, prevailing evaluation methodologies often lack the context-aware
+robustness necessary to capture real-world intricacies and
+cross-component interactions. To address these limitations,
+we present VulnSage, a comprehensive evaluation framework and a dataset curated from diverse, large-scale opensource system software projects developed in C/C++. Unlike prior datasets, it leverages a heuristic noise pre-filtering
+approach combined with LLM-based reasoning to ensure
+a representative and minimally noisy spectrum of vulnerabilities. The framework supports multi-granular analysis
+across function, file, and inter-function levels and employs
+four diverse zero-shot prompt strategies: Baseline, Chain-ofThought, Think, and Think & Verify. Through this evaluation, we uncover that structured reasoning prompts substantially improve LLM performance, with Think & Verify reducing ambiguous responses from 20.3% to 9.1% while increasing accuracy. We further demonstrate that code-specialized
+models consistently outperform general-purpose alternatives,
+with performance varying significantly across vulnerability types, revealing that no single approach universally excels across all security contexts. Link to dataset and codes:
+https://github.com/Erroristotle/VulnSage.git
+
+Keywords
+Software Vulnerability Detection, Large Language Models,
+Software Security
+
+1
+
+Introduction
+
+Automated software vulnerability detection (SVD) refers to
+using software tools and techniques to automatically identify
+weaknesses or flaws in code that could be exploited by attackers. Such tools help developers and security professionals
+to proactively address vulnerabilities and improve security.
+Program analysis techniques have been the gold standard
+for SVD. These techniques utilize static and dynamic approaches, but are often challenged by false positive rates, complex dependency graphs, and limited coverage [27, 28, 30, 33].
+Such limitations are intensified in modern software environments, where vulnerabilities frequently arise from complex
+interactions between components and subtle logical errors.
+Significant advancements have been made in Large Language Models (LLMs) [10, 14, 19], which demonstrate promising capabilities in code understanding and semantic reasoning
+[20, 34]. Although LLMs offer superior semantic reasoning
+
+capabilities compared to program analysis tools, they face
+notable limitations in generalizing to real-world vulnerabilities, maintaining robustness against noisy and incomplete
+data, and reliably detecting both common (e.g., CWE-119,
+CWE-20) and complex vulnerabilities.
+Assembling vulnerability datasets has traditionally relied
+on synthetic code or on crawling repositories such as the
+National Vulnerability Database (NVD) for fix commits
+[7, 9, 11, 32]. These works typically extract modified files or
+functions and employ pre-commit analysis to isolate securityrelated changes. However, this method often introduces significant noise from unrelated modifications (e.g., refactoring, documentation updates) [12, 23]. Prior efforts to mitigate noise have relied either on manual annotation, which
+is labor-intensive and non-scalable, or on simple heuristic
+filters that do not provide a quantitative assessment of noise
+[16, 18, 22, 36, 37, 44].
+To address these challenges, we propose VulnSage, an evaluation framework and dataset designed for rigorous benchmarking LLMs in SVD. VulnSage consists of 593 vulnerabilities
+across 52 CWE categories, curated from large-scale opensource system software projects, including the Linux Kernel,
+Mozilla, Gecko-dev, and Xen. The dataset is constructed
+using a structured pipeline that, by crawling CVEDetails, retrieves vulnerability metadata (CVE, CWE, commit hashes),
+extracts relevant code changes, and organizes them into labeled vulnerability-patch code block pairs. To ensure dataset
+reliability, VulnSage employs a two-stage noise mitigation
+strategy: (1) heuristic pre-filtering eliminates noisy commits,
+such as those involving excessive file modifications, refactoring
+changes, missing ground-truth CWE labels, or non-securityrelated updates; and (2) an LLM-based reasoner assigns a
+quantitative noise score (0 - 100%) to the remaining samples
+by analyzing Git diffs and commit descriptions, ensuring a
+cleaner and more representative dataset. Our dataset is publicly available and is designed to be extensible, allowing the
+integration of additional projects, CWEs, and vulnerabilities.
+Our evaluation workflow employs a multi-granular approach, analyzing vulnerabilities beyond isolated functionand file-level perspectives to provide a more comprehensive
+assessment of LLMs’ detection capabilities. Instead of treating functions or files as independent units, we construct code
+blocks that incorporate paths of modified files and the interfunction relationships within each file, making the dataset
+more representative of modern software structures. This approach reflects real-world vulnerability patterns, where security flaws often arise from interactions between multiple
+functions within a file or across files rather than existing in
+isolation. By capturing these dependencies, execution flows,
+
+,,
+
+Arastoo Zibaeirad and Marco Vieira
+
+and shared resources, we ensure that LLMs are evaluated on
+their ability to detect vulnerabilities not only within individual functions or files but also in their contextual interplay.
+To further ensure a rigorous evaluation, we assess potential
+training data leakage by testing LLMs on a curated subset
+of vulnerabilities discovered after their training cutoff dates.
+This allows us to distinguish genuine zero-shot reasoning
+capabilities from potential memorization of previously seen
+security flaws [8, 45].
+We employ four sophisticated zero-shot prompting strategies to evaluate the intrinsic vulnerability detection capabilities of LLMs without relying on task-specific fine-tuning or
+labeled data. These include a Baseline strategy, which uses
+simple binary classification; the Chain-of-Thought (CoT)
+strategy, which incorporates structured, step-by-step reasoning; the Think strategy, which requires explicit logical
+analysis within a structured framework; and the Think & Verify strategy, which adds self-verification, confidence scoring,
+and severity assessment. This diverse set of prompts enables
+us to rigorously analyze how effectively twelve distinct LLMs
+identify vulnerabilities across various contexts and systematically examine potential biases toward specific CWE classes.
+This comprehensive framework shows the models’ capabilities in reasoning about software security while exposing their
+limitations when confronted with complex, cross-component
+vulnerabilities.
+Our evaluation reveals key insights into LLM performance
+in vulnerability detection. Despite dataset noise, structured
+reasoning strategies such as Think & Verify improve robustness, mitigating the impact of irrelevant modifications and
+reducing ambiguous responses from 20.3% to 9.1%. Our data
+leakage analysis confirms that models rely on reasoning rather
+than memorization, with Think & Verify achieving 67.5%
+accuracy even on vulnerabilities discovered after training
+cutoffs. Additionally, we find that detection accuracy varies
+with code granularity—while multi-function and multi-file
+contexts improve vulnerability detection, patch verification
+becomes more challenging due to increased complexity.
+In short, our key contributions are as follows:
+∙
+
+∙
+
+∙
+
+∙
+
+Introduce VulnSage, a novel evaluation framework accompanied by a curated dataset drawn from diverse,
+large-scale open-source projects developed in C/C++.
+The dataset includes 593 vulnerabilities across 52 CWE
+categories.
+Multi-level code analysis that captures vulnerabilities
+emerging from component interactions by constructing
+code blocks with file paths and inter-function relationships, better reflecting real-world security scenarios.
+Four zero-shot prompting strategies (Baseline, CoT,
+Think, Think & Verify) designed to evaluate structured
+reasoning, evidence-based analysis, and self-verification
+in vulnerability detection tasks.
+Systematic evaluation revealing LLM limitations across
+different CWE classes, code granularities, and reasoning
+approaches, highlighting performance patterns in zeroshot vulnerability detection.
+
+The rest of the paper is organized as follows. Section 2
+reviews related work on vulnerability detection and LLM
+evaluation. Section 3 introduces the VulnSage framework,
+covering dataset collection, noise mitigation, and evaluation
+methodology. Section 4 presents experimental results, analyzing LLM performance, prompt effectiveness, data leakage,
+noise impact, and CWE biases. Section 5 discusses threats to
+validity, and Section 6 concludes with key findings and future
+directions.
+
+2
+2.1
+
+Related Work
+Vulnerability Detection Datasets
+
+Existing datasets often concentrate on a single granularity,
+be it at the line level [17], function level [9, 11, 44], file
+level [29], or repository level [43], thus consequently failing
+to represent real-world vulnerabilities that arise from crossfunction dependencies and multi-file interactions. To improve
+dataset reliability, previous works have employed manual
+annotation or simple heuristic filters to remove noise [18, 22,
+44], but these methods lack scalability and quantitative noise
+assessment.
+VulnSage addresses such limitations by introducing a multilevel dataset curation strategy that integrates: (1) multigranular code representations incorporating function and file
+interactions, (2) automated two-stage noise mitigation, combining heuristic filtering with LLM-based noise quantification,
+and (3) an evaluation of LLMs on vulnerabilities discovered
+after their training cutoff dates to analyze potential data leakage effects. These improvements allow a more realistic and
+reliable evaluation of LLM-driven vulnerability detection.
+
+2.2
+
+Evaluation of LLMs in SVD
+
+The advent of LLMs has significantly advanced SVD by
+enhancing code comprehension and semantic reasoning [1–
+6, 21, 38, 46]. However, most existing evaluations rely on
+synthetic datasets or isolated function-level analyses [25],
+failing to capture the complexities of cross-component interactions and the impact of noise on detection performance.
+Additionally, many benchmarks suffer from data leakage, as
+test sets often contain code snippets present in LLM training data [35, 40], raising concerns about models memorizing
+vulnerabilities rather than reasoning about them. Beyond
+data leakage, prior evaluations primarily focus on common
+vulnerability patterns while neglecting a diverse range of
+CWE types and real-world CVEs, limiting their applicability to security-critical systems [38]. Furthermore, existing
+studies do not systematically assess LLMs using structured
+reasoning prompts, such as Think and Think & Verify, to
+evaluate how explicit logical reasoning affects performance
+in both vulnerability detection and patch verification. This
+omission leaves a critical gap in understanding how LLMs
+analyze security flaws beyond binary classification.
+VulnSage addresses these shortcomings by evaluating LLMs
+across multiple granularity levels, providing a more realistic assessment of their ability to detect subtle, system-level
+vulnerabilities. Additionally, to assess whether models rely
+
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+
+,,
+
+Figure 1: VulnSage Architecture
+on memorization, we curated a subset of test data consisting of vulnerabilities discovered after the LLMs’ training
+cutoff dates. With a dataset comprising 593 vulnerabilities
+spanning 52 CWEs and 491 CVEs, VulnSage delivers a comprehensive, diverse, and rigorous evaluation framework that
+better reflects real-world security challenges in C/C++, while
+integrating structured reasoning prompts to uncover the reasoning capabilities of pre-trained LLMs in security-critical
+contexts.
+
+3
+
+VulnSage Framework
+
+This section introduces the VulnSage Framework, our comprehensive approach for evaluating LLMs on real-world software
+vulnerabilities. As shown in Figure 1, we specifically focus on
+authentic vulnerabilities that exhibit complex interactions
+across files and functions, making their detection particularly
+challenging for automated tools. To enable this evaluation,
+we carefully curated a dataset of real-world vulnerabilities
+with their complete context. Our assessment methodology
+employs four distinct prompting strategies, with three specifically designed to test the reasoning capabilities of LLMs
+when analyzing vulnerability patterns.
+
+3.1
+
+Dataset Collection
+
+To build VulnSage, we collected vulnerability metadata from
+the Linux Kernel, Mozilla, and Xen, as they are widely used,
+security-critical system software with diverse code structures
+and real-world vulnerabilities. As shown in Figure 1, we
+used CVEDetails [13] to gather commit hashes, CVEs, and
+CWEs, enabling us to extract vulnerable code blocks and
+their corresponding patched versions.
+Once the metadata were collected, we extracted vulnerable
+and patched code blocks from the project’s repository by analyzing the diff files of each commit. This allows us to identify
+added and deleted lines, as well as the files and functions
+that have been modified. If a change occurs within a function, we extract both the vulnerable and patched versions
+of the entire function to preserve contextual integrity. If the
+change is outside a function, such as a global variable modification, we include it at the top of the respective vulnerable or
+patched code block to maintain correctness. Since we apply
+specific filtering criteria to ensure data quality, we collect a
+substantial but curated subset of vulnerabilities from each
+project.
+To ensure the quality of the dataset, we implement a noise
+filtration process. We automatically remove samples with excessive modifications, defined as changes spanning more than
+
+,,
+
+Arastoo Zibaeirad and Marco Vieira
+
+500 lines of code, to minimize noise and prevent exceeding
+LLM context length limits. Samples lacking a ground-truth
+CWE are also excluded to maintain proper classification.
+Additionally, we filter out cases where a patch introduces a
+completely new function absent in the vulnerable code or
+removes an entire function, resulting in an empty vulnerable or patched code block. These filtering criteria ensure a
+high-quality dataset that accurately represents real-world
+vulnerabilities while remaining suitable for LLM evaluation.
+Since eliminating all noise from security patches is impractical, we implemented a systematic approach to quantify
+residual noise using Deepseek R1 7B. For each commit in our
+dataset, we provided the model with the complete Git diff and
+commit description, then instructed it to estimate the proportion of non-security-related modifications on a 0–100% scale
+(0% representing purely security-relevant changes, 100% indicating mostly unrelated modifications). The model followed
+a structured process: analyzing the commit’s stated intent,
+reviewing each code modification, and assigning a quantified noise score with supporting reasoning. To validate this
+methodology, we manually reviewed a random 2% sample of
+the dataset, finding strong agreement between LLM-assigned
+scores and human assessments across all examined commits.
+This validation confirms that our noise quantification approach effectively discriminates between security-critical fixes
+and peripheral changes, providing valuable context for interpreting model performance. We further analyze how varying
+levels of commit noise affect LLM accuracy in Section 4.2.
+To capture cross-function vulnerabilities, we ensure that
+interactions between functions within and across files are
+retained. When extracting modified code, we collect all functions affected in a commit, preserving their relationships
+and execution flow. If a change spans multiple functions or
+files, all relevant code is included in the extracted vulnerable
+and patched code blocks. This structured representation allows LLMs to analyze security flaws in context rather than
+treating functions as isolated entities.
+In constructing VulnSage, we prioritize diversity and representativeness, encompassing 52 CWEs and 593 total vulnerabilities. As detailed in Table 1, the dataset spans a wide range
+of vulnerabilities, from minor modifications involving a few
+lines to extensive patches affecting hundreds of lines of code.
+This variation in scale and complexity ensures that VulnSage
+serves as a rigorous and comprehensive benchmark for evaluating LLMs in SVD tasks, providing realistic challenges that
+align with real-world security concerns.
+Table 1: Dataset Characterization
+Vulnerability Characteristics
+Total Vulnerabilities
+593
+Unique CVEs
+491
+Unique CWEs
+52
+Most Common CWE
+CWE-119
+Year Range
+2002–2019
+Patch Metrics
+Avg. Lines Added
+Avg. Lines Deleted
+Median Lines Added
+Median Lines Deleted
+
+35.39
+20.12
+8.00
+5.00
+
+Code Structure
+Avg. Files Changed
+Median Files Changed
+Avg. Functions Changed
+Median Functions Changed
+Avg. Lines in Vulnerable Code
+Avg. Lines in Patched Code
+Granularity Distribution
+Single function (G1)
+Multiple functions, single file (G2)
+Multiple files & functions (G3)
+
+2.71
+1.00
+18.42
+5.00
+296.79
+304.92
+27
+244
+322
+
+3.2
+
+Prompt Templates
+
+To systematically evaluate LLMs for SVD, we employ four
+distinct prompt strategies, each targeting different aspects of
+reasoning and detection accuracy. These prompts range from
+simple binary classification to structured multi-step reasoning and self-verification mechanisms, allowing for a nuanced
+analysis of LLMs’ strengths and limitations in vulnerability
+detection.
+The Baseline Prompt is a straightforward, direct approach
+that asks the model whether a specific CWE exists in the
+given code using a binary (YES/NO) classification without
+requiring explanations or reasoning. This serves as a control
+to evaluate how well LLMs can detect vulnerabilities without
+additional reasoning scaffolding.
+The CoT Prompt [39, 42] builds upon structured reasoning
+principles by guiding the model through a six-step analytical
+process: (1) code structure analysis, (2) vulnerability pattern recognition, (3) attack surface and risk assessment, (4)
+function and data flow interaction, (5) final decision, and (6)
+security improvements. These steps were designed based on
+established security analysis methodologies and prior works
+on vulnerability detection frameworks, incorporating best
+practices from both program analysis and LLM reasoning
+strategies. By breaking down the reasoning process, this
+prompt aims to enhance model interpretability and logical
+consistency.
+Our Think Prompt is inspired by Cognitive Science’s dualprocess theory [15, 24] and the Meta-CoT framework [41],
+both of which emphasize structured, deliberate reasoning
+akin to System 2 thinking. While traditional CoT facilitates step-by-step reasoning, it lacks the explicit organization
+and reflective verification necessary for complex problemsolving. Our Think Prompt addresses this by structuring
+responses into predefined sections such as thinking and
+vulnerability_assessment, ensuring that LLMs systematically articulate their reasoning process before reaching a conclusion. This structured approach enhances interpretability,
+aligns with cognitive models of deliberate, strategic reasoning,
+and improves the model’s ability to analyze vulnerabilities
+with greater depth and consistency.
+The Think & Verify Prompt further extends structured
+reasoning by introducing a two-phase verification process.
+First, the model performs an initial vulnerability detection
+pass. Then, it reassesses its conclusions by verifying its reasoning, assigning a confidence score (0 - 100%), and providing
+a severity rating of the detected issue. This additional verification step is designed to mitigate false positives and improve
+assessment reliability, ensuring that models apply a more
+rigorous validation process before finalizing vulnerability classifications [41].
+CoT, Think, and Think & Verify primarily differ in their
+depth of reasoning and verification mechanisms. CoT structures reasoning into sequential analytical steps but does not
+require explicit documentation of thought processes. Think
+enhances this by enforcing structured reasoning documentation, ensuring models explicitly record their logical process.
+
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+
+Think-Verify takes this further by introducing an additional
+verification phase, reinforcing model confidence. These distinctions allow us to evaluate the impact of structured reasoning,
+explicit self-assessment, and confidence-based validation on
+LLM performance in vulnerability detection. The detailed
+prompt templates are provided in the Appendix section.
+
+3.3
+
+Evaluation Process
+
+The VulnSage evaluation framework leverages DSPy [26] to
+systematically optimize LLM prompts for vulnerability detection. This framework guides a reasoning LLM to interpret
+analyses and generate consistent labels across evaluation
+methods. The evaluation is conducted on two distinct tasks:
+vulnerability detection, where the model determines if a given
+code snippet contains a security flaw, and patch verification,
+where it assesses whether a code modification constitutes a
+security fix. This distinction enables a thorough analysis of
+LLMs’ ability to differentiate between vulnerable code and
+its corresponding patches, providing a more comprehensive
+understanding of reasoning and decision-making capabilities.
+Using accuracy as our primary metric, we assess both tasks
+by applying standardized decision labels for CoT, Think, and
+Think-Verify approaches: 1 (vulnerable), 0 (non-vulnerable),
+and 2 (not sure). The ambiguous label captures cases where
+the LLM either explicitly indicates uncertainty, requires
+additional context or information, or fails to adhere precisely to our prompt instructions. To enhance reproducibility, we set the temperature to 0.7—lower than default settings—balancing reduced randomness with preserved reasoning diversity. This approach addresses LLMs’ inherent
+non-determinism, as even zero-temperature settings cannot
+guarantee consistent outputs in code analysis tasks [31].
+
+4
+
+Results and Discussion
+
+We evaluate ten LLMs across three categories based on their
+specialized capabilities: general-purpose models (Deepseekv2, Llama3.1, Gemma2), code-specialized models (Deepseekcoder, Qwen-coder, Codellama), and reasoning-focused models (Deepseek R1). General models serve as baselines, codespecific models are optimized for programming tasks, and
+reasoning models excel in logical analysis and step-by-step
+problem-solving. Using four prompting strategies—Baseline,
+CoT, Think, and Think & Verify—we assess their performance in vulnerability detection and patch verification, gaining insights into how structured reasoning affects accuracy.
+Our analysis consists of four key evaluations: (1) assessing
+model accuracy for vulnerability detection and patch verification across different prompts and comparing performance
+with a leakage-free dataset to determine whether LLMs rely
+on genuine reasoning or prior exposure; (2) evaluating robustness against dataset noise by introducing irrelevant modifications and measuring performance degradation across different
+prompting strategies; (3) investigating biases across CWE
+types, analyzing variations in detection accuracy for different vulnerability classes; and (4) exploring the impact of
+code granularity by examining how detection performance
+
+,,
+
+varies when models process isolated functions, entire files, or
+multi-file interactions. This comprehensive evaluation provides deeper insights into the strengths and weaknesses of
+LLMs in real-world SVD.
+
+4.1
+
+Overall LLM Performance
+
+We evaluated the overall effectiveness of different LLMs in
+detecting software vulnerabilities and verifying patches across
+the various prompting strategies. Table 2 presents the accuracy for each model-prompt combination, where each number
+represents the percentage of samples correctly identified by
+the LLM. Specifically, the "Vuln" column shows accuracy
+in correctly determining if a code snippet contains a vulnerability, and the "Patch" column indicates accuracy in
+verifying whether a code modification effectively resolves a
+vulnerability. The results highlight several key insights:
+Prompt Strategy. The Think & Verify strategy consistently
+outperforms the Baseline. For instance, vulnerability detection accuracy improves from an average of 36.7% (Baseline)
+to 57.94% (Think & Verify), reflecting a 21.24% point improvement. Similarly, patch verification accuracy rises from
+33.98% to 57.70%, a 23.72 percentage point increase. These
+gains suggest structured reasoning combined with explicit
+verification substantially enhances LLMs’ ability to identify vulnerabilities and confirm patches. Notably, reasoning
+models achieve the highest accuracy in patch verification,
+with Deepseek R1 32B reaching 73.36%, although these models perform less effectively in vulnerability detection tasks.
+Conversely, Codellama 34B excels in vulnerability detection
+under the Think & Verify strategy, achieving an accuracy of
+72.26%.
+This contrast highlights the differing strengths of reasoningbased and code-specialized models. Patch verification benefits
+from structured logical reasoning to assess whether a fix adequately addresses a vulnerability, aligning well with models
+like Deepseek R1. In contrast, vulnerability detection relies
+more on pattern recognition and deep code understanding,
+where code-specialized models such as Codellama, trained
+extensively on programming data, excel. The Think & Verify
+strategy further enhances both tasks by encouraging selfassessment, reducing false positives in patch verification and
+improving model confidence in vulnerability identification.
+Model Performance. Code-specialized models consistently
+achieve higher accuracy in both vulnerability detection and
+patch verification tasks compared to general-purpose and
+reasoning-focused models. Notably, Codellama 7B attains
+the highest average vulnerability detection accuracy across
+all four prompting strategies at 63.70%, while Qwen2.5-coder
+32B leads in patch verification accuracy with an average
+of 65.14%. These results indicate that models specifically
+trained on programming data demonstrate superior capability in accurately identifying vulnerabilities and verifying
+patches, outperforming general-purpose models like Gemma2
+9B (50.59%) and Llama3.1 8B (39.52%) as well as reasoningoriented models such as Deepseek R1 7B (57.19%).
+
+,,
+
+Arastoo Zibaeirad and Marco Vieira
+
+Table 2: Model Performance Accuracy Across Prompt Strategies. Bold values show the best performance in each column.
+Underlined values highlight the second-best performance in each column for each type of model.
+Prompt
+
+Baseline
+Vuln
+Patch
+
+CoT
+Vuln
+Patch
+
+Think
+Vuln
+Patch
+
+Think & Verify
+Vuln
+Patch
+
+Average
+Vuln
+Patch
+
+Model
+
+Context Length
+
+Deepseek-v2 (16B)
+Llama3.1 (8B)
+Gemma2 (9B)
+Average
+
+131K
+131K
+8K
+
+93.93
+20.57
+5.23
+39.91
+
+General Models
+2.87
+30.78
+68.63
+40.47
+25.04
+74.87
+46.88
+64.67
+34.91
+30.07
+40.16
+59.47
+
+38.03
+53.79
+68.97
+53.60
+
+67.54
+43.51
+45.45
+52.17
+
+56.07
+58.68
+63.49
+59.41
+
+65.35
+39.29
+36.51
+47.05
+
+54.70
+39.52
+50.59
+48.27
+
+51.10
+49.54
+40.94
+47.19
+
+Deepseek-coder-v2 (16B)
+Qwen2.5-coder (7B)
+Qwen2.5-coder (32B)
+Codellama (7B)
+Codellama (34B)
+Average
+
+163K
+32K
+32K
+16K
+16K
+
+88.36
+0.34
+1.01
+22.34
+3.29
+23.07
+
+Code-Specific Models
+6.91
+51.85
+49.16
+49.92
+44.86
+57.00
+49.75
+32.21
+72.01
+39.04
+80.27
+25.21
+47.47
+52.78
+44.77
+38.62
+52.39
+49.63
+
+53.88
+43.84
+38.79
+81.37
+72.93
+58.16
+
+47.98
+57.76
+70.24
+28.33
+38.62
+48.59
+
+54.22
+55.31
+53.04
+70.83
+72.26
+61.13
+
+65.51
+52.28
+68.55
+52.70
+50.59
+57.93
+
+62.08
+36.09
+31.26
+63.70
+50.32
+48.69
+
+42.39
+54.24
+65.14
+36.32
+45.36
+48.69
+
+Deepseek-R1 (7B)
+Deepseek-R1 (32B)
+Average
+
+131K
+131K
+
+67.12
+64.76
+65.94
+
+Reasoning Models
+19.06
+41.82
+59.02
+38.45
+25.04
+73.02
+28.76
+33.43
+66.02
+
+67.45
+33.98
+50.72
+
+44.86
+70.07
+57.47
+
+52.36
+45.03
+48.70
+
+72.85
+73.36
+73.11
+
+57.19
+42.20
+49.70
+
+48.95
+63.73
+56.34
+
+36.70
+
+33.98
+
+55.46
+
+51.64
+
+57.94
+
+57.70
+
+48.76
+
+49.54
+
+Overall Average
+
+Distinct patterns emerged when analyzing specific vulnerabilities. For instance, when evaluating a buffer overflow
+vulnerability (CWE-119, CVE-2016-1953), only Codellama7B and Deepseek-coder-v2-16B successfully identified it, effectively leveraging structured reasoning via the Think &
+Verify prompt despite not being primarily reasoning-oriented
+architectures. An illustrative code example highlighting this
+finding is provided in Listing 1. Further details on performance across specific CWE categories are presented in Section
+4.3
+Context Length Size. The impact of context length size on
+model performance reveals complex patterns rather than a
+simple linear relationship. Models with larger context windows (131K-163K tokens) demonstrate superior performance
+in several scenarios, particularly with structured reasoning
+prompts. For instance, Deepseek-R1 models (131K context)
+achieve the highest patch verification accuracy with Think &
+Verify prompts (72.85% and 73.36%), suggesting that larger
+context windows enable more thorough analysis when verifying security fixes across multiple code components. However,
+context size alone does not determine performance—Gemma2
+(9B) with only an 8K window achieves impressive vulnerability detection results with Think (68.97%) and Think & Verify
+(63.49%), outperforming some larger-context counterparts.
+Similarly, Codellama (7B) with a 16K context window attains
+81.37% vulnerability detection accuracy with Think prompting, surpassing many larger-context models. These findings
+suggest that while larger context windows generally benefit
+complex reasoning tasks like patch verification, model architecture and training can sometimes compensate for context
+limitations in certain vulnerability detection scenarios.
+Ambiguous Cases: As shown in Table 3, models frequently
+express uncertainty when analyzing complex vulnerabilities,
+indicated by "not sure" responses (value 2). The frequency
+of these ambiguous cases varies notably by prompting strategy. On average, CoT prompt yielded approximately 120.3
+ambiguous results for vulnerability detection and 120.9 for
+
+44.93
+
+54.86
+
+patch verification (20.3% of all cases), while Think prompting reduced uncertainty for vulnerability detection to 95.5
+cases but maintained higher ambiguity for patch verification
+(109.2). In contrast, Think-Verify significantly reduced uncertainty to just 50.6 ambiguous vulnerability detection cases
+and 57.3 patch verification cases (9.1% overall), demonstrating how structured verification helps models reach better
+conclusions. These ambiguous responses typically occur when
+analyzing vulnerabilities involving complex inter-component
+interactions or subtle security patterns that challenge even
+specialized models, but the additional verification step in
+Think-Verify substantially improves decision confidence.
+Table 3: Number of Ambiguous Results
+Model
+Deepseek-v2 (16B)
+Llama3.1 (8B)
+Gemma2 (9B)
+Average
+Deepseek-coder (16B)
+Qwen2.5-coder (7B)
+Qwen2.5-coder (32B)
+Codellama (7B)
+Codellama (34B)
+Average
+Deepseek-R1 (7B)
+Deepseek-R1 (32B)
+Average
+Overall Average
+
+CoT
+Think
+Vuln Patch Vuln Patch
+General Models
+161
+160
+87
+117
+39
+34
+18
+12
+139
+138
+190
+239
+113.0 110.7
+98.3 122.7
+Code-Specific Models
+135
+143
+45
+51
+146
+90
+38
+49
+110
+110
+48
+53
+62
+73
+81
+122
+106
+145
+129
+138
+111.8 112.2
+68.2
+82.6
+Reasoning Models
+158
+162
+148
+162
+147
+154
+171
+149
+152.5 158.0 159.5 155.5
+120.3 120.9
+95.5
+109.2
+
+Think & Verify
+Vuln
+Patch
+59
+66
+1
+42.0
+
+63
+66
+1
+43.3
+
+51
+18
+49
+52
+63
+46.6
+
+51
+14
+51
+61
+62
+47.8
+
+71
+76
+73.5
+50.6
+
+70
+134
+102.0
+57.3
+
+Data Leakage. To assess potential training data leakage,
+we created two distinct datasets. The primary dataset (Table
+2) includes vulnerabilities spanning from 2002 to 2019, which
+could potentially overlap with the training data of evaluated
+LLMs. In contrast, the second dataset (Table 4) exclusively
+comprises vulnerabilities discovered after the training cutoff
+dates of all evaluated models, thereby ensuring a genuine
+zero-shot evaluation scenario. The comparison between these
+datasets reveals that LLMs rely primarily on reasoning rather
+
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+
+,,
+
+Table 4: Accuracy of LLMs on Vulnerabilities Discovered in
+2025 (Post-Training Cut-off)
+Prompt
+Model
+Deepseek-v2 (16B)
+Llama3.1 (8B)
+Gemma2 (9B)
+Average
+Deepseek-coder-v2 (16B)
+Qwen2.5-coder (7B)
+Qwen2.5-coder (32B)
+Codellama (7B)
+Codellama (34B)
+Average
+Deepseek-R1 (7B)
+Deepseek-R1 (32B)
+Average
+Overall Average
+
+Baseline
+CoT
+Vuln Patch Vuln Patch
+General Models
+90
+10
+10
+70
+20
+80
+20
+80
+10
+60
+70
+25
+40.0
+50.0
+33.3
+58.3
+Code-Specific Models
+60
+20
+70
+40
+0
+80
+45
+70
+10
+80
+75
+40
+30
+70
+65
+30
+0
+100
+65
+55
+20.0
+70.0
+64.0
+47.0
+Reasoning Models
+50
+80
+50
+50
+70
+30
+50
+70
+60.0
+55.0
+50.0
+60.0
+34.0
+61.0
+52.0
+53.0
+
+Think
+Vuln Patch
+
+Think & Verify
+Vuln
+Patch
+
+40
+70
+70
+60.0
+
+100
+40
+45
+61.7
+
+80
+70
+80
+76.7
+
+85
+40
+45
+56.7
+
+65
+60
+70
+75
+100
+74.0
+
+20
+20
+45
+20
+30
+27.0
+
+60
+60
+55
+75
+80
+66.0
+
+20
+80
+70
+30
+10
+42.0
+
+75
+40
+57.5
+67.5
+
+65
+80
+72.5
+46.5
+
+55
+60
+57.5
+67.5
+
+60
+70
+65.0
+51.0
+
+than memorization when detecting vulnerabilities. For instance, the Think & Verify prompt strategy achieved higher
+vulnerability detection accuracy (67.5%) on the leakage-free
+dataset compared to the potentially contaminated dataset
+(57.94%). Similarly, structured reasoning prompts such as
+CoT improved accuracy by approximately 7.07 percentage
+points, indicating their effectiveness even on previously unseen vulnerabilities.
+These findings clearly illustrate that structural and functional changes introduced in newer codebase versions were not
+memorized by the models. Instead, the models demonstrated
+effective reasoning capabilities, validating their generalization
+in detecting and verifying security vulnerabilities in evolving
+real-world software.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+
+// File: dom/gamepad/windows/WindowsGamepad.cpp
+void WindowsGamepadService::Cleanup() {
+if (mXInputPollTimer) {
+mXInputPollTimer->Cancel();
+}
+mGamepads.Clear();
+if (mObserver) {
+mObserver->Stop();
+mObserver = nullptr;
+}
+}
+void WindowsGamepadService::DevicesChanged(DeviceChangeType type) {
+if (type == DeviceChangeNotification) {
+mObserver->SetDeviceChangeTimer();
+if (mObserver) {
+mObserver->SetDeviceChangeTimer();
+}
+} else if (type == DeviceChangeStable) {
+ScanForDevices();
+}
+}
+
+Listing 1: CVE-2016-1953 Fix: Adding null checks before
+adding mObserver to prevent null pointer dereference in
+Mozilla’s Windows gamepad code.
+
+4.2
+
+Impact of Data Noise
+
+Noise in training and testing data is an inherent challenge
+in SVD, often leading to misleading or ambiguous signals
+that can degrade model performance. However, as illustrated
+in Figure 3, the impact of noise on LLM accuracy remains
+
+relatively modest across all prompting strategies. While an
+overall decline in accuracy is observed as noise levels increase,
+the rate of deterioration varies significantly across different
+strategies.
+Models employing the Think & Verify and Think strategies
+demonstrate superior robustness, maintaining a relatively stable accuracy despite increasing noise. At the highest noise
+levels, the accuracy of these strategies declines by only 2.2%
+and 2.9%, respectively, indicating their ability to mitigate
+the effects of irrelevant modifications and extract essential
+security-related patterns. In contrast, Baseline strategies exhibit a more pronounced sensitivity to noise, with accuracy
+decreasing by approximately 6.4%, suggesting that less structured reasoning approaches struggle to differentiate meaningful security indicators from noise. Notably, the CoT strategy
+remains largely unaffected by noise, suggesting that its stepby-step analysis provides stability despite the lack of explicit
+verification.
+Interestingly, a divergent trend is observed between vulnerability detection and patch verification tasks. While vulnerability detection accuracy consistently declines as noise
+increases, patch verification accuracy exhibits a slight upward
+trend, particularly in the Baseline and CoT strategies. This
+pattern suggests that excessive modifications—such as added
+or deleted lines—may introduce contextual cues that assist
+in distinguishing patched code from vulnerable code, thereby
+improving patch verification accuracy.
+
+4.3
+
+CWE Distributions
+
+The analysis of model performance across different CWE
+types (Figure 2) reveals key insights into LLMs’ vulnerability
+detection capabilities. Our dataset includes critical real-world
+vulnerabilities, with the most frequent being memory safety
+issues like CWE-119 (Buffer Overflow, 58 instances) and
+CWE-416 (Use-After-Free, 41 instances), as well as access
+control vulnerabilities such as CWE-264 (Permissions, 48
+instances) and CWE-284 (Access Control Violation, 30 instances).
+Each prompting strategy shows distinct performance patterns across CWE categories. The Baseline prompt generally
+yields the lowest performance, with Deepseek R1 32B showing
+consistently stronger results across multiple CWEs compared
+to other models, particularly for CWE-399 and CWE-200.
+In contrast, models like Qwen2.5 Coder 32B and Codellama
+34B demonstrate notably weaker performance under this
+basic approach. The Chain-of-Thought approach substantially improves results for most models, with Qwen2.5 Coder
+7B showing particularly strong performance on CWE-787
+and CWE-476, while Codellama 7B excels in CWE-416. The
+structured reasoning prompts yield further improvements.
+With the Think strategy, Gemma2 9B achieves impressive
+results across multiple vulnerability types, particularly for
+CWE-787 (62.5%) and CWE-476 (62.1%), while Llama3 8B
+lags behind at 48.8%. This outcome indicates that some models benefit substantially from an organized internal reasoning
+process, but there is variability in how effectively each model
+
+,,
+
+Arastoo Zibaeirad and Marco Vieira
+
+Figure 2: Aggregated accuracy of vulnerability detection and patch verification for the top 10 most frequent CWEs in our dataset,
+which align with commonly occurring vulnerabilities in real-world C and C++ system projects. Each heatmap represents a
+different prompting strategy, showing how accuracy varies across CWE types.
+
+Figure 3: Correlation between Noise and LLMs Performance.
+The figure shows how different prompting strategies perform
+on vulnerability detection (solid lines) and patch verification
+(dotted lines) tasks as noise in the input code increases from
+0% to 100%, with each line representing the mean accuracy
+across all evaluated models.
+
+exploits this prompt style. Deepseek R1 7B also performs
+strongly with this approach, especially on CWE-362 (61.7%)
+and CWE-416 (62.2%). Think & Verify delivers the best
+overall results for most models, with Deepseek R1 7B showing exceptional performance across nearly all CWE types,
+reaching 69.2% for race conditions (CWE-362) and 65.1%
+for buffer overflows (CWE-119). Similarly, Qwen2.5 Coder
+32B achieves an impressive 70.3% on CWE-119 with this approach. The addition of a verification step appears especially
+beneficial for categories such as CWE-119 and CWE-362,
+where reasoning about memory or concurrency may require
+additional confirmation to avoid misclassification.
+Looking at individual CWEs, we observe distinct performance patterns that reveal how different model architectures
+handle various vulnerability types. CWE-119 (Buffer Overflow) and CWE-399 (Resource Management Errors) often
+show substantial gains from more advanced prompting strategies (CoT, Think, and Think & Verify), with code-specific
+
+models like Codellama and Deepseek-Coder excelling particularly on memory safety issues (CWE-119, CWE-787). In contrast, reasoning-focused models such as Deepseek R1 perform
+exceptionally well on concurrency vulnerabilities (CWE-362)
+when paired with structured verification approaches. Despite
+these targeted strengths, vulnerabilities such as CWE-476
+(NULL Pointer Dereference) still pose challenges for many
+models across all prompting strategies.
+Memory management vulnerabilities are often particularly
+challenging to detect, as illustrated in Listing 2, where a
+subtle change from raw to smart pointers addresses a critical
+Use-After-Free vulnerability. Only Codellama 7B and 34B
+could answer this case accurately in the Think & Verify
+strategy, which demonstrates how specialized code models
+can leverage structured verification to reason about memory
+safety even when the vulnerability indicators are implicit.
+This finding highlights the importance of both domain-specific
+model training and appropriate prompting techniques when
+addressing complex memory management issues that require
+deep language-specific understanding.
+The diversity of best-performing models under different
+prompts—Deepseek R1 32B (Baseline), Qwen2.5 Coder 7B
+(CoT), Gemma2 9B (Think), and Deepseek R1 7B (Think
+& Verify)—underscores that no single approach or architecture consistently excels across all vulnerability types. Instead,
+there is a clear prompt–model interaction effect, where the
+best strategy depends on the underlying model and the specific CWE category. Moreover, these performance trends are
+influenced by sample distribution: CWE-119, with the highest number of samples, contributes significantly to overall
+accuracy patterns, whereas categories with fewer instances
+(e.g., CWE-787) exhibit greater performance variability.
+
+4.4
+
+Impact of Code Block Granularity Level
+
+The complexity of code structure poses a significant challenge in automated vulnerability detection and remediation. This section examines how varying levels of code granularity—ranging from isolated functions to multi-file systems—affect the performance of LLMs in SVD. Specifically,
+we analyze performance trends across three granularity levels:
+
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+
+,,
+
+Figure 4: Impact of Granularity on LLM Performance Across Prompt Strategies. The figure shows vulnerability detection (solid
+bars) and patch verification (hatched bars) correctness. The y-axis represents aggregated accuracy, where stacked bars sum both
+tasks (e.g., 100% in each totals 200%).
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+
+// File: editor/libeditor/base/nsEditor.cpp
+nsIContent* nsEditor::FindNode(nsINode *aCurrentNode,
+bool aGoForward,
+bool aEditableNode,
+bool bNoBlockCrossing) {
+if (IsEditorRoot(aCurrentNode)) {
+return nullptr;
+}
+nsIContent* candidate =
+nsCOMPtr<nsIContent> candidate =
+FindNextLeafNode(aCurrentNode, aGoForward, bNoBlockCrossing);
+if (!candidate) {
+return nullptr;
+}
+if (!aEditableNode || IsEditable(candidate)) {
+return candidate;
+}
+return FindNode(candidate, aGoForward, aEditableNode,
+bNoBlockCrossing);
+}
+
+Listing 2: CVE-2012-4213 (CWE-416: Use-After-Free) in
+Mozilla’s nsEditor::FindNode. The vulnerable version (red)
+uses a raw pointer for candidate, leading to potential useafter-free issues. The patched version (green) replaces it with
+an nsCOMPtr, a smart pointer that ensures automatic reference
+counting, preventing premature deallocation.
+
+G1 (single function in one file), G2 (multiple functions in one
+file), and G3 (multiple functions across multiple files).
+Our analysis reveals a nuanced relationship between code
+granularity and LLM performance. In many cases, increasing granularity enhances vulnerability detection accuracy,
+
+but this effect is model-dependent. For instance, CodeLlama
+34B with the "Think" prompt improves from 62.96% (G1)
+to 74.80% (G2) before slightly decreasing to 72.36% (G3).
+This suggests that additional contextual information can enhance vulnerability detection capabilities by providing more
+execution flow details. Similarly, Deepseek V2 16B under
+baseline prompting improves from 92.59% (G1) to 94.72%
+(G3), indicating that some models remain highly effective
+even with complex, multi-component code.
+This contradicts the intuitive assumption that increased
+code complexity universally hampers detection performance.
+Instead, results indicate that certain models leverage crosscomponent interactions effectively, improving their detection
+of security flaws in larger code segments. Listing 3 illustrates
+this challenge with a use-after-free vulnerability (CVE-20176874) spanning multiple Linux kernel files, where atomic
+operations were improperly used for reference counting. Detecting such vulnerabilities requires models to understand
+how the atomic counter in the header file relates to its usage
+in concurrent operations—context that would be lost if analyzing either file in isolation. When examining this particular
+example, models using Think & Verify prompting were better
+able to trace the connection between the atomic counter definition and its unsafe usage pattern. Larger code blocks offer
+crucial contextual clues for detecting such cross-component
+vulnerabilities but may overwhelm models that lack strategies
+to structure their reasoning about complex interactions.
+Granularity-Prompt Interaction Effect. The impact of granularity is strongly influenced by prompting strategies. While
+baseline prompts exhibit inconsistent performance patterns
+
+,,
+
+Arastoo Zibaeirad and Marco Vieira
+
+across granularity levels, structured reasoning prompts such
+as Think and Think+Verify demonstrate more predictable
+trends. In fact, CodeLlama 7B with the "Think" prompt
+remains stable across different granularities (83.33% at G1,
+81.35% at G2, and 81.21% at G3), suggesting resilience to
+increased complexity. On the other hand, "Think & Verify"
+shows mixed trends, with some models improving at higher
+granularities while others experience a decline, implying that
+explicit verification may not always be beneficial in highly
+complex contexts.
+These results suggest that advanced prompting techniques
+influence how models process increasing complexity—some
+enable better reasoning across functions, while others assist
+in breaking down intricate code dependencies.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+
+// File path: include/linux/user_namespace.h
+atomic_t count;
+int count;
+// File: kernel/ucount.c
+static struct ucounts *get_ucounts(struct user_namespace *ns, kuid_t
+uid) {
+// ...initialization code...
+new->ns = ns; new->uid = uid;
+atomic_set(&new->count, 0);
+new->count = 0;
+// ...more code...
+}
+static void put_ucounts(struct ucounts *ucounts) {
+unsigned long flags;
+if (atomic_dec_and_test(&ucounts->count)) {
+spin_lock_irqsave(&ucounts_lock, flags);
+spin_lock_irqsave(&ucounts_lock, flags);
+ucounts->count -= 1;
+if (!ucounts->count)
+hlist_del_init(&ucounts->node);
+spin_unlock_irqrestore(&ucounts_lock, flags);
+else ucounts = NULL;
+spin_unlock_irqrestore(&ucounts_lock, flags);
+kfree(ucounts);
+}
+kfree(ucounts);
+}
+
+Listing 3: CVE-2017-6874 in Linux kernel: The patch replaces
+an atomic reference counter with a lock-protected integer to
+prevent race conditions leading to a use-after-free vulnerability.
+By ensuring that ucounts->count is properly decremented
+and checked under ucounts_lock, the fix eliminates unsafe
+concurrent access.
+
+Vulnerability Detection vs. Patch Verification. A key observation is the divergent impact of granularity on vulnerability
+detection versus patch verification. While higher granularity
+often improves vulnerability detection, patch verification performance tends to decline. For example, Deepseek V2 16B’s
+patch accuracy under baseline prompting drops from 7.41%
+(G1) to just 1.86% (G3), despite an increase in vulnerability
+detection accuracy. This suggests that vulnerability detection
+benefits from additional execution context, as models can
+analyze interactions between functions to better recognize
+security flaws. Conversely, patch verification is more challenging at higher granularities because models must evaluate the
+correctness of fixes across multiple interdependent components rather than generating new fixes, ensuring that security
+vulnerabilities are properly mitigated without introducing
+
+new risks. Therefore, patch verification requires a different
+approach than vulnerability detection, with increased complexity posing a greater challenge for maintaining logical
+consistency.
+
+5
+
+Threats to Validity
+
+Our evaluation framework faces several threats to validity.
+First, the data collection process inherently introduces noise,
+a challenge common to existing vulnerability datasets. To
+mitigate this, we automatically pre-filtered approximately
+39% of our initial data—excluding commits with excessive
+file changes or non-code modifications—without relying on
+subjective assumptions. We subsequently employed an LLMbased noise quantification approach, which, while introducing some bias due to model assumptions, is transparently
+integrated into our evaluation to contextualize performance
+impacts. Second, our noise analyzer may not fully capture the
+extent of noise in the data. Since it is based on model-driven
+reasoning rather than manual inspection of every commit,
+it may overlook or misclassify certain non-security-related
+modifications. While we validated the noise scoring mechanism by manually reviewing 2% of the dataset, which aligned
+well with our expectations, there is still the possibility that
+some noisy or mislabeled commits remain. Finally, we utilized
+pre-trained LLMs in a zero-shot setting, selecting test data
+from distinct Linux kernel codebase versions to minimize
+direct overlap with training datasets. Despite these measures,
+the uncertain scope of LLM training corpora leaves room
+for potential indirect data leakage. To further address this
+concern, we incorporated a subset of samples (ten samples)
+released after the LLMs’ training cutoff dates (starting from
+2025), thereby strengthening the external validity of our findings. However, the limited number of samples for assessing
+data leakage remains a constraint, potentially affecting the
+generalizability of our conclusions.
+
+6
+
+Conclusion
+
+Our study demonstrates that structured reasoning significantly enhances LLMs’ ability to detect vulnerabilities and
+verify patches, with the Think & Verify strategy reducing
+ambiguity and improving accuracy. Code-specialized models consistently outperform general-purpose alternatives, yet
+performance varies across vulnerability types, highlighting
+that no single approach excels universally. By introducing
+VulnSage, a rigorously curated dataset and evaluation framework, we provide a robust benchmark for assessing LLMs in
+real-world security scenarios. Our findings emphasize the need
+for continued advancements in reasoning-driven approaches
+to improve the reliability and generalization of LLMs in
+software vulnerability detection.
+
+References
+[1] Danial Abshari, Chenglong Fu, and Meera Sridhar. 2024. LLMassisted Physical Invariant Extraction for Cyber-Physical Systems
+Anomaly Detection. arXiv preprint arXiv:2411.10918 (2024).
+[2] Danial Abshari and Meera Sridhar. 2025. A Survey of Anomaly Detection in Cyber-Physical Systems.
+arXiv preprint
+
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+
+arXiv:2502.13256 (2025).
+[3] Minhaj Nur Alam, Tania Haghighi, Sina Gholami, and Theodore
+Leng. 2024. To assess the potential and capabilities of large
+language models (LLMs) trained on in-domain ophthalmology
+data. Investigative Ophthalmology & Visual Science 65, 7 (2024),
+5656–5656.
+[4] Vahid Babaey and Hamid Reza Faragardi. 2025. Detecting ZeroDay Web Attacks Using One-Class Ensemble Classifiers. (2025).
+[5] Vahid Babaey and Arun Ravindran. 2025. GenSQLi: A Generative Artificial Intelligence Framework for Automatically Securing
+Web Application Firewalls Against Structured Query Language
+Injection Attacks. Future Internet 17, 1 (2025).
+[6] Vahid Babaey and Arun Ravindran. 2025. GenXSS: an AI-Driven
+Framework for Automated Detection of XSS Attacks in WAFs.
+(2025).
+[7] Guru Bhandari, Amara Naseer, and Leon Moonen. 2021. CVEfixes: automated collection of vulnerabilities and their fixes from
+open-source software. In Proceedings of the 17th International
+Conference on Predictive Models and Data Analytics in Software
+Engineering. 30–39.
+[8] Nicholas Carlini, Daphne Ippolito, Matthew Jagielski, Katherine
+Lee, Florian Tramer, and Chiyuan Zhang. 2022. Quantifying
+memorization across neural language models. In The Eleventh
+International Conference on Learning Representations.
+[9] Saikat Chakraborty, Rahul Krishna, Yangruibo Ding, and
+Baishakhi Ray. 2021. Deep learning based vulnerability detection:
+Are we there yet? IEEE Transactions on Software Engineering
+48, 9 (2021), 3280–3296.
+[10] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique
+Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri
+Burda, Nicholas Joseph, Greg Brockman, et al. 2021. Evaluating large language models trained on code. arXiv preprint
+arXiv:2107.03374 (2021).
+[11] Yizheng Chen, Zhoujie Ding, Lamya Alowain, Xinyun Chen, and
+David Wagner. 2023. Diversevul: A new vulnerable source code
+dataset for deep learning based vulnerability detection. In Proceedings of the 26th International Symposium on Research in
+Attacks, Intrusions and Defenses. 654–668.
+[12] Roland Croft, M Ali Babar, and Huaming Chen. 2022. Noisy
+label learning for security defects. In Proceedings of the 19th
+International Conference on Mining Software Repositories. 435–
+447.
+[13] CVE Details. 2025. CVE Details - The ultimate security vulnerability database. https://www.cvedetails.com/ Accessed: March
+13, 2025.
+[14] Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek
+Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan
+Schelten, Amy Yang, Angela Fan, et al. 2024. The Llama 3 Herd
+of Models. arXiv preprint arXiv:2407.21783 (2024).
+[15] Jonathan St BT Evans. 2008. Dual-processing accounts of reasoning, judgment, and social cognition. Annu. Rev. Psychol. 59,
+1 (2008), 255–278.
+[16] Jiahao Fan, Yi Li, Shaohua Wang, and Tien N Nguyen. 2020.
+AC/C++ code vulnerability dataset with code changes and CVE
+summaries. In Proceedings of the 17th International Conference
+on Mining Software Repositories. 508–512.
+[17] Michael Fu and Chakkrit Tantithamthavorn. 2022. Linevul: A
+transformer-based line-level vulnerability prediction. In Proceedings of the 19th International Conference on Mining Software
+Repositories. 608–620.
+[18] Zeyu Gao, Hao Wang, Yuchen Zhou, Wenyu Zhu, and Chao
+Zhang. 2023. How Far Have We Gone in Vulnerability Detection
+Using Large Language Models. arXiv preprint arXiv:2311.12420
+(2023).
+[19] Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Ruoyu
+Zhang, Runxin Xu, Qihao Zhu, Shirong Ma, Peiyi Wang, Xiao
+Bi, et al. 2025. Deepseek-r1: Incentivizing reasoning capability in
+llms via reinforcement learning. arXiv preprint arXiv:2501.12948
+(2025).
+[20] Daya Guo, Qihao Zhu, Dejian Yang, Zhenda Xie, Kai Dong,
+Wentao Zhang, Guanting Chen, Xiao Bi, Yu Wu, YK Li, et al.
+2024. DeepSeek-Coder: When the Large Language Model Meets
+Programming–The Rise of Code Intelligence. arXiv preprint
+arXiv:2401.14196 (2024).
+[21] Tania Haghighi, Sina Gholami, Jared Todd Sokol, Enaika Kishnani, Adnan Ahsaniyan, Holakou Rahmanian, Fares Hedayati,
+Theodore Leng, and Minhaj Nur Alam. 2024. EYE-Llama, an indomain large language model for ophthalmology. bioRxiv (2024).
+
+,,
+
+[22] Daan Hommersom, Antonino Sabetta, Bonaventura Coppola,
+Dario Di Nucci, and Damian A Tamburri. 2024. Automated
+mapping of vulnerability advisories onto their fix commits in open
+source repositories. ACM Transactions on Software Engineering
+and Methodology 33, 5 (2024), 1–28.
+[23] Emanuele Iannone, Roberta Guadagni, Filomena Ferrucci, Andrea
+De Lucia, and Fabio Palomba. 2022. The secret life of software
+vulnerabilities: A large-scale empirical study. IEEE Transactions
+on Software Engineering 49, 1 (2022), 44–63.
+[24] Daniel Kahneman. 2011. Thinking, fast and slow. macmillan.
+[25] Avishree Khare, Saikat Dutta, Ziyang Li, Alaia Solko-Breslin, Rajeev Alur, and Mayur Naik. 2023. Understanding the Effectiveness
+of Large Language Models in Detecting Security Vulnerabilities.
+arXiv preprint arXiv:2311.16169 (2023).
+[26] Omar Khattab, Arnav Singhvi, Paridhi Maheshwari, Zhiyuan
+Zhang, Keshav Santhanam, Sri Vardhamanan, Saiful Haq,
+Ashutosh Sharma, Thomas T Joshi, Hanna Moazam, et al.
+2023. Dspy: Compiling declarative language model calls into selfimproving pipelines. arXiv preprint arXiv:2310.03714 (2023).
+[27] George Klees, Andrew Ruef, Benji Cooper, Shiyi Wei, and Michael
+Hicks. 2018. Evaluating fuzz testing. In Proceedings of the 2018
+ACM SIGSAC conference on computer and communications
+security. 2123–2138.
+[28] Ziyang Li, Saikat Dutta, and Mayur Naik. 2024. LLM-Assisted
+Static Analysis for Detecting Security Vulnerabilities. arXiv
+preprint arXiv:2405.17238 (2024).
+[29] Yu Liu, Lang Gao, Mingxin Yang, Yu Xie, Ping Chen, Xiaojin
+Zhang, and Wei Chen. 2024. VulDetectBench: Evaluating the
+Deep Capability of Vulnerability Detection with Large Language
+Models. arXiv preprint arXiv:2406.07595 (2024).
+[30] Valentin JM Manès, HyungSeok Han, Choongwoo Han, Sang Kil
+Cha, Manuel Egele, Edward J Schwartz, and Maverick Woo. 2019.
+The art, science, and engineering of fuzzing: A survey. IEEE
+Transactions on Software Engineering 47, 11 (2019), 2312–2331.
+[31] Shuyin Ouyang, Jie M Zhang, Mark Harman, and Meng Wang.
+2025. An empirical study of the non-determinism of chatgpt in
+code generation. ACM Transactions on Software Engineering
+and Methodology 34, 2 (2025), 1–28.
+[32] José D’Abruzzo Pereira, João Henggeler Antunes, and Marco
+Vieira. 2022. A Software Vulnerability Dataset of Large Open
+Source C/C++ Projects. In 2022 IEEE 27th Pacific Rim International Symposium on Dependable Computing (PRDC). IEEE,
+152–163.
+[33] José D’Abruzzo Pereira, Joao R Campos, and Marco Vieira. 2021.
+Machine learning to combine static analysis alerts with software
+metrics to detect security vulnerabilities: An empirical study. In
+2021 17th European Dependable Computing Conference (EDCC).
+IEEE, 1–8.
+[34] Baptiste Roziere, Jonas Gehring, Fabian Gloeckle, Sten Sootla,
+Itai Gat, Xiaoqing Ellen Tan, Yossi Adi, Jingyu Liu, Tal Remez,
+Jérémy Rapin, et al. 2023. Code llama: Open foundation models
+for code. arXiv preprint arXiv:2308.12950 (2023).
+[35] June Sallou, Thomas Durieux, and Annibale Panichella. 2024.
+Breaking the silence: the threats of using llms in software engineering. In Proceedings of the 2024 ACM/IEEE 44th International
+Conference on Software Engineering: New Ideas and Emerging
+Results. 102–106.
+[36] Mohammed Latif Siddiq and Joanna CS Santos. 2022. SecurityEval dataset: mining vulnerability examples to evaluate machine
+learning-based code generation techniques. In Proceedings of the
+1st International Workshop on Mining Software Repositories
+Applications for Privacy and Security. 29–33.
+[37] Sam Thomas, Farnoosh Koleini, and Nasseh Tabrizi. 2022. Dynamic defenses and the transferability of adversarial examples. In
+2022 IEEE 4th International Conference on Trust, Privacy and
+Security in Intelligent Systems, and Applications (TPS-ISA).
+IEEE, 276–284.
+[38] Saad Ullah, Mingji Han, Saurabh Pujar, Hammond Pearce, Ayse
+Coskun, and Gianluca Stringhini. 2024. LLMs Cannot Reliably
+Identify and Reason About Security Vulnerabilities (Yet?): A Comprehensive Evaluation, Framework, and Benchmarks. In IEEE
+Symposium on Security and Privacy.
+[39] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma,
+Fei Xia, Ed Chi, Quoc V Le, Denny Zhou, et al. 2022. Chainof-thought prompting elicits reasoning in large language models.
+Advances in neural information processing systems 35 (2022),
+24824–24837.
+
+,,
+
+[40] Yi Wu, Nan Jiang, Hung Viet Pham, Thibaud Lutellier, Jordan
+Davis, Lin Tan, Petr Babkin, and Sameena Shah. 2023. How
+effective are neural networks for fixing security vulnerabilities. In
+Proceedings of the 32nd ACM SIGSOFT International Symposium on Software Testing and Analysis. 1282–1294.
+[41] Violet Xiang, Charlie Snell, Kanishk Gandhi, Alon Albalak,
+Anikait Singh, Chase Blagden, Duy Phung, Rafael Rafailov,
+Nathan Lile, Dakota Mahan, et al. 2025. Towards System 2
+Reasoning in LLMs: Learning How to Think With Meta Chainof-Though. arXiv preprint arXiv:2501.04682 (2025).
+[42] Zhuosheng Zhang, Aston Zhang, Mu Li, and Alex Smola. 2022.
+Automatic chain of thought prompting in large language models.
+arXiv preprint arXiv:2210.03493 (2022).
+[43] Xin Zhou, Duc-Manh Tran, Thanh Le-Cong, Ting Zhang,
+Ivana Clairine Irsan, Joshua Sumarlin, Bach Le, and David Lo.
+2024. Comparison of static application security testing tools and
+large language models for repo-level vulnerability detection. arXiv
+preprint arXiv:2407.16235 (2024).
+[44] Yaqin Zhou, Shangqing Liu, Jingkai Siow, Xiaoning Du, and
+Yang Liu. 2019. Devign: Effective vulnerability identification
+by learning comprehensive program semantics via graph neural
+networks. Advances in neural information processing systems
+32 (2019).
+[45] Arastoo Zibaeirad, Farnoosh Koleini, Shengping Bi, Tao Hou,
+and Tao Wang. 2024. A Comprehensive Survey on the Security
+of Smart Grid: Challenges, Mitigations, and Future Research
+Opportunities. arXiv preprint arXiv:2407.07966 (2024).
+[46] Arastoo Zibaeirad and Marco Vieira. 2024. VulnLLMEval:
+A Framework for Evaluating Large Language Models in Software Vulnerability Detection and Patching. arXiv preprint
+arXiv:2409.10756 (2024).
+
+Arastoo Zibaeirad and Marco Vieira
+
+Reasoning with LLMs for Zero-Shot Vulnerability Detection
+
+7
+
+,,
+
+Appendix
+
+Baseline Strategy (YES/NO + CWE Only)
+
+This appendix details the prompt strategies used to evaluate LLMs in SVD. Each prompt assesses different reasoning mechanisms, ranging from binary classification to structured, multi-step analysis. Additionally, the noise evaluation
+prompt helps quantify non-security-related modifications in
+vulnerability-fixing commits.
+
+7.1
+
+[ Code block goes here ]
+
+Provide your response in exactly the following format:
+(1) Vulnerability Present? (YES or NO)
+(2) If YES, list the relevant CWE ID(s) only (e.g.,
+CWE-119, CWE-79).
+Do not provide any explanation or additional details.
+
+Noise Evaluation Prompt
+
+Our noise evaluation prompt is designed to quantitatively
+assess the proportion of non-security-related changes in vulnerability fix commits. This structured approach helps identify and measure potential noise in the dataset, ensuring that
+our evaluation focuses on genuine security fixes rather than
+unrelated code changes.
+
+Noise Evaluation Prompt
+Task: You are a security analyst tasked with evaluating the “noise” in a commit that fixes a vulnerability.
+“Noise” is defined as the proportion of changes that
+are not directly related to the core vulnerability fix.
+You are provided with the following information:
+Commit Description:
+{commit_desc}
+Git Diff:
+{commit_diff}
+Please follow these steps:
+(1) Review the commit description to understand
+the intent behind the changes.
+(2) Analyze the git diff to identify what modifications were made.
+(3) Based on your analysis, estimate the overall
+level of noise on a scale from 0 to 100, where 0
+means nearly all changes are essential and 100
+means most changes are unrelated.
+(4) Provide a step-by-step reasoning of your analysis.
+(5) On a new line, output your final result exactly
+in the following format:
+NOISE_AMOUNT: X
+REASONING: [Your detailed explanation]
+
+7.2
+
+Prompt: You are a security expert specialized in identifying software vulnerabilities in C code.
+Analyze the following code and determine whether it
+contains any vulnerabilities.
+
+7.3
+
+CoT Strategy
+
+The Chain of Thought strategy implements a structured
+analytical framework that guides models through specific
+reasoning steps. This methodology helps evaluate whether
+breaking down the analysis process improves detection accuracy and provides more reliable vulnerability assessments.
+
+CoT Strategy
+Prompt: You are a security expert specialized in vulnerability detection. Analyze the following C code
+using a structured approach.
+Step-by-step analysis:
+(1) Code Structure Analysis: Identify key components, data flow, and possible security risks.
+(2) Attack Surface & Risk Assessment: Identify unsafe functions and risky patterns.
+(3) Interaction & Exploitability: Examine function
+interactions and attack feasibility.
+(4) CWE Pattern Matching: Classify vulnerabilities
+according to CWE.
+(5) Final Decision: Justify whether the code is vulnerable or not.
+(6) Suggested Security Improvements: Recommend
+fixes and mitigations.
+[ Code block goes here ]
+
+Baseline Strategy
+
+The baseline strategy represents our control test, requiring
+models to make binary decisions about vulnerability presence
+without detailed explanations. This approach helps establish
+a fundamental performance benchmark and evaluate whether
+more complex prompting strategies provide meaningful improvements over simple classification.
+
+7.4
+
+Think Strategy
+
+The Think strategy enforces explicit documentation of the
+reasoning process through structured sections. This approach
+allows us to evaluate both the final detection outcome and
+the quality of the underlying analysis, providing insights into
+the model’s decision-making process.
+
+,,
+
+Arastoo Zibaeirad and Marco Vieira
+
+Think Strategy
+Prompt: You are a security expert analyzing C code
+for vulnerabilities. Use the following structured approach:
+Thinking Process
+< thinking >
+- Identify potential security issues .
+- Consider different attack scenarios .
+- Examine function interactions and data flows .
+- Question assumptions about input validation .
+- Verify findings and rule out false positives .
+- Document confidence levels .
+</ thinking >
+
+Vulnerability Assessment
+< vulnerability_assessment >
+- Identified v ul ne r ab il it ie s
+- Associated CWE ( s )
+- Severity ratings
+- Relevant evidence from the code
+</ vulnerability_assessment >
+[ Code block goes here ]
+
+7.5
+
+Think & Verify Strategy
+Think & Verify Strategy
+Prompt: You are a security expert conducting an
+in-depth vulnerability assessment. Follow these steps:
+1. Initial Analysis (Up to 3 Attempts)
+< thinking >
+- Examine the code structure .
+- Identify security vu l ne ra bi l it ie s .
+- Consider attack vectors .
+- Document any uncertainties .
+</ thinking >
+
+Findings
+< findings >
+- List identified v u ln er ab i li ti es .
+</ findings >
+
+Confidence Assessment
+< confidence >
+- Assign a confidence score (0 -100%) .
+- If confidence is >= 90% , proceed to
+verification .
+- If confidence is < 90% , reanalyze before
+verification .
+</ confidence >
+
+2. Verification (Required for High-Confidence Finding)
+< verification >
+- Validate each vulnerability .
+- Check for false positives .
+- Confirm CWE cla ssificat ion accuracy .
+- Consider edge cases .
+</ verification >
+
+3. Final Assessment
+< assessment >
+- List verified v ul ne ra b il it ie s .
+- Map to CWE .
+- Assign severity ratings .
+- Recommend security fixes .
+</ assessment >
+[ Code block goes here ]
+
+The Think & Verify strategy represents our most comprehensive approach, incorporating multiple analysis passes
+and explicit verification steps. This method tests whether
+additional verification and confidence scoring can reduce
+false positives and improve the reliability of vulnerability
+detection.
+
+

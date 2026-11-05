@@ -272,10 +272,10 @@ O fluxo do SZZ Unleashed e do experimento JIT opera na seguinte sequência:
 
 | Afirmação / Dado Documentado | Documento Fonte | Seção / Página | Evidência Textual no Artigo |
 | :--- | :--- | :--- | :--- |
-| **Definição de RQ1 e RQ2** | `03-szz-unleashed.pdf` | Seção 4.1, pág. 3 | "RQ1: How does oversampling and undersampling affect... RQ2: Does cross-validation generate better results..." |
-| **Uso da Biblioteca JGit** | `03-szz-unleashed.pdf` | Seção 3, pág. 2 | "To facilitate interaction with git repositories, SZZ Unleashed uses the JGit library [21] maintained by the Eclipse Foundation." |
-| **Uso de Line Mapping via Jaccard** | `03-szz-unleashed.pdf` | Seção 2, pág. 2 | "The current implementation of SZZ Unleashed is based on Jaccard distances... line number mappings are used to backtrack through the change history." |
-| **Profundidade Padrão depth = 3** | `03-szz-unleashed.pdf` | Seção 3.2, pág. 2-3 | "How deeply SZZ Unleashed should traverse the graph is configurable, but the default value is 3." |
-| **Estatísticas do Jenkins (26.378 commits)** | `03-szz-unleashed.pdf` | Seção 4.2, Tabela 1, pág. 3 | "Jenkins: Commits 26,378; Bugs 954 (3.6%); Fixes 2,979 (11.3%); Fixes ∩ Bugs 808 (3.1%)." |
-| **Descoberta sobre Inflação de Recall na CV** | `03-szz-unleashed.pdf` | Seção 4.3, pág. 4 | "...cross-validations results in falsely high precision... in our study, however, we instead observe this phenomenon for recall. Cross-validation obtains roughly twice as high recall as the time-sensitive setup." |
-| **F1-Score Insuficiente para Prática (0.10 - 0.15)** | `03-szz-unleashed.pdf` | Seção 4.3, pág. 4 | "...we do not think JIT bug prediction corresponding to an F1 score of 0.10–0.15 is sufficiently accurate to be of practical value for developers." |
+| **Definição de RQ1 e RQ2** | `06-szz-unleashed-esem2019.pdf` | Seção 4.1, pág. 3 | "RQ1: How does oversampling and undersampling affect... RQ2: Does cross-validation generate better results..." |
+| **Uso da Biblioteca JGit** | `06-szz-unleashed-esem2019.pdf` | Seção 3, pág. 2 | "To facilitate interaction with git repositories, SZZ Unleashed uses the JGit library [21] maintained by the Eclipse Foundation." |
+| **Uso de Line Mapping via Jaccard** | `06-szz-unleashed-esem2019.pdf` | Seção 2, pág. 2 | "The current implementation of SZZ Unleashed is based on Jaccard distances... line number mappings are used to backtrack through the change history." |
+| **Profundidade Padrão depth = 3** | `06-szz-unleashed-esem2019.pdf` | Seção 3.2, pág. 2-3 | "How deeply SZZ Unleashed should traverse the graph is configurable, but the default value is 3." |
+| **Estatísticas do Jenkins (26.378 commits)** | `06-szz-unleashed-esem2019.pdf` | Seção 4.2, Tabela 1, pág. 3 | "Jenkins: Commits 26,378; Bugs 954 (3.6%); Fixes 2,979 (11.3%); Fixes ∩ Bugs 808 (3.1%)." |
+| **Descoberta sobre Inflação de Recall na CV** | `06-szz-unleashed-esem2019.pdf` | Seção 4.3, pág. 4 | "...cross-validations results in falsely high precision... in our study, however, we instead observe this phenomenon for recall. Cross-validation obtains roughly twice as high recall as the time-sensitive setup." |
+| **F1-Score Insuficiente para Prática (0.10 - 0.15)** | `06-szz-unleashed-esem2019.pdf` | Seção 4.3, pág. 4 | "...we do not think JIT bug prediction corresponding to an F1 score of 0.10–0.15 is sufficiently accurate to be of practical value for developers." |

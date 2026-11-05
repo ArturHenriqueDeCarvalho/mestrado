@@ -43,7 +43,7 @@ Este documento registra formalmente todas as escolhas, adaptações, critérios 
 * **Decisão Metodológica**:
   - Retificar o link de acesso aberto do paper da Pesquisa 2. A referência inicial continha o link `https://arxiv.org/pdf/2103.02388` (que corresponde a um paper não-relacionado de dinâmica de fluidos devido a erro de digitação de dígito no identificador).
   - A fonte oficial correta do trabalho de Giovanni Rosa et al. (*A comprehensive evaluation of SZZ Variants through a developer-informed oracle* / ICSE 2021 / JSS 2023, DOI: `10.1016/j.jss.2023.111729`) é o **arXiv:2102.03300** (`https://arxiv.org/abs/2102.03300`).
-  - O arquivo em [`papers/02-pyszz-v2.pdf`](file:///home/artur-carvalho/mestrado/papers/02-pyszz-v2.pdf) foi imediatamente atualizado com o PDF legítimo e todo o fichamento foi executado sobre o texto integral autêntico.
+  - O arquivo em [`papers/04-lszz-pyszz-icse2021.pdf`](file:///home/artur-carvalho/mestrado/papers/04-lszz-pyszz-icse2021.pdf) foi imediatamente atualizado com o PDF legítimo e todo o fichamento foi executado sobre o texto integral autêntico.
 * **Motivo & Racional Científico**:
   Garantir a integridade absoluta da literatura científica de referência e evitar contaminação do referencial teórico da dissertação e do artigo da banca de Dezembro.
 * **Pesquisas Afetadas**: Pesquisa 2 (PySZZ v2).

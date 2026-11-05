@@ -1,5 +1,0 @@
-variant,bugfix_commits,total_inducing_commits,avg_inducing_per_fix,status
-B-SZZ,5,9,1.8,SUCCESS
-AG-SZZ,5,10,2.0,SUCCESS
-MA-SZZ,5,10,2.0,SUCCESS
-L-SZZ,5,5,1.0,SUCCESS
