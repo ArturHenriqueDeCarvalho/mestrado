@@ -1,62 +1,72 @@
-# O Que Cada Método Agrega: Análise Cumulativa e Síntese Técnico-Científica
+# Síntese Científica: O que Cada Algoritmo SZZ Agrega e Onde Cada um é Superior
+
+> [!IMPORTANT]
+> **Fundamentação Teórica (`DEC-008`, `DEC-010`)**: Este documento detalha a tese científica, a contribuição original e o **nicho exato de superioridade de cada um dos 10 algoritmos SZZ**, permitindo interpretar com precisão os resultados na base unificada do **Apache Flink** e nas 10 bases históricas.
 
 ---
 
-## 1. Propósito Epistemológico
+## 🏛️ 1. Família Heurística Tradicional
 
-Na defesa do **Artigo Científico Preparatório (Banca de Dezembro de 2026)** e na **Dissertação de Mestrado**, é imperativo demonstrar domínio rigoroso sobre a genealogia técnica e matemática de cada método analisado, respondendo com precisão:
-1. *Qual limitação algorítmica ou metodológica motivou a criação do método?*
-2. *Qual mecanismo computacional/matemático exato foi introduzido para superá-la?*
-3. *Qual evidência quantitativa comprova seu ganho e onde residem suas fronteiras de falha?*
+### 1.1 B-SZZ (Śliwerski, Zimmermann & Zeller, ACM SIGSOFT FSE 2005)
+* **Contribuição Original**: Estabeleceu o algoritmo seminal SZZ para identificar commits indutores de defeito cruzando o `git blame` nas linhas alteradas pelo commit de correção com links de bug trackers.
+* **Onde é Superior**:
+  - Em alterações atômicas e mono-linha (ex.: correção de um operador booleano ou uma constante), onde a linha modificada no fix é diretamente e sem ambiguidades a linha onde o bug nasceu.
+  - Oferece a **maior taxa de revocação bruta (*High Raw Recall*)** e o menor custo computacional de execução ($O(1)$ chamadas de blame por arquivo).
 
-Abaixo sintetizamos o aporte técnico-científico exclusivo de cada uma das 6 pesquisas do nosso corpus.
+### 1.2 AG-SZZ (Kim et al., IEEE/ACM ASE 2006)
+* **Contribuição Original**: Introduziu filtros baseados em anotações de código e cabeçalhos de arquivo.
+* **Onde é Superior**:
+  - Em bases com alto uso de anotações sintáticas de frameworks (ex.: `@Override`, `@Deprecated`, `@SuppressWarnings` e anotações Spring/Jakarta).
+  - Evita que modificações em metadados de compilação sejam falsamente apontadas como introdutoras de falha.
 
----
-
-## 2. Aporte Técnico Detalhado por Pesquisa
-
-### 🔬 Pesquisa 1 — LLM-SZZ (Siqi Fan et al., 2024)
-* **O que agrega tecnicamente**:
-  - **Fusão Semântica Multimodal (Descrição de CVE NVD + Unified Diff Anotado)**: Supera a cegueira semântica das variantes estáticas de SZZ e de redes baseadas apenas em grafos de código (`NEURAL-SZZ` / HAN) ao injetar a descrição em linguagem natural da CVE juntamente com o hunk numerado do commit de correção via *Prompt Chaining* reflexivo.
-  - **Rastreamento Híbrido em Profundidade (*Vulnerability Backtrace Decision*)**: Substitui o retrocesso cego de linhas do `V-SZZ` por um filtro sintático de **Similaridade de Edição de Levenshtein** calibrado em $\tau = 0.5$ (`Levenshtein.ratio >= 0.5` sobre strings sem *whitespace*) acoplado ao julgamento semântico do LLM, que detém autoridade autônoma para emitir o comando de parada (`-1`) quando a linha ancestral deixa de ter relação causal com a vulnerabilidade.
-  - **Desambiguação de *Tangled Commits* via *Optimal Candidate Selection* e *Voting Strategy***: Agrega os candidatos por arquivo e utiliza uma etapa final de seleção pelo LLM estabilizada por votação majoritária (3 a 5 execuções via `collections.Counter`), atingindo $F_1 = 0.834$ ($\text{FPR} = 0.162$) em C/C++ e $F_1 = 0.774$ ($\text{FPR} = 0.232$) em Java, além de $0.900$ de Recall em vulnerabilidades profundas (*deep vulnerabilities*).
-
----
-
-### 🔬 Pesquisa 2 — PySZZ v2 (Giovanni Rosa et al., ICSE 2021 / JSS 2023)
-* **O que agrega tecnicamente**:
-  - **Oráculo Informado por Desenvolvedores via Árvores Sintáticas `spaCy`**: Elimina o viés de validação circular do SZZ minerando **19.603.736 commits** do GH Archive com 3 heurísticas de processamento de linguagem natural (H1: exclusão de reverts; H2: verificação se o verbo `introduce` é ancestral sintático do hash na árvore de dependências do `spaCy`; H3: filtro fino gramatical e *stop-words*), seguido de validação manual conservadora por 4 avaliadores independentes, resultando em `oracle_all` (1.115 BFCs em 8 linguagens) e `oracle_issues` (129 BFCs).
-  - **Arquitetura Modular Orientada a Objetos (`AbstractSZZ`)**: Unifica 9 variantes e ferramentas (`B-SZZ`, `AG-SZZ`, `MA-SZZ`, `L-SZZ`, `R-SZZ`, `RA-SZZ*`, `SZZ@PYD`, `SZZ@UNL`, `SZZ@OPN`, além de `ASZZ` e `DFSZZ`), integrando `srcML` para poda de comentários, `RefactoringMiner 2.0` para refatorações Java e flags `-M`/`-C` do `git blame`.
-  - **Demonstração da Superioridade do `R-SZZ` e Diagnóstico dos 311 Casos de Falha Unânime**: Comprova que a heurística de seleção do commit mais recente (`R-SZZ`) combinada ao filtro de data da issue (`issue_date_filter: true`) atinge a maior precisão ($73\%$) e $F_1$ ($0.64$), além de categorizar por que todas as variantes falham em correções puramente aditivas (ex.: guardas `if (x != null)`).
+### 1.3 MA-SZZ (da Costa et al., Empirical Software Engineering 2017)
+* **Contribuição Original**: Meta-algoritmo que formalizou o impacto de ignorar comentários, linhas em branco e alterações cosméticas na data de introdução do bug.
+* **Onde é Superior**:
+  - Em commits onde o desenvolvedor atualiza simultaneamente o código e a documentação (*Javadoc*, comentários inline, cabeçalhos de licença).
+  - Elimina até 30% do ruído cosmético sem necessidade de compilar a árvore sintática completa.
 
 ---
 
-### 🔬 Pesquisa 3 — SZZ Unleashed (Markus Borg et al., 2019)
-* **O que agrega tecnicamente**:
-  - **Motor Java Nativo em `Eclipse JGit` com *Line Number Mapping* via Distância de Jaccard**: Dispensa chamadas lentas ao binário CLI do Git operando diretamente sobre objetos internos do JGit (`FileAnnotationGraph`, `DistanceIntroducerFinder`) e mapeia blocos de linhas modificadas entre revisões através da distância de conjuntos de Jaccard ($d_J(A,B) = 1 - \frac{|A \cap B|}{|A \cup B|}$) com busca em profundidade configurável (`depth = 3`).
-  - **Engenharia de 16 Features JIT Incluindo Acoplamento Evolutivo (`code-maat`)**: Introduz, além das métricas tradicionais de churn, difusão, entropia e experiência, 3 métricas de acoplamento temporal (`Ft14`, `Ft15`, `Ft16` extraídas pelo `code-maat 1.1`) sobre 12 anos do **Jenkins Core** (26.378 commits).
-  - **Desmascaramento do Vazamento Temporal em Validação Cruzada (*10-Fold CV vs. Online Change Classification*)**: Demonstra empiricamente que a validação cruzada estratificada infla artificialmente o Recall em quase o dobro ($0.212$ vs. $0.104$ com SMOTE) por violar a cronologia dos commits, estabelecendo que a avaliação *Time-Sensitive* (`OCC` com `SMOTE+Tomek`, $F_1 = 0.137$) é obrigatória para refletir cenários reais de produção.
+## 🔬 2. Família Sintática e Refatoração
+
+### 2.1 L-SZZ (Rosa et al., IEEE/ACM ICSE 2021 / JSS 2023)
+* **Contribuição Original**: Integrador de análise sintática profunda via Árvore Sintática Abstrata (AST) utilizando a ferramenta `srcML 1.2.0`.
+* **Onde é Superior**:
+  - Em mutações cosméticas que alteram texto mas preservam a AST (ex.: quebra de linha de argumentos, adição de parênteses redundantes, indentação).
+  - Comprovou experimentalmente a capacidade de **eliminar 50% dos falsos positivos** em comparação com algoritmos baseados em texto puro.
+
+### 2.2 RA-SZZ (Neto et al., 2018; Fan et al., IEEE TSE 2021)
+* **Contribuição Original**: Integração com o `RefactoringMiner 2.0` para rastrear histórico através de 15 operações de refatoração estrutural (extração de método, movimentação de classe, renomeação de variáveis).
+* **Onde é Superior**:
+  - Padrão-ouro em projetos maduros orientados a objetos onde classes são reorganizadas e métodos são extraídos.
+  - No ecossistema Apache (126.526 commits), eliminou **6.409 commits incorretamente culpados pelo B-SZZ clássico (5,07% de ruído sistêmico)**.
+
+### 2.3 SZZ Unleashed (Borg et al., ACM/IEEE ESEM 2019)
+* **Contribuição Original**: Implementação baseada em Eclipse JGit que utiliza grafos de anotação de arquivos e Line Number Mapping via similaridade de Jaccard com busca em profundidade (*depth $\ge 3$*).
+* **Onde é Superior**:
+  - Em repositórios com histórico longo e complexo de merges e ramificações (como o Jenkins Core), onde a linha mudou de número dezenas de vezes antes da correção.
 
 ---
 
-### 🔬 Pesquisa 4 — SZZ-TSE (Yuanrui Fan et al., IEEE TSE 2019/2021)
-* **O que agrega tecnicamente**:
-  - **Auditoria Controlada de Ruído de Rotulagem sobre 126.526 Commits Apache**: Compara sistematicamente modelos JIT treinados com rótulos de `B-SZZ` (`buggy_B2`), `AG-SZZ` (`buggy_AG`) e `MA-SZZ` (`buggy_MA`) avaliados contra o oráculo consciente de refatoração `RA-SZZ` (`buggy_RA`) em 10 projetos Apache (`activemq`, `camel`, `derby`, `geronimo`, `hbase`, `hcommon`, `mahout`, `openjpa`, `pig`, `tuscany`), com remoção prévia de multicolinearidade via VIF/Spearman (`collinearity.csv`) e 1.000 iterações de *Out-of-Bag Bootstrap*.
-  - **Descoberta do Custo Oculto de Esforço Desperdiçado (*Wasted Inspection Effort LOC*)**: Prova que métricas globais como AUC e F1 mascaram o impacto industrial do ruído: embora o `B-SZZ` não degrade significativamente o AUC de Random Forest ou Regressão Logística, ele **infla em 9% a 10% o número de linhas de código inspecionadas inutilmente em falsos positivos (`waste_effort`)**, enquanto o `AG-SZZ` reduz significativamente o AUC/F1/G-Mean em 1%–5% e eleva o desperdício de esforço em até 15%.
-  - **Instabilidade de Interpretabilidade (Scott-Knott ESD)**: Demonstra via agrupamento estatístico `ScottKnottESD` que o ruído de `B-SZZ` e `AG-SZZ` distorce severamente o ranking de importância das métricas secundárias e terciárias dos classificadores.
+## 🤖 3. Família Baseada em Inteligência Artificial e LLMs
 
----
+### 3.1 LLM-SZZ (Fan et al., ACM PACMSE / FSE 2024)
+* **Contribuição Original**: Arquitetura reflexiva com *Prompt Chaining*, *Backtrace Decision* com corte Levenshtein ($\ge 0.5$) e desambiguação de commits emaranhados (*tangled commits*).
+* **Onde é Superior**:
+  - Em commits de segurança onde o patch de correção apenas **adiciona verificações defensivas** (*null checks*, limites de buffer) sem deletar nenhuma linha de código pré-existente (cenário onde o `git blame` tradicional falha 100% das vezes).
+  - Desambigua commits mistos onde o desenvolvedor corrigiu o bug e aproveitou para fazer melhorias não relacionadas.
 
-### 🔬 Pesquisa 5 — CC2Vec (Thong Hoang et al., ACM/IEEE ICSE 2020)
-* **O que agrega tecnicamente**:
-  - **Rede de Atenção Hierárquica Tripla (`WordRNN` $\to$ `SentRNN` $\to$ `HunkRNN` via Bi-GRU)**: Modela a estrutura tridimensional de tensores de diffs ($\mathcal{X} \in \mathbb{Z}^{N \times H \times L \times W}$) separadamente para código adicionado ($e_a$) e código removido ($e_r$), aplicando pesos de atenção em nível de token, linha e hunk.
-  - **Camada de Comparação Não-Linear de 5 Famílias (6 Operadores)**: Captura a divergência semântica entre $e_a$ e $e_r$ concatenando Subtração ($e_a - e_r$), Produto de Hadamard ($e_a \odot e_r$), Similaridades Cosseno e Euclidiana, Rede Feed-Forward ($e_{NN}$) e **Neural Tensor Network** ($e_{NT} = \text{ReLU}(e_a^T T^{[1:k]} e_r + V[e_a \parallel e_r] + b)$) em um vetor distribuído denso `cc2ftr` ($\in \mathbb{R}^{3d+4}$), pré-treinado de forma auto-supervisionada para prever palavras da primeira linha da mensagem de commit.
-  - **Transferência Universal para 3 Tarefas Downstream**: Eleva o BLEU-4 do `NNGen` em +25.0% ($16.42 \to 20.53$) na geração de logs; atinge $\text{AUC} = 0.909$ e $F_1 = 0.850$ em 82.000 patches do Linux Kernel (`PatchNetExtended`); e supera o `DeepJIT` em +7.0% ($\text{AUC} = 0.822$ no Qt) e +7.7% ($\text{AUC} = 0.809$ no OpenStack) na predição JIT (`DeepJITExtended`).
+### 3.2 LLM4SZZ (Tang et al., 2025 - arXiv:2504.01404)
+* **Contribuição Original**: Abordagem em duas fases: ranqueamento de linhas suspeitas com LLM e avaliação de contexto estendido para filtrar falsas causalidades no patch.
+* **Onde é Superior**:
+  - Em correções extensas com múltiplos blocos de código deletados, ranqueando com probabilidade semântica qual bloco continha a causa raiz da falha antes de invocar o rastreador de versão.
 
----
+### 3.3 AgentSZZ (Risse & Böhme, IEEE/ACM ASE 2026)
+* **Contribuição Original**: Agente autônomo baseado no paradigma ReAct que atua como um "detetive", formulando consultas dinâmicas de `git log` e `git diff` para inspecionar causalmente o histórico.
+* **Onde é Superior**:
+  - Em falhas complexas multi-arquivo e bugs arquiteturais que cruzam vários componentes do sistema (cenário muito comum no Apache Flink).
 
-### 🔬 Pesquisa 6 — JIT-Smart & JIT-Defect4J (Xiangping Chen et al., ACM FSE 2024 / Chao Ni et al., ESEC/FSE 2022)
-* **O que agrega tecnicamente**:
-  - **Fusão Multimodal Semântica + Especialista no Nível de Commit (`CodeBERT` + 14 Expert Features)**: Une o vetor contextual `<s>` ($d=768$) do `microsoft/codebert-base` (RoBERTa 12-layer) com a projeção densa não-linear $\tanh(\text{Linear}_{14 \to 768}(f_{\text{expert}}))$ das 14 métricas de Kamei (`RobertaClassificationHead`).
-  - **Defect Localization Network (`DLN` / `HAN_MODEL` BiLSTM) Supervisionada por Rótulos de Linha**: Supera a localização post-hoc cega baseada em atenção do `JIT-Fine` ao introduzir uma rede BiLSTM hierárquica de duas camadas (nível de palavra com agregação de atenção `need_aggregation=True` e nível de linha sem colapso dimensional `need_aggregation=False`), treinada diretamente com os rótulos reais de cada linha modificada (`line_label`).
-  - **Co-Otimização Multi-Tarefa com `MultiFocalLoss`**: Mitiga o desbalanceamento severo tanto no nível de commit quanto no nível de linha através da perda focal ponderada $\mathcal{L}_{\text{total}} = 0.3\mathcal{L}_{\text{Focal}}(z_{\text{fused}}, y_{\text{commit}}) + 0.7\mathcal{L}_{\text{Focal}}(z_{\text{han}}, y_{\text{line}})$ ($\alpha=0.25, \gamma=2.0$) e da fusão de logits $z_{\text{fused}} = \frac{1}{2}(z_{\text{commit}} + \overline{z}_{\text{han}})$, reduzindo drasticamente os alarmes falsos iniciais (`IFA`: de $96.618$ no CodeBERT isolado para patamares sub-unitários na DLN) e estabelecendo o estado da arte no benchmark **JIT-Defect4J** (21 projetos Java).
+### 3.4 Prompt-SZZ / CoT-SZZ (Baseline Canônico de Raciocínio)
+* **Contribuição Original**: Aplicação de *Chain-of-Thought (CoT)* e *Zero-Shot Reasoning* direto sobre o diff unificado da correção e a mensagem do commit.
+* **Onde é Superior**:
+  - Como linha de base ágil e econômica para quantificar o ganho marginal de abordagens baseadas em agentes multi-turn (*AgentSZZ*) versus inferência direta em etapa única.

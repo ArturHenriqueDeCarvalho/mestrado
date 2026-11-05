@@ -130,3 +130,55 @@ Este documento registra formalmente todas as escolhas, adaptações, critérios 
 * **Pesquisas Afetadas**: Todas as 6 pesquisas (`01-llm-szz` a `06-jit-smart`).
 * **Impacto na Escrita do Artigo (Seções Afetadas)**:
   - *Metodologia / Procedimentos Experimentais*, *Reprodutibilidade e Pacote de Replicação (Artifact Badging)*.
+
+---
+
+### DEC-008: Descontinuação de CC2Vec e JIT-Smart e Consolidação Exclusiva em Derivações do SZZ
+
+* **Data**: 05/11/2026
+* **Decisão Metodológica**:
+  - Descontinuar formalmente as pesquisas `05-cc2vec` e `06-jit-smart` da esteira principal da pesquisa de Mestrado e da redação do artigo científico da banca.
+  - O escopo científico passa a ser **100% restrito a algoritmos e derivações do SZZ (identificação e rastreamento de commits indutores de bugs e vulnerabilidades de segurança - Bug/Vulnerability-Inducing Commit Identification)**.
+  - O repositório e seus agentes adotam uma matriz comparativa com **10 Algoritmos SZZ** e **10 Bases de Dados Empíricas com oráculos científicos conhecidos**, contemplando obrigatoriamente **4 abordagens baseadas em Modelos de Linguagem Grandes (LLMs)**.
+* **Motivo & Racional Científico**:
+  1. **Coerência Epistemológica**: Evita dispersão temática entre tarefas de predição/classificação Just-in-Time tradicional (JIT-DP/JIT-DL) e a tarefa estrita de localização causal de indução de falhas (SZZ).
+  2. **Alinhamento com a Banca Examinadora**: Atende à orientação direta do professor orientador para avaliar em profundidade as famílias do SZZ.
+* **Pesquisas Afetadas**: Pesquisa 5 (`CC2Vec`) e Pesquisa 6 (`JIT-Smart`), transferidas para arquivo histórico (`legacy/`).
+* **Impacto na Escrita do Artigo**:
+  - *Introdução*, *Trabalhos Relacionados*, *Taxonomia de SZZ* e *Questões de Pesquisa (RQ1, RQ2, RQ3)*.
+
+---
+
+### DEC-009: Seleção do Apache Flink como Base de Código Unificada de Grande Porte para Benchmark Pareado
+
+* **Data**: 05/11/2026
+* **Decisão Metodológica**:
+  - Adotar o repositório oficial do **Apache Flink** (`apache/flink`) como a base de código unificada para executar, calibrar e confrontar lado a lado todos os 10 algoritmos SZZ.
+  - Para conciliar o grande volume do projeto (~35.000+ commits) com o rigor de execução local sem sobrecarga de armazenamento (`DEC-001` e `DEC-002`), o clone será realizado em modo *blobless* (`git clone --filter=blob:none https://github.com/apache/flink.git`).
+* **Motivo & Racional Científico**:
+  1. **Complexidade e Relevância Industrial**: O Apache Flink é um sistema distribuído de grande porte em Java, com histórico evolutivo maduro, frequentes refatorações estruturais de API e dezenas de vulnerabilidades CVEs documentadas no NVD.
+  2. **Discriminação de Desempenho**: Fornece o cenário empírico perfeito para demonstrar onde os métodos heurísticos falham por ruído e onde as abordagens sintáticas (AST/Refatoração) e os agentes de LLM desambiguam a causa raiz.
+* **Pesquisas Afetadas**: Todos os 10 Algoritmos SZZ.
+* **Impacto na Escrita do Artigo**:
+  - *Metodologia / Objeto de Estudo (Subject System)* e *Resultados Empíricos*.
+
+---
+
+### DEC-010: Definição da Matriz Experimental 10x10 com 4 Variantes LLM-SZZ e Oráculos de Ground Truth
+
+* **Data**: 05/11/2026
+* **Decisão Metodológica**:
+  - Estruturar a avaliação comparativa cruzada em 10 algoritmos SZZ divididos em 3 famílias:
+    1. *Heurísticos Tradicionais*: `B-SZZ` (FSE 2005), `AG-SZZ` (ASE 2006), `MA-SZZ` (EMSE 2017).
+    2. *Sintáticos e Refatoração*: `L-SZZ` (ICSE 2021), `RA-SZZ` (TSE 2021), `SZZ Unleashed` (ESEM 2019).
+    3. *Baseados em LLMs*: `LLM-SZZ` (FSE 2024), `LLM4SZZ` (2025), `AgentSZZ` (ASE 2026), `Prompt-SZZ / CoT` (Baseline).
+  - Avaliar o desempenho contra 10 bases com oráculos conhecidos da literatura:
+    - 5 Projetos Apache do SZZ-TSE (ActiveMQ, Camel, Derby, HBase, Hadoop Common) com oráculo `RA-SZZ`;
+    - Jenkins Core (SZZ Unleashed / JGit Oracle);
+    - Developer-Informed Oracle DIO (1.930 commits validados por humanos);
+    - 3 Benchmarks de Segurança (CVE C/C++, CVE Java, VICBench/VulnCommit).
+* **Motivo & Racional Científico**:
+  Garantir comparabilidade científica direta e rigorosa com as publicações arbitrais originais de cada método.
+* **Pesquisas Afetadas**: Todos os 10 algoritmos.
+* **Impacto na Escrita do Artigo**:
+  - *Desenho Experimental*, *Ameaças à Validade* e *Discussão Comparativa*.
