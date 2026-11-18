@@ -1,6 +1,6 @@
 # Arquitetura de Software e Diagnóstico de Ambiente — SZZ Unleashed (Pesquisa 3)
 
-## 1. Diagrama dos 4 Subsistemas (`repos/03-szz-unleashed/`)
+## 1. Diagrama dos 4 Subsistemas (`repos/06-szz-unleashed/`)
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -44,5 +44,5 @@
 
 ## 2. Diagnóstico Crítico de Build Java (`szz/build.gradle`)
 
-- **FatJar Pré-Compilado Disponível**: O repositório já inclui o binário pronto em [`examples/data/jars/szz_find_bug_introducers-0.1.jar`](file:///home/artur-carvalho/mestrado/repos/03-szz-unleashed/examples/data/jars/szz_find_bug_introducers-0.1.jar) (4,6 MB), que embute todas as bibliotecas (`org.eclipse.jgit`, `java-string-similarity`, `commons-cli`, `json-simple`, `slf4j`).
+- **FatJar Pré-Compilado Disponível**: O repositório já inclui o binário pronto em [`examples/data/jars/szz_find_bug_introducers-0.1.jar`](file:///home/artur-carvalho/mestrado/repos/06-szz-unleashed/examples/data/jars/szz_find_bug_introducers-0.1.jar) (4,6 MB), que embute todas as bibliotecas (`org.eclipse.jgit`, `java-string-similarity`, `commons-cli`, `json-simple`, `slf4j`).
 - **Caso seja necessário recompilar `szz/`**: O arquivo `szz/build.gradle` original declara `jcenter()` (descontinuado pela JFrog em 2021) e a diretiva `compile` (substituída por `implementation` no Gradle 7+). Para recompilar código Java modificado, substitua `jcenter()` por `mavenCentral()`.

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Setup e Verificação do Ambiente Isolado: Pesquisa 4 (SZZ-TSE)
-# Local: /home/artur-carvalho/mestrado/repos/04-szz-tse/.venv-szz-tse
+# Local: /home/artur-carvalho/mestrado/repos/05-raszz/.venv-szz-tse
 # ==============================================================================
 set -euo pipefail
 
-REPO_DIR="/home/artur-carvalho/mestrado/repos/04-szz-tse"
+REPO_DIR="/home/artur-carvalho/mestrado/repos/05-raszz"
 VENV_DIR="${REPO_DIR}/.venv-szz-tse"
 UV_BIN="${HOME}/.local/bin/uv"
 

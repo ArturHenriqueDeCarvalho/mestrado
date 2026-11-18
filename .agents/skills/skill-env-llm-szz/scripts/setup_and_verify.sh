@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_DIR="/home/artur-carvalho/mestrado/repos/01-llm-szz"
+REPO_DIR="/home/artur-carvalho/mestrado/repos/07-llm-szz"
 VENV_DIR="${REPO_DIR}/.venv-llm-szz"
 
 echo "=================================================================="
@@ -27,7 +27,7 @@ echo "[3/4] Validando integridade dos arquivos de Oráculo CVE em data/..."
 python3 - << 'EOF'
 import json, os
 
-data_dir = "/home/artur-carvalho/mestrado/repos/01-llm-szz/data"
+data_dir = "/home/artur-carvalho/mestrado/repos/07-llm-szz/data"
 for fname in ["verified_cve_with_versions_C.json", "verified_cve_with_versions_Java.json", "label.json"]:
     fpath = os.path.join(data_dir, fname)
     assert os.path.exists(fpath), f"Arquivo ausente: {fpath}"

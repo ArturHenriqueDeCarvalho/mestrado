@@ -1,6 +1,6 @@
 # Arquitetura de Software e Diagnóstico de Ambiente — PySZZ v2 (Pesquisa 2)
 
-## 1. Hierarquia de Classes Orientada a Objetos (`repos/02-pyszz-v2/szz/`)
+## 1. Hierarquia de Classes Orientada a Objetos (`repos/04-lszz/szz/`)
 
 ```
                             +-----------------------------+

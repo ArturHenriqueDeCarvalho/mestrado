@@ -1,6 +1,6 @@
 # Arquitetura de Software e Diagnóstico de Ambiente — SZZ-TSE (Pesquisa 4)
 
-## 1. Diagrama da Arquitetura Experimental (`repos/04-szz-tse/`)
+## 1. Diagrama da Arquitetura Experimental (`repos/05-raszz/`)
 
 ```
 +-----------------------------------------------------------------------------------+

@@ -182,3 +182,30 @@ Este documento registra formalmente todas as escolhas, adaptações, critérios 
 * **Pesquisas Afetadas**: Todos os 10 algoritmos.
 * **Impacto na Escrita do Artigo**:
   - *Desenho Experimental*, *Ameaças à Validade* e *Discussão Comparativa*.
+
+
+---
+
+### DEC-011: Curadoria Científica Estratificada do Apache Flink (Estratos E1–E5), Oráculo Developer-Informed Flink e Simetria Arquitetural 01–10
+
+* **Data**: 18/11/2026
+* **Decisão Metodológica**:
+  1. **Saneamento Arquitetural e Simetria Canônica (`00` a `10`)**:
+     - Expurgar definitivamente do repositório principal todas as pastas legadas e duplicadas (`repos/legacy/`, `.agents/legacy/`, `repos/01-llm-szz`, `repos/02-pyszz-v2`, `repos/03-szz-unleashed`, `repos/04-szz-tse`), consolidando a numeração unívoca `01-bszz` a `10-promptszz` (mais `00-flink`) em `repos/`, `papers/`, `docs/01-fichas-individuais/` (`01-ficha-bszz.md` a `10-ficha-promptszz.md`), `.agents/agents/` (`expert-01-bszz` a `expert-10-promptszz`) e `experiments/`.
+  2. **Higienização Estrita de Código de Produção Java no Apache Flink (Prevenção de Viés de Construção)**:
+     - Filtrar os 3.240 commits brutos de bug-fix do Apache Flink para reter exclusivamente commits que modificam pelo menos 1 arquivo `.java` de produção (excluindo commits exclusivos de documentação `.md`, scripts `.py`/`.scala` e arquivos exclusivos de teste `*Test.java` / `*ITCase.java`), garantindo compatibilidade total e isonomia com `RA-SZZ` (`RefactoringMiner 2.0`) e `L-SZZ` (`srcML 1.2.0`).
+  3. **Construção do Oráculo Flink (*Developer-Informed & CVE Ground Truth*) e Estratificação em 5 Cenários de Estresse (`E1` a `E5`)**:
+     - Extrair diretamente do histórico evolutivo do `apache/flink` os commits de correção cujo autor declarou explicitamente a causa raiz/regressão (*"introduced in/by"*, *"caused by"*, *"regression"*, *"revert FLINK-..."*), resolvendo o vínculo para o hash SHA-1 exato do commit indutor verdadeiro (*Ground Truth*).
+     - Estratificar o benchmark em 5 cenários ortogonais para evitar a diluição estatística do ponto forte de cada família:
+       - **E1**: Bugs Atômicos & Diretos (1 arquivo `.java`, $\le 5$ linhas deletadas);
+       - **E2**: Ruído Cosmético, Javadoc & Anotações (`@Override`, comentários, formatação);
+       - **E3**: Refatorações Estruturais & Evolução Multi-Salto (*Extract/Rename/Move Method*);
+       - **E4**: *Tangled Commits* (Patches multi-propósito com múltiplos arquivos/métodos);
+       - **E5**: Correções por Adição Pura (*Add-Only Fixes*, $0$ linhas deletadas) e Bugs Multi-Arquivo.
+  4. **Pré-Hidratação Local de Blobs Git**:
+     - Executar `git fetch` em lote dos blobs associados aos commits e pais do benchmark estratificado do Flink para viabilizar execução 100% offline e livre de `MissingObjectException` no Eclipse JGit (`06-szz-unleashed`) e no `RefactoringMiner 2.0` (`05-raszz`).
+* **Motivo & Racional Científico**:
+  Blindar o desenho experimental contra ameaças à validade interna e de construção, permitindo avaliar simultaneamente **Eficácia contra Oráculo (`Precision`, `Recall`, `F1`, `UTP`)**, **Concordância Inter-Algoritmos (`Jaccard`, `Szymkiewicz-Simpson`, `Kappa`)** e **Esforço Desperdiçado (`Wasted Effort LOC`)** por estrato tecnológico.
+* **Pesquisas Afetadas**: Todos os 10 Algoritmos SZZ (`01-bszz` a `10-promptszz`) e a base `00-flink`.
+* **Impacto na Escrita do Artigo**:
+  - *Desenho Experimental*, *Protocolo de Curadoria de Dados*, *Resultados por Estrato (RQ1–RQ3)* e *Ameaças à Validade*.

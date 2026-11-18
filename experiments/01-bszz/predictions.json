@@ -1,0 +1,688 @@
+{
+  "algorithm_id": "01-bszz",
+  "algorithm_name": "B-SZZ (\u015aliwerski et al., FSE 2005)",
+  "family": "Heuristic",
+  "benchmark": "apache/flink",
+  "results": [
+    {
+      "fix_commit_hash": "0d0c185c7c29bef472c3755a4e395748dec5eaec",
+      "issue_id": "FLINK-37158",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "6099697b501d58d08deb9154f77cb81e46117fd6"
+      ],
+      "predicted_bics": [
+        "6099697b501d58d08deb9154f77cb81e46117fd6"
+      ],
+      "latency_sec": 0.0159,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "46db92641602313c4f5c1390807222c344880e2d",
+      "issue_id": "FLINK-34954",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "39779829b8853c61c9da9eaf193f0fedf5857f7b"
+      ],
+      "predicted_bics": [
+        "39779829b8853c61c9da9eaf193f0fedf5857f7b"
+      ],
+      "latency_sec": 0.0705,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "431f757aa3547833b3684f7e80dcc3ec8d2d8311",
+      "issue_id": "FLINK-19543",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "c3a6b514595ea3c1bf52126f6f1715b26c871ae9"
+      ],
+      "predicted_bics": [
+        "c6997c97c575d334679915c328792b8a3067cfb5"
+      ],
+      "latency_sec": 0.0413,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "141189fb1a6af566569c65e111461e64bd05e4c5",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "1cd880139d90c45933018d549d7a6f394f7eee80"
+      ],
+      "predicted_bics": [
+        "1cd880139d90c45933018d549d7a6f394f7eee80"
+      ],
+      "latency_sec": 0.038,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "6a6dfef228336c560671e6ce8af946e070b8a1d2",
+      "issue_id": "FLINK-23954",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
+      ],
+      "predicted_bics": [
+        "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
+      ],
+      "latency_sec": 0.0496,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "9588c5da3b8393b76c44acd23e4f8a349562e00b",
+      "issue_id": "FLINK-21178",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "816ce969df408dcaff52c6341be9299ffaa61805"
+      ],
+      "predicted_bics": [
+        "816ce969df408dcaff52c6341be9299ffaa61805"
+      ],
+      "latency_sec": 0.0203,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "e33fa27d3e2db1ee2eec5bd3dd331656a115ae50",
+      "issue_id": "FLINK-18500",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
+      ],
+      "predicted_bics": [
+        "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
+      ],
+      "latency_sec": 0.0453,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "89262012a86647ebc3658027e5690a242b2f0782",
+      "issue_id": "FLINK-20033",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "03047a78b6ad8017eb240548a009424d68ffc971"
+      ],
+      "predicted_bics": [
+        "eaaa174247097dce2dbe3b3812af0dc5aec990a0"
+      ],
+      "latency_sec": 0.0242,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "a064db81d422c2383d1131c67ac0bcc6b45058e7",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
+      ],
+      "predicted_bics": [
+        "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
+      ],
+      "latency_sec": 0.0575,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "d3fa2e5224a331ccdc9d141fe33f69977b8eedb5",
+      "issue_id": "FLINK-16945",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "288750a76f64269de7f5eb2aee72feb92b048036"
+      ],
+      "predicted_bics": [
+        "288750a76f64269de7f5eb2aee72feb92b048036"
+      ],
+      "latency_sec": 0.0177,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "95d640b832a91b05d6031dbb09086206369666d3",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "5fa389014a3ce40534703c8a5731c8a9a955058a"
+      ],
+      "predicted_bics": [
+        "5fa389014a3ce40534703c8a5731c8a9a955058a"
+      ],
+      "latency_sec": 0.016,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "81cf2296683a473db4061dd3bed0aeb249e05058",
+      "issue_id": "FLINK-4154",
+      "stratum": "E1",
+      "ground_truth_bics": [
+        "641a0d436c9b7a34ff33ceb370cf29962cac4dee"
+      ],
+      "predicted_bics": [
+        "760a0d9e7fd9fa88e9f7408b137d78df384d764f"
+      ],
+      "latency_sec": 0.0142,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "c09a21c82bc15ae9b515c49bbffee64f11ea6311",
+      "issue_id": "FLINK-39520",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "3aef0932ded1a1ece9943915c681e1fe33433700",
+        "4f192b3323891adb3b9b8dda7de62d14b901c570",
+        "cebc174ad5f86716aba5b54017269e7263b6dec0",
+        "d1914c63c95715086884fee20cfe08fe8388547b"
+      ],
+      "predicted_bics": [
+        "3aef0932ded1a1ece9943915c681e1fe33433700",
+        "9ce47b215fc0ceec92d90c5c719de7d58befb28b",
+        "cebc174ad5f86716aba5b54017269e7263b6dec0",
+        "d1914c63c95715086884fee20cfe08fe8388547b"
+      ],
+      "latency_sec": 0.0294,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "076fa80e3147d2d19f2f54af6b85fd63038fb6a0",
+      "issue_id": "FLINK-37158",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "0d0c185c7c29bef472c3755a4e395748dec5eaec"
+      ],
+      "predicted_bics": [
+        "0d0c185c7c29bef472c3755a4e395748dec5eaec",
+        "36eb336e4a623400a6bfdf1aab29723038e472a1"
+      ],
+      "latency_sec": 0.0851,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "77b03d94ab3857f80379ce6a6d10c142bddf72e5",
+      "issue_id": "FLINK-36585",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
+      ],
+      "predicted_bics": [
+        "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
+      ],
+      "latency_sec": 0.0309,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "99ad724f664155ed8a6298cf7f76bcebe5b17de4",
+      "issue_id": "FLINK-33668",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
+      ],
+      "predicted_bics": [
+        "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
+      ],
+      "latency_sec": 0.0169,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "974f884021ea0587ffa029b997a76487e9911a36",
+      "issue_id": "FLINK-30166",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "1a7a83b9639a07a7dd1dd324f669fb04a522c3e1",
+        "1ac202dd8c21a9362611f45b6de2773699790acf",
+        "21c44c0863b52090a49da46ed228d3de18799506",
+        "24a133c7bda0b07bbae166db6e92435117071f84",
+        "3ef68ae2d3b0be58d9c015a260c668a3c4723d97",
+        "440a275cad1092be7245f0438b7e5b5b1691f708",
+        "88c450b458e2f53f132d7f51cfd7771cc54fc072",
+        "cd54dfef4fc2c6f97f6e1ff3c0580a47641158a0"
+      ],
+      "predicted_bics": [
+        "440a275cad1092be7245f0438b7e5b5b1691f708",
+        "88c450b458e2f53f132d7f51cfd7771cc54fc072"
+      ],
+      "latency_sec": 0.0837,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "fa199c1b51455ecb44c1869154f9452facd43403",
+      "issue_id": "FLINK-19869",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
+      ],
+      "predicted_bics": [
+        "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
+      ],
+      "latency_sec": 0.0828,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "d212b83fddb53f2ec0363b6c08cd3cabb3c02990",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
+      ],
+      "predicted_bics": [
+        "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
+      ],
+      "latency_sec": 0.0615,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "cb478fb751dbe28405152707040f9126b5a5269b",
+      "issue_id": "FLINK-25885",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
+      ],
+      "predicted_bics": [
+        "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
+      ],
+      "latency_sec": 0.0337,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "67150da3ffa64064f2481f68c15109456c16c41e",
+      "issue_id": "FLINK-23759",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "45d87361cbb6ab36956ddaa4c142ffa2249d1400"
+      ],
+      "predicted_bics": [
+        "45d87361cbb6ab36956ddaa4c142ffa2249d1400",
+        "4987190b66040a78bdc4b488f45c9f71f027f460"
+      ],
+      "latency_sec": 0.0432,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "b62382e634015733754b05c2ad351d9748ced2fb",
+      "issue_id": "FLINK-23434",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
+      ],
+      "predicted_bics": [
+        "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
+      ],
+      "latency_sec": 0.0533,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "208126aa242c4e217be493140aefcf16c3c3aba9",
+      "issue_id": "FLINK-14076",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
+      ],
+      "predicted_bics": [
+        "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
+      ],
+      "latency_sec": 0.0671,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "73e0e5c6712fd4653040e939cf788a72f7591199",
+      "issue_id": "FLINK-19086",
+      "stratum": "E2",
+      "ground_truth_bics": [
+        "162e3ead63e5766cf2116af09922a88537889e53"
+      ],
+      "predicted_bics": [
+        "162e3ead63e5766cf2116af09922a88537889e53"
+      ],
+      "latency_sec": 0.0371,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "aff06f86705abbe70723a28e336dd8d6d8fecd93",
+      "issue_id": "FLINK-39977",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "85d60af8b4413c2d223982bf7bc1e17f0cfedae6"
+      ],
+      "predicted_bics": [
+        "85d60af8b4413c2d223982bf7bc1e17f0cfedae6"
+      ],
+      "latency_sec": 0.1091,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "02032e2efb138b9e3c588337714e6c2f64ff2499",
+      "issue_id": "FLINK-33668",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "4171b980717e5dc313d781210a5bbfd35449ee50"
+      ],
+      "predicted_bics": [
+        "4171b980717e5dc313d781210a5bbfd35449ee50"
+      ],
+      "latency_sec": 0.0246,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "fcc7bc2e5e529b135aee28d732b8c5a6769afdae",
+      "issue_id": "FLINK-33523",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "a6adbdda0cdf90635f0cd7a3427486bced301fbd"
+      ],
+      "predicted_bics": [
+        "a6adbdda0cdf90635f0cd7a3427486bced301fbd"
+      ],
+      "latency_sec": 0.0534,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "593cc139ab30bb81ab38d94b7b697d00eaaecada",
+      "issue_id": "FLINK-30513",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "13779ab8e4f5539ca311d9f233d031d818af6450"
+      ],
+      "predicted_bics": [
+        "13779ab8e4f5539ca311d9f233d031d818af6450"
+      ],
+      "latency_sec": 0.0453,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "e3cd3b311c1c8a6a0e0cdc849d7c951ef8beea5c",
+      "issue_id": "FLINK-30878",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7"
+      ],
+      "predicted_bics": [
+        "fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7"
+      ],
+      "latency_sec": 0.0945,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "b878f54d54bbf1b8f966924e3d1dab8c23f7c628",
+      "issue_id": "FLINK-20169",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "fada6fb6ac9fd7f6510f1f2d77b6baa06563e222"
+      ],
+      "predicted_bics": [
+        "0e281f75386fad5fb2c0c3b10e246b37d02e432d"
+      ],
+      "latency_sec": 0.0321,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "73afe2be8b75913246193607472026415a16a175",
+      "issue_id": "FLINK-17869",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "24ff415f1b76392f75dea7c3538558d24fcb7058"
+      ],
+      "predicted_bics": [
+        "24ff415f1b76392f75dea7c3538558d24fcb7058",
+        "82a13db052cba122eea6e1a8645a7c02c78e4201"
+      ],
+      "latency_sec": 0.0326,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "840a4d954233f8769a54ac2ada5d34a5ef80c82d",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "463dc8b9cab99d6d5df07ec0e593843885e3ac72"
+      ],
+      "predicted_bics": [
+        "463dc8b9cab99d6d5df07ec0e593843885e3ac72"
+      ],
+      "latency_sec": 0.0179,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "f52899a00affcf56bfa4905c23e975d51031e72b",
+      "issue_id": "FLINK-17356",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "38ada4ad5ece2d28707e9403278133d8e5790ec0"
+      ],
+      "predicted_bics": [
+        "38ada4ad5ece2d28707e9403278133d8e5790ec0"
+      ],
+      "latency_sec": 0.0776,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "91932ccc0592f969dc7d264f2adaecfa0c65d3da",
+      "issue_id": "FLINK-17467",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "3af17562eb791e3f486c38dbd94dc3328309b262"
+      ],
+      "predicted_bics": [
+        "3af17562eb791e3f486c38dbd94dc3328309b262",
+        "fbec926d239ee7462059ab1cc43182d2e0a2a2ee"
+      ],
+      "latency_sec": 0.0362,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "1cc6c790e2b8139c921317bfc9cebe98393ba0e7",
+      "issue_id": "FLINK-16276",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "bd757cb2a29cc2d9046d39aee9684d5b2e5ec036"
+      ],
+      "predicted_bics": [
+        "bd757cb2a29cc2d9046d39aee9684d5b2e5ec036"
+      ],
+      "latency_sec": 0.0344,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "aacf0792bc1a39f3953724d2387ee668572b4b22",
+      "issue_id": "FLINK-15992",
+      "stratum": "E3",
+      "ground_truth_bics": [
+        "c6158648f851e185c86f2094cb2df785b64c28d3"
+      ],
+      "predicted_bics": [
+        "c6158648f851e185c86f2094cb2df785b64c28d3"
+      ],
+      "latency_sec": 0.0427,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "bb8599fa780a157085f972fdfc58fa6cba80e8a4",
+      "issue_id": "FLINK-39900",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "01a5a7f78b4b52417d19cf061a12e5cc110f16c0"
+      ],
+      "predicted_bics": [
+        "01a5a7f78b4b52417d19cf061a12e5cc110f16c0"
+      ],
+      "latency_sec": 0.0633,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "07a4ba9799c874450b4a3ef6b44de2d7c16e7abc",
+      "issue_id": "FLINK-40208",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85"
+      ],
+      "predicted_bics": [
+        "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85"
+      ],
+      "latency_sec": 0.2276,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85",
+      "issue_id": "FLINK-40208",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd"
+      ],
+      "predicted_bics": [
+        "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd"
+      ],
+      "latency_sec": 0.2022,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd",
+      "issue_id": "FLINK-40208",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "b198cddc893246626a1a577ea7d3b208a849a483"
+      ],
+      "predicted_bics": [
+        "b198cddc893246626a1a577ea7d3b208a849a483"
+      ],
+      "latency_sec": 0.2112,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "1779d20a28f5d43410138314fe3292d0e64f3148",
+      "issue_id": "FLINK-38928",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "743b9bd2b32149559983eb983c9ec0391a02fb9e"
+      ],
+      "predicted_bics": [
+        "743b9bd2b32149559983eb983c9ec0391a02fb9e"
+      ],
+      "latency_sec": 0.148,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "9ba5afc26057672fd0491bb3f3e50a55ce1c32b1",
+      "issue_id": "FLINK-36652",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "363a69dad3c22c9b7063f4eb9ba9ca17b930432a"
+      ],
+      "predicted_bics": [
+        "363a69dad3c22c9b7063f4eb9ba9ca17b930432a",
+        "c6997c97c575d334679915c328792b8a3067cfb5"
+      ],
+      "latency_sec": 0.7629,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "0b60bba6715991d3bc9332956ca6abfef983ca79",
+      "issue_id": "FLINK-33211",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "960363cd3c6c82f7e56ef781295756105f7b5eba"
+      ],
+      "predicted_bics": [
+        "960363cd3c6c82f7e56ef781295756105f7b5eba"
+      ],
+      "latency_sec": 0.1055,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "e9eabb16f2ce85f2d039b8c0e94d2a47b199e444",
+      "issue_id": "FLINK-35189",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "e3cda01cac737c97a104feae0e35da1eb91a8751"
+      ],
+      "predicted_bics": [
+        "e3cda01cac737c97a104feae0e35da1eb91a8751"
+      ],
+      "latency_sec": 0.0741,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "67d23fc45be45c02341a9cbd7dddea18ba40bca2",
+      "issue_id": "FLINK-33668",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "012b8936e119d1bfadadee3182cf86d25c6dd019"
+      ],
+      "predicted_bics": [
+        "012b8936e119d1bfadadee3182cf86d25c6dd019",
+        "4171b980717e5dc313d781210a5bbfd35449ee50"
+      ],
+      "latency_sec": 0.1856,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "eaef742964aa3adb04936b4803acf97f9bafeb21",
+      "issue_id": "FLINK-33668",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "2e257896661ad5e0dca521fa274cad3a0bae7a61"
+      ],
+      "predicted_bics": [
+        "2e257896661ad5e0dca521fa274cad3a0bae7a61"
+      ],
+      "latency_sec": 0.3441,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "64c54e8776a3addb7ed9ba103ccadebce1a6c5e4",
+      "issue_id": "FLINK-33668",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "88138d08e731d3084d59bf14cc2fb51bdf4afbd8"
+      ],
+      "predicted_bics": [
+        "1d62a358719266385773506b5a29af0371f36834",
+        "23fa2aeb01861a6f8b85f911c5a3f989a1f75898",
+        "32b563dd29c5b08e4574773815c014c1c0cca12e"
+      ],
+      "latency_sec": 0.0697,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "af1c8605d4cc294fb01ad13f13d662417b8a0893",
+      "issue_id": "FLINK-33668",
+      "stratum": "E4",
+      "ground_truth_bics": [
+        "ac2ec3496400b594ffe5c711bc1b6343999a8479"
+      ],
+      "predicted_bics": [
+        "68a84fd02fb8e288ff7605073f55834468dcf53a",
+        "ac2ec3496400b594ffe5c711bc1b6343999a8479"
+      ],
+      "latency_sec": 0.0918,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "334e01f0a48d38508abcd1096c44806d9739d88e",
+      "issue_id": "FLINK-39616",
+      "stratum": "E5",
+      "ground_truth_bics": [
+        "3afaa8cf645e39559b5e01d8ef2ae143846b161a"
+      ],
+      "predicted_bics": [],
+      "latency_sec": 0.075,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "a6b586aaa49e10a9793b58fee5e92ba5bc098959",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E5",
+      "ground_truth_bics": [
+        "a1473daaffbab7cf7abc974fadb634408eeb3db7"
+      ],
+      "predicted_bics": [],
+      "latency_sec": 0.0469,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    },
+    {
+      "fix_commit_hash": "aaba4e82d4e7fb7060cb9d3254046dc00b68099a",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E5",
+      "ground_truth_bics": [
+        "5f38f91a602201c4f52ac8febe13f9d72367a8c5"
+      ],
+      "predicted_bics": [],
+      "latency_sec": 0.0218,
+      "reasoning_or_metadata": "Raw git blame on all deleted lines"
+    }
+  ]
+}

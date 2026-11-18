@@ -1,6 +1,6 @@
 # Arquitetura de Software e Diagnóstico de Ambiente — LLM-SZZ (Pesquisa 1)
 
-## 1. Diagrama de Arquitetura de Software (`repos/01-llm-szz/`)
+## 1. Diagrama de Arquitetura de Software (`repos/07-llm-szz/`)
 
 ```
 +-----------------------------------------------------------------------------------+

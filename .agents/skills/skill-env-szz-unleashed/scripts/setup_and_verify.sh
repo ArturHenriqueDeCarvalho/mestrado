@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_DIR="/home/artur-carvalho/mestrado/repos/03-szz-unleashed"
+REPO_DIR="/home/artur-carvalho/mestrado/repos/06-szz-unleashed"
 VENV_DIR="${REPO_DIR}/.venv-szz-unleashed"
 JAR_PATH="${REPO_DIR}/examples/data/jars/szz_find_bug_introducers-0.1.jar"
 
@@ -37,7 +37,7 @@ echo "[4/4] Validando artefatos JSON do estudo Jenkins em examples/data/..."
 python3 - << 'EOF'
 import json, os
 
-base = "/home/artur-carvalho/mestrado/repos/03-szz-unleashed/examples/data"
+base = "/home/artur-carvalho/mestrado/repos/06-szz-unleashed/examples/data"
 for fname in ["issue_list.json", "gitlog.json", "fix_and_introducers_pairs.json"]:
     fpath = os.path.join(base, fname)
     assert os.path.exists(fpath), f"Ausente: {fpath}"

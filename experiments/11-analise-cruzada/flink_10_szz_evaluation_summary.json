@@ -1,0 +1,492 @@
+{
+  "global_metrics": {
+    "01-bszz": {
+      "tp": 46,
+      "fp": 15,
+      "fn": 15,
+      "precision": 0.7541,
+      "recall": 0.7541,
+      "f1": 0.7541,
+      "wasted_effort_loc": 720,
+      "avg_latency_sec": 0.0836,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 0
+    },
+    "02-agszz": {
+      "tp": 45,
+      "fp": 14,
+      "fn": 16,
+      "precision": 0.7627,
+      "recall": 0.7377,
+      "f1": 0.75,
+      "wasted_effort_loc": 672,
+      "avg_latency_sec": 0.0836,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 0
+    },
+    "03-maszz": {
+      "tp": 45,
+      "fp": 13,
+      "fn": 16,
+      "precision": 0.7759,
+      "recall": 0.7377,
+      "f1": 0.7563,
+      "wasted_effort_loc": 624,
+      "avg_latency_sec": 0.0836,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 0
+    },
+    "04-lszz": {
+      "tp": 41,
+      "fp": 6,
+      "fn": 20,
+      "precision": 0.8723,
+      "recall": 0.6721,
+      "f1": 0.7593,
+      "wasted_effort_loc": 288,
+      "avg_latency_sec": 0.0836,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 0
+    },
+    "05-raszz": {
+      "tp": 36,
+      "fp": 11,
+      "fn": 25,
+      "precision": 0.766,
+      "recall": 0.5902,
+      "f1": 0.6667,
+      "wasted_effort_loc": 528,
+      "avg_latency_sec": 0.0836,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 0
+    },
+    "06-szz-unleashed": {
+      "tp": 45,
+      "fp": 15,
+      "fn": 16,
+      "precision": 0.75,
+      "recall": 0.7377,
+      "f1": 0.7438,
+      "wasted_effort_loc": 720,
+      "avg_latency_sec": 0.0836,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 0
+    },
+    "07-llm-szz": {
+      "tp": 46,
+      "fp": 4,
+      "fn": 15,
+      "precision": 0.92,
+      "recall": 0.7541,
+      "f1": 0.8288,
+      "wasted_effort_loc": 192,
+      "avg_latency_sec": 0.5331,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 5
+    },
+    "08-llm4szz": {
+      "tp": 50,
+      "fp": 1,
+      "fn": 11,
+      "precision": 0.9804,
+      "recall": 0.8197,
+      "f1": 0.8929,
+      "wasted_effort_loc": 48,
+      "avg_latency_sec": 0.3807,
+      "utp_strict": 1,
+      "utp_vs_heuristic": 8
+    },
+    "09-agentszz": {
+      "tp": 46,
+      "fp": 5,
+      "fn": 15,
+      "precision": 0.902,
+      "recall": 0.7541,
+      "f1": 0.8214,
+      "wasted_effort_loc": 240,
+      "avg_latency_sec": 0.4802,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 7
+    },
+    "10-promptszz": {
+      "tp": 48,
+      "fp": 3,
+      "fn": 13,
+      "precision": 0.9412,
+      "recall": 0.7869,
+      "f1": 0.8571,
+      "wasted_effort_loc": 144,
+      "avg_latency_sec": 0.2428,
+      "utp_strict": 0,
+      "utp_vs_heuristic": 5
+    }
+  },
+  "strata_f1": {
+    "E1": {
+      "01-bszz": 0.75,
+      "02-agszz": 0.75,
+      "03-maszz": 0.75,
+      "04-lszz": 0.75,
+      "05-raszz": 0.6667,
+      "06-szz-unleashed": 0.75,
+      "07-llm-szz": 0.9565,
+      "08-llm4szz": 1.0,
+      "09-agentszz": 0.9167,
+      "10-promptszz": 0.8333
+    },
+    "E2": {
+      "01-bszz": 0.75,
+      "02-agszz": 0.75,
+      "03-maszz": 0.75,
+      "04-lszz": 0.6471,
+      "05-raszz": 0.5882,
+      "06-szz-unleashed": 0.7317,
+      "07-llm-szz": 0.6471,
+      "08-llm4szz": 0.7059,
+      "09-agentszz": 0.7059,
+      "10-promptszz": 0.7059
+    },
+    "E3": {
+      "01-bszz": 0.8462,
+      "02-agszz": 0.8462,
+      "03-maszz": 0.8462,
+      "04-lszz": 0.9167,
+      "05-raszz": 0.75,
+      "06-szz-unleashed": 0.8462,
+      "07-llm-szz": 1.0,
+      "08-llm4szz": 1.0,
+      "09-agentszz": 0.8333,
+      "10-promptszz": 1.0
+    },
+    "E4": {
+      "01-bszz": 0.7586,
+      "02-agszz": 0.7407,
+      "03-maszz": 0.7692,
+      "04-lszz": 0.8696,
+      "05-raszz": 0.7826,
+      "06-szz-unleashed": 0.7407,
+      "07-llm-szz": 0.9167,
+      "08-llm4szz": 0.9167,
+      "09-agentszz": 0.8333,
+      "10-promptszz": 0.9167
+    },
+    "E5": {
+      "01-bszz": 0.0,
+      "02-agszz": 0.0,
+      "03-maszz": 0.0,
+      "04-lszz": 0.0,
+      "05-raszz": 0.0,
+      "06-szz-unleashed": 0.0,
+      "07-llm-szz": 0.3333,
+      "08-llm4szz": 1.0,
+      "09-agentszz": 1.0,
+      "10-promptszz": 1.0
+    }
+  },
+  "jaccard_matrix": {
+    "01-bszz": {
+      "01-bszz": 1.0,
+      "02-agszz": 0.9672,
+      "03-maszz": 0.9194,
+      "04-lszz": 0.7419,
+      "05-raszz": 0.6119,
+      "06-szz-unleashed": 0.8333,
+      "07-llm-szz": 0.6087,
+      "08-llm4szz": 0.6,
+      "09-agentszz": 0.5556,
+      "10-promptszz": 0.6471
+    },
+    "02-agszz": {
+      "01-bszz": 0.9672,
+      "02-agszz": 1.0,
+      "03-maszz": 0.918,
+      "04-lszz": 0.7667,
+      "05-raszz": 0.6308,
+      "06-szz-unleashed": 0.8594,
+      "07-llm-szz": 0.6269,
+      "08-llm4szz": 0.5942,
+      "09-agentszz": 0.5714,
+      "10-promptszz": 0.6418
+    },
+    "03-maszz": {
+      "01-bszz": 0.9194,
+      "02-agszz": 0.918,
+      "03-maszz": 1.0,
+      "04-lszz": 0.7797,
+      "05-raszz": 0.6406,
+      "06-szz-unleashed": 0.873,
+      "07-llm-szz": 0.6364,
+      "08-llm4szz": 0.6029,
+      "09-agentszz": 0.5797,
+      "10-promptszz": 0.6515
+    },
+    "04-lszz": {
+      "01-bszz": 0.7419,
+      "02-agszz": 0.7667,
+      "03-maszz": 0.7797,
+      "04-lszz": 1.0,
+      "05-raszz": 0.8077,
+      "06-szz-unleashed": 0.7833,
+      "07-llm-szz": 0.7321,
+      "08-llm4szz": 0.6897,
+      "09-agentszz": 0.661,
+      "10-promptszz": 0.75
+    },
+    "05-raszz": {
+      "01-bszz": 0.6119,
+      "02-agszz": 0.6308,
+      "03-maszz": 0.6406,
+      "04-lszz": 0.8077,
+      "05-raszz": 1.0,
+      "06-szz-unleashed": 0.6462,
+      "07-llm-szz": 0.5902,
+      "08-llm4szz": 0.5806,
+      "09-agentszz": 0.6066,
+      "10-promptszz": 0.6066
+    },
+    "06-szz-unleashed": {
+      "01-bszz": 0.8333,
+      "02-agszz": 0.8594,
+      "03-maszz": 0.873,
+      "04-lszz": 0.7833,
+      "05-raszz": 0.6462,
+      "06-szz-unleashed": 1.0,
+      "07-llm-szz": 0.6176,
+      "08-llm4szz": 0.5857,
+      "09-agentszz": 0.5634,
+      "10-promptszz": 0.6324
+    },
+    "07-llm-szz": {
+      "01-bszz": 0.6087,
+      "02-agszz": 0.6269,
+      "03-maszz": 0.6364,
+      "04-lszz": 0.7321,
+      "05-raszz": 0.5902,
+      "06-szz-unleashed": 0.6176,
+      "07-llm-szz": 1.0,
+      "08-llm4szz": 0.7719,
+      "09-agentszz": 0.7414,
+      "10-promptszz": 0.7414
+    },
+    "08-llm4szz": {
+      "01-bszz": 0.6,
+      "02-agszz": 0.5942,
+      "03-maszz": 0.6029,
+      "04-lszz": 0.6897,
+      "05-raszz": 0.5806,
+      "06-szz-unleashed": 0.5857,
+      "07-llm-szz": 0.7719,
+      "08-llm4szz": 1.0,
+      "09-agentszz": 0.8214,
+      "10-promptszz": 0.8545
+    },
+    "09-agentszz": {
+      "01-bszz": 0.5556,
+      "02-agszz": 0.5714,
+      "03-maszz": 0.5797,
+      "04-lszz": 0.661,
+      "05-raszz": 0.6066,
+      "06-szz-unleashed": 0.5634,
+      "07-llm-szz": 0.7414,
+      "08-llm4szz": 0.8214,
+      "09-agentszz": 1.0,
+      "10-promptszz": 0.7586
+    },
+    "10-promptszz": {
+      "01-bszz": 0.6471,
+      "02-agszz": 0.6418,
+      "03-maszz": 0.6515,
+      "04-lszz": 0.75,
+      "05-raszz": 0.6066,
+      "06-szz-unleashed": 0.6324,
+      "07-llm-szz": 0.7414,
+      "08-llm4szz": 0.8545,
+      "09-agentszz": 0.7586,
+      "10-promptszz": 1.0
+    }
+  },
+  "simpson_matrix": {
+    "01-bszz": {
+      "01-bszz": 1.0,
+      "02-agszz": 1.0,
+      "03-maszz": 0.9828,
+      "04-lszz": 0.9787,
+      "05-raszz": 0.8723,
+      "06-szz-unleashed": 0.9167,
+      "07-llm-szz": 0.84,
+      "08-llm4szz": 0.8235,
+      "09-agentszz": 0.7843,
+      "10-promptszz": 0.8627
+    },
+    "02-agszz": {
+      "01-bszz": 1.0,
+      "02-agszz": 1.0,
+      "03-maszz": 0.9655,
+      "04-lszz": 0.9787,
+      "05-raszz": 0.8723,
+      "06-szz-unleashed": 0.9322,
+      "07-llm-szz": 0.84,
+      "08-llm4szz": 0.8039,
+      "09-agentszz": 0.7843,
+      "10-promptszz": 0.8431
+    },
+    "03-maszz": {
+      "01-bszz": 0.9828,
+      "02-agszz": 0.9655,
+      "03-maszz": 1.0,
+      "04-lszz": 0.9787,
+      "05-raszz": 0.8723,
+      "06-szz-unleashed": 0.9483,
+      "07-llm-szz": 0.84,
+      "08-llm4szz": 0.8039,
+      "09-agentszz": 0.7843,
+      "10-promptszz": 0.8431
+    },
+    "04-lszz": {
+      "01-bszz": 0.9787,
+      "02-agszz": 0.9787,
+      "03-maszz": 0.9787,
+      "04-lszz": 1.0,
+      "05-raszz": 0.8936,
+      "06-szz-unleashed": 1.0,
+      "07-llm-szz": 0.8723,
+      "08-llm4szz": 0.8511,
+      "09-agentszz": 0.8298,
+      "10-promptszz": 0.8936
+    },
+    "05-raszz": {
+      "01-bszz": 0.8723,
+      "02-agszz": 0.8723,
+      "03-maszz": 0.8723,
+      "04-lszz": 0.8936,
+      "05-raszz": 1.0,
+      "06-szz-unleashed": 0.8936,
+      "07-llm-szz": 0.766,
+      "08-llm4szz": 0.766,
+      "09-agentszz": 0.7872,
+      "10-promptszz": 0.7872
+    },
+    "06-szz-unleashed": {
+      "01-bszz": 0.9167,
+      "02-agszz": 0.9322,
+      "03-maszz": 0.9483,
+      "04-lszz": 1.0,
+      "05-raszz": 0.8936,
+      "06-szz-unleashed": 1.0,
+      "07-llm-szz": 0.84,
+      "08-llm4szz": 0.8039,
+      "09-agentszz": 0.7843,
+      "10-promptszz": 0.8431
+    },
+    "07-llm-szz": {
+      "01-bszz": 0.84,
+      "02-agszz": 0.84,
+      "03-maszz": 0.84,
+      "04-lszz": 0.8723,
+      "05-raszz": 0.766,
+      "06-szz-unleashed": 0.84,
+      "07-llm-szz": 1.0,
+      "08-llm4szz": 0.88,
+      "09-agentszz": 0.86,
+      "10-promptszz": 0.86
+    },
+    "08-llm4szz": {
+      "01-bszz": 0.8235,
+      "02-agszz": 0.8039,
+      "03-maszz": 0.8039,
+      "04-lszz": 0.8511,
+      "05-raszz": 0.766,
+      "06-szz-unleashed": 0.8039,
+      "07-llm-szz": 0.88,
+      "08-llm4szz": 1.0,
+      "09-agentszz": 0.902,
+      "10-promptszz": 0.9216
+    },
+    "09-agentszz": {
+      "01-bszz": 0.7843,
+      "02-agszz": 0.7843,
+      "03-maszz": 0.7843,
+      "04-lszz": 0.8298,
+      "05-raszz": 0.7872,
+      "06-szz-unleashed": 0.7843,
+      "07-llm-szz": 0.86,
+      "08-llm4szz": 0.902,
+      "09-agentszz": 1.0,
+      "10-promptszz": 0.8627
+    },
+    "10-promptszz": {
+      "01-bszz": 0.8627,
+      "02-agszz": 0.8431,
+      "03-maszz": 0.8431,
+      "04-lszz": 0.8936,
+      "05-raszz": 0.7872,
+      "06-szz-unleashed": 0.8431,
+      "07-llm-szz": 0.86,
+      "08-llm4szz": 0.9216,
+      "09-agentszz": 0.8627,
+      "10-promptszz": 1.0
+    }
+  },
+  "effect_sizes": {
+    "01-bszz": {
+      "vs_bszz_delta": 0.0,
+      "vs_bszz_magnitude": "negligible",
+      "vs_raszz_delta": 0.0323,
+      "vs_raszz_magnitude": "negligible"
+    },
+    "02-agszz": {
+      "vs_bszz_delta": -0.0231,
+      "vs_bszz_magnitude": "negligible",
+      "vs_raszz_delta": 0.0123,
+      "vs_raszz_magnitude": "negligible"
+    },
+    "03-maszz": {
+      "vs_bszz_delta": 0.01,
+      "vs_bszz_magnitude": "negligible",
+      "vs_raszz_delta": 0.0392,
+      "vs_raszz_magnitude": "negligible"
+    },
+    "04-lszz": {
+      "vs_bszz_delta": 0.0631,
+      "vs_bszz_magnitude": "negligible",
+      "vs_raszz_delta": 0.0857,
+      "vs_raszz_magnitude": "negligible"
+    },
+    "05-raszz": {
+      "vs_bszz_delta": -0.0323,
+      "vs_bszz_magnitude": "negligible",
+      "vs_raszz_delta": 0.0,
+      "vs_raszz_magnitude": "negligible"
+    },
+    "06-szz-unleashed": {
+      "vs_bszz_delta": -0.0396,
+      "vs_bszz_magnitude": "negligible",
+      "vs_raszz_delta": -0.0012,
+      "vs_raszz_magnitude": "negligible"
+    },
+    "07-llm-szz": {
+      "vs_bszz_delta": 0.1784,
+      "vs_bszz_magnitude": "small",
+      "vs_raszz_delta": 0.1857,
+      "vs_raszz_magnitude": "small"
+    },
+    "08-llm4szz": {
+      "vs_bszz_delta": 0.2707,
+      "vs_bszz_magnitude": "small",
+      "vs_raszz_delta": 0.2657,
+      "vs_raszz_magnitude": "small"
+    },
+    "09-agentszz": {
+      "vs_bszz_delta": 0.1784,
+      "vs_bszz_magnitude": "small",
+      "vs_raszz_delta": 0.1857,
+      "vs_raszz_magnitude": "small"
+    },
+    "10-promptszz": {
+      "vs_bszz_delta": 0.2245,
+      "vs_bszz_magnitude": "small",
+      "vs_raszz_delta": 0.2257,
+      "vs_raszz_magnitude": "small"
+    }
+  }
+}

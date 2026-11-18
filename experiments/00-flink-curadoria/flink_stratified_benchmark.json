@@ -1,0 +1,1545 @@
+[
+  {
+    "fix_commit_hash": "0d0c185c7c29bef472c3755a4e395748dec5eaec",
+    "parent_hash": "66913489fb380fa735e3511f5853314749445d8e",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-37158",
+    "author": "Yanfei Lei",
+    "date": "2025-03-13",
+    "message": "Revert \"[FLINK-37158][tests] Introduce ForSt to existing ITCases (#26000)\" (#26291)\nThis reverts commit 6099697b501d58d08deb9154f77cb81e46117fd6.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/sync/ForStSyncKeyedStateBackend.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 1,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "6099697b501d58d08deb9154f77cb81e46117fd6"
+    ],
+    "ground_truth_bics": [
+      "6099697b501d58d08deb9154f77cb81e46117fd6"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "46db92641602313c4f5c1390807222c344880e2d",
+    "parent_hash": "8b73ca955bcd796916597046dd8aa80407d0aa07",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-34954",
+    "author": "Rui Fan",
+    "date": "2024-04-23",
+    "message": "Revert \"[FLINK-34954][core] Kryo Input bug fix\"\nThis reverts commit 39779829b8853c61c9da9eaf193f0fedf5857f7b.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/api/java/typeutils/runtime/NoFetchingInput.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 8,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "39779829b8853c61c9da9eaf193f0fedf5857f7b"
+    ],
+    "ground_truth_bics": [
+      "39779829b8853c61c9da9eaf193f0fedf5857f7b"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "431f757aa3547833b3684f7e80dcc3ec8d2d8311",
+    "parent_hash": "69276df09721ee3e8a0894551b569c14ce96780f",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-19543",
+    "author": "Matthias Pohl",
+    "date": "2022-02-25",
+    "message": "[FLINK-26285] Fixes an inconsistency which was introduced by c3a6b51 as part of changes done for FLINK-19543\nThis issue never appeared because of the following reasons:\n- getAllAndLock is only called by the CompletedCheckpoint\n  recovery which happens during the recovery of a job (i.e.\n  after failover)\n- the removal happens through releaseAndTryRemove which can\n  be called in the following places:\n  - through DefaultCompletedCheckpointStore.addCheckpointAndSubsumeOldestOne\n    That happens after a job is already recovered and running\n  - through DefaultCompletedCheckpointStore.shutdown\n    ...where it's only called if the job reached a\n    globally-terminal state (i.e. it's not subject to\n    job recovery)\n  - through DefaultJobGraphStore.globalCleanupAsync\n    ...which is also only called on jobs that reached a\n    globally-terminal state (i.e. it's not subject to\n    job recovery)\n  - ZooKeeperStateHandleStore.releaseAndTryRemoveAll\n    ...which seems to be legacy code which is not used\n    anywhere in production, anymore. I'm leaving it here\n    because it might make sense to remove ZooKeeper\n    completely, anyway.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/zookeeper/ZooKeeperStateHandleStore.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 13,
+      "num_deleted_lines": 5,
+      "num_deleted_code_lines": 5,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "c3a6b514595ea3c1bf52126f6f1715b26c871ae9"
+    ],
+    "ground_truth_bics": [
+      "c3a6b514595ea3c1bf52126f6f1715b26c871ae9"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "141189fb1a6af566569c65e111461e64bd05e4c5",
+    "parent_hash": "d91b6678f6546530eade0ccba8085a0890cd0930",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "Chesnay Schepler",
+    "date": "2022-01-17",
+    "message": "Revert \"[hotfix] Add 1.15 to FlinkVersion\"\nThis reverts commit 1cd880139d90c45933018d549d7a6f394f7eee80.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-annotations/src/main/java/org/apache/flink/FlinkVersion.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 1,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "1cd880139d90c45933018d549d7a6f394f7eee80"
+    ],
+    "ground_truth_bics": [
+      "1cd880139d90c45933018d549d7a6f394f7eee80"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "6a6dfef228336c560671e6ce8af946e070b8a1d2",
+    "parent_hash": "401d7241c7e1eb432d988af3ef097dc5a633c9b4",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-23954",
+    "author": "Till Rohrmann",
+    "date": "2021-08-27",
+    "message": "Revert \"[FLINK-23954][e2e] Add debug logging to KvStateSerializer\"\nThis reverts commit 6a7b5e8079cfced519ac5e106f0fb7277131f8bd.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-queryable-state/flink-queryable-state-client-java/src/main/java/org/apache/flink/queryablestate/client/state/serialization/KvStateSerializer.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 0,
+      "num_deleted_lines": 6,
+      "num_deleted_code_lines": 6,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
+    ],
+    "ground_truth_bics": [
+      "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "9588c5da3b8393b76c44acd23e4f8a349562e00b",
+    "parent_hash": "57decce1e52127b800226daf0a4706496994d9bb",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-21178",
+    "author": "Jark Wu",
+    "date": "2021-03-03",
+    "message": "Revert \"[FLINK-21178][Runtime/Checkpointing] Task failure should trigger master hook's reset() (#14890)\"\nThis reverts commit 816ce969",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/CheckpointCoordinator.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "816ce969df408dcaff52c6341be9299ffaa61805"
+    ],
+    "ground_truth_bics": [
+      "816ce969df408dcaff52c6341be9299ffaa61805"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "e33fa27d3e2db1ee2eec5bd3dd331656a115ae50",
+    "parent_hash": "1909e933a7b9d6cbbbc7b79b6db62ebce041c136",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-18500",
+    "author": "godfreyhe",
+    "date": "2020-11-17",
+    "message": "Revert \"[FLINK-18500][table] Make the legacy planner exception more clear when resolving computed columns types for schema\"\nThis reverts commit 1909e933a7b9d6cbbbc7b79b6db62ebce041c136",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/ParserImpl.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 1,
+      "num_deleted_lines": 1,
+      "num_deleted_code_lines": 1,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
+    ],
+    "ground_truth_bics": [
+      "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "89262012a86647ebc3658027e5690a242b2f0782",
+    "parent_hash": "dea47d6b17fdd26920c1bfbb5aea24a7003a16be",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-20033",
+    "author": "Till Rohrmann",
+    "date": "2020-11-11",
+    "message": "Revert \"[FLINK-20033] Make JobManagerJobStatusListener call back run directly\"\nThis reverts commit 03047a78b6ad8017eb240548a009424d68ffc971.\n\nThis closes #14037.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/jobmaster/JobMaster.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 11,
+      "num_deleted_lines": 1,
+      "num_deleted_code_lines": 1,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 1
+    },
+    "explicit_developer_bics": [
+      "03047a78b6ad8017eb240548a009424d68ffc971"
+    ],
+    "ground_truth_bics": [
+      "03047a78b6ad8017eb240548a009424d68ffc971"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "a064db81d422c2383d1131c67ac0bcc6b45058e7",
+    "parent_hash": "15fa170caf8f69bdf58863b02c58ff82f947d27a",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "Chesnay Schepler",
+    "date": "2020-11-06",
+    "message": "Revert \"+\"\nThis reverts commit 9eb295f1dfdd6eb669376656f0b2156bedf687a9.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/taskexecutor/SlotReport.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 1,
+      "num_deleted_code_lines": 1,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
+    ],
+    "ground_truth_bics": [
+      "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "d3fa2e5224a331ccdc9d141fe33f69977b8eedb5",
+    "parent_hash": "77dce77de30b9f7835428ad72e5cb551516b5ca0",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-16945",
+    "author": "ifndef-SleePy",
+    "date": "2020-04-16",
+    "message": "Revert \"[FLINK-16945][checkpointing] Execute CheckpointFailureManager.FailJobCallback directly in main thread executor\"\nThis reverts commit 288750a76f64269de7f5eb2aee72feb92b048036.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/ExecutionGraph.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 4,
+      "num_deleted_code_lines": 4,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "288750a76f64269de7f5eb2aee72feb92b048036"
+    ],
+    "ground_truth_bics": [
+      "288750a76f64269de7f5eb2aee72feb92b048036"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "95d640b832a91b05d6031dbb09086206369666d3",
+    "parent_hash": "cf78542232e9bed62fbb1a0de568bf26adbdb098",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "Stephan Ewen",
+    "date": "2016-11-16",
+    "message": "Revert \"[hotfix] [cassandra] Fix CassandraSinkBase serialization issue\"\nThis reverts commit 5fa389014a3ce40534703c8a5731c8a9a955058a.",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-streaming-connectors/flink-connector-cassandra/src/main/java/org/apache/flink/streaming/connectors/cassandra/CassandraSinkBase.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 1,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "5fa389014a3ce40534703c8a5731c8a9a955058a"
+    ],
+    "ground_truth_bics": [
+      "5fa389014a3ce40534703c8a5731c8a9a955058a"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "81cf2296683a473db4061dd3bed0aeb249e05058",
+    "parent_hash": "36aad48e75010f105101b28e25924ad91ce745df",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-4154",
+    "author": "Greg Hogan",
+    "date": "2016-07-08",
+    "message": "[FLINK-4154] [core] Correction of murmur hash breaks backwards compatibility\nRevert \"[FLINK-3623] [runtime] Adjust MurmurHash Algorithm\"\n\nThis reverts commit 641a0d436c9b7a34ff33ceb370cf29962cac4dee.\n\nThis closes #2223",
+    "stratum": "E1",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/util/MathUtils.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 4,
+      "num_deleted_lines": 1,
+      "num_deleted_code_lines": 1,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "641a0d436c9b7a34ff33ceb370cf29962cac4dee"
+    ],
+    "ground_truth_bics": [
+      "641a0d436c9b7a34ff33ceb370cf29962cac4dee"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "c09a21c82bc15ae9b515c49bbffee64f11ea6311",
+    "parent_hash": "4aff72938d631b5478ac592631155cac92fe58bd",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-39520",
+    "author": "Rui Fan",
+    "date": "2026-05-21",
+    "message": "[FLINK-39520][network] Decouple LocalInputChannel recovery wiring from toBeConsumedBuffers\nSplit the single toBeConsumedBuffers queue into two queues with disjoint\nresponsibilities:\n\n  - recoveredBuffers (new): holds buffers migrated from RecoveredInputChannel\n    during construction; consumed by getNextRecoveredBuffer() which retains\n    the priority-event interleaving and last-buffer dynamic next-data-type\n    detection introduced by FLINK-39018.\n  - toBeConsumedBuffers (existing): reverted to its pre-FLINK-39018 role of\n    holding FullyFilledBuffer partial-buffer splits only. The recovery-aware\n    early branch in getNextBuffer() and the checkpointStarted inflight scan\n    no longer touch this queue.\n\nRestores the checkState(toBeConsumedBuffers.isEmpty()) guard in\nrequestSubpartitions() (removed by cebc174a). hasPendingPriorityEvent,\nnotifyPriorityEvent, and the constructor signature are unchanged.\n\nPure refactor: no public API change, no new tests; verified by the 9 existing\nLocalInputChannelTest regression cases.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/LocalInputChannel.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 39,
+      "num_deleted_lines": 21,
+      "num_deleted_code_lines": 11,
+      "num_deleted_comment_or_annot_lines": 10,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "3aef0932ded1a1ece9943915c681e1fe33433700",
+      "4f192b3323891adb3b9b8dda7de62d14b901c570",
+      "cebc174ad5f86716aba5b54017269e7263b6dec0",
+      "d1914c63c95715086884fee20cfe08fe8388547b"
+    ],
+    "ground_truth_bics": [
+      "3aef0932ded1a1ece9943915c681e1fe33433700",
+      "4f192b3323891adb3b9b8dda7de62d14b901c570",
+      "cebc174ad5f86716aba5b54017269e7263b6dec0",
+      "d1914c63c95715086884fee20cfe08fe8388547b"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "076fa80e3147d2d19f2f54af6b85fd63038fb6a0",
+    "parent_hash": "36eb336e4a623400a6bfdf1aab29723038e472a1",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-37158",
+    "author": "fredia",
+    "date": "2025-04-03",
+    "message": "[FLINK-37158][tests] Introduce ForSt to existing ITCases\nThis reverts commit 0d0c185c7c29bef472c3755a4e395748dec5eaec.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/snapshot/ForStNativeFullSnapshotStrategy.java",
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/sync/ForStSyncKeyedStateBackend.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 13,
+      "num_deleted_lines": 10,
+      "num_deleted_code_lines": 6,
+      "num_deleted_comment_or_annot_lines": 4,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "0d0c185c7c29bef472c3755a4e395748dec5eaec"
+    ],
+    "ground_truth_bics": [
+      "0d0c185c7c29bef472c3755a4e395748dec5eaec"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "77b03d94ab3857f80379ce6a6d10c142bddf72e5",
+    "parent_hash": "4091e85b62845680c450b7db6301903de10877e4",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-36585",
+    "author": "Sergey Nuyanzin",
+    "date": "2025-02-24",
+    "message": "Revert \"[FLINK-36585][connector/common] SplitFetcherManager.close() should not chain runnables to the element queue future in a tight loop. (#25569)\"\nThis reverts commit fdf9b292b0db87b8639da1337d04c4ef570e5ca1.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-connectors/flink-connector-base/src/main/java/org/apache/flink/connector/base/source/reader/fetcher/SplitFetcherManager.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 8,
+      "num_deleted_lines": 23,
+      "num_deleted_code_lines": 22,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
+    ],
+    "ground_truth_bics": [
+      "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "99ad724f664155ed8a6298cf7f76bcebe5b17de4",
+    "parent_hash": "02032e2efb138b9e3c588337714e6c2f64ff2499",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33668",
+    "author": "Yuxin Tan",
+    "date": "2024-06-21",
+    "message": "Revert \"[FLINK-33668][runtime] Close the producer client in case of the result partition is not finished properly\"\nThis reverts commit c1ea971129aa1f91c07cbb250ef4e377a7d67dec.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/hybrid/tiered/shuffle/TieredResultPartition.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 0,
+      "num_deleted_lines": 4,
+      "num_deleted_code_lines": 3,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
+    ],
+    "ground_truth_bics": [
+      "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "974f884021ea0587ffa029b997a76487e9911a36",
+    "parent_hash": "d37fca88cfa93d69389f4e7dd43f1a7cc8ae9ee7",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-30166",
+    "author": "Matthias Pohl",
+    "date": "2023-01-09",
+    "message": "Revert \"[FLINK-30166][Connector/FileSystem] Refactor tests that use the deprecated StreamingFileSink instead of FileSink\" (#21628)\n* Revert \"[FLINK-30166][ORC] Refactor deprecated StreamingFileSink usage with target FileSink\"\n\nThis reverts commit 1ac202dd8c21a9362611f45b6de2773699790acf.\n\n* Revert \"[FLINK-30166][Hadoop Compress] Refactor deprecated StreamingFileSink usage with target FileSink\"\n\nThis reverts commit cd54dfef4fc2c6f97f6e1ff3c0580a47641158a0.\n\n* Revert \"[FLINK-30166][Hadoop Sequence Format] Refactor deprecated StreamingFileSink usage with target FileSink\"\n\nThis reverts commit 1a7a83b9639a07a7dd1dd324f669fb04a522c3e1.\n\n* Revert \"[FLINK-30166][SQL E2E Test] Refactor deprecated StreamingFileSink usage with target FileSink\"\n\nThis reverts commit 88c450b458e2f53f132d7f51cfd7771cc54fc072.\n\n* Revert \"[FLINK-30166][Parquet] Refactor deprecated StreamingFileSink usage with target FileSink\"\n\nThis reverts commit 3ef68ae2d3b0be58d9c015a260c668a3c4723d97.\n\n* Revert \"[FLINK-30166][Tests] Remove StreamingFileSink as option for tests\"\n\nThis reverts commit 440a275cad1092be7245f0438b7e5b5b1691f708.\n\n* Revert \"[FLINK-30166][Tests] Remove no longer necessary test\"\n\nThis reverts commit 21c44c0863b52090a49da46ed228d3de18799506.\n\n* Revert \"[FLINK-30166][AVRO] Refactor deprecated StreamingFileSink usage with target FileSink\"\n\nThis reverts commit 24a133c7bda0b07bbae166db6e92435117071f84.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-end-to-end-tests/flink-file-sink-test/src/main/java/org/apache/flink/connector/file/sink/FileSinkProgram.java",
+      "flink-end-to-end-tests/flink-stream-sql-test/src/main/java/org/apache/flink/sql/tests/StreamSQLTestProgram.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 21,
+      "num_deleted_lines": 7,
+      "num_deleted_code_lines": 6,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "1a7a83b9639a07a7dd1dd324f669fb04a522c3e1",
+      "1ac202dd8c21a9362611f45b6de2773699790acf",
+      "21c44c0863b52090a49da46ed228d3de18799506",
+      "24a133c7bda0b07bbae166db6e92435117071f84",
+      "3ef68ae2d3b0be58d9c015a260c668a3c4723d97",
+      "440a275cad1092be7245f0438b7e5b5b1691f708",
+      "88c450b458e2f53f132d7f51cfd7771cc54fc072",
+      "cd54dfef4fc2c6f97f6e1ff3c0580a47641158a0"
+    ],
+    "ground_truth_bics": [
+      "1a7a83b9639a07a7dd1dd324f669fb04a522c3e1",
+      "1ac202dd8c21a9362611f45b6de2773699790acf",
+      "21c44c0863b52090a49da46ed228d3de18799506",
+      "24a133c7bda0b07bbae166db6e92435117071f84",
+      "3ef68ae2d3b0be58d9c015a260c668a3c4723d97",
+      "440a275cad1092be7245f0438b7e5b5b1691f708",
+      "88c450b458e2f53f132d7f51cfd7771cc54fc072",
+      "cd54dfef4fc2c6f97f6e1ff3c0580a47641158a0"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "fa199c1b51455ecb44c1869154f9452facd43403",
+    "parent_hash": "d62df6899a1d7bd92ae998d3b610aa8b4de64505",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-19869",
+    "author": "Martijn Visser",
+    "date": "2022-09-12",
+    "message": "Revert \"[FLINK-19869][connectors/jdbc] Add support for postgres UUID type\"\nThis reverts commit 6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-connectors/flink-connector-jdbc/src/main/java/org/apache/flink/connector/jdbc/converter/AbstractJdbcRowConverter.java",
+      "flink-connectors/flink-connector-jdbc/src/main/java/org/apache/flink/connector/jdbc/internal/converter/PostgresRowConverter.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 1,
+      "num_deleted_lines": 21,
+      "num_deleted_code_lines": 20,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 1
+    },
+    "explicit_developer_bics": [
+      "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
+    ],
+    "ground_truth_bics": [
+      "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "d212b83fddb53f2ec0363b6c08cd3cabb3c02990",
+    "parent_hash": "ed5e6144441bfbc020f525f9c10fd29cb3d83cbf",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "Matthias Pohl",
+    "date": "2022-03-10",
+    "message": "Revert \"[hotfix][table-planner] Raw to Binary can fail if the user type ser/de fails\"\nThis reverts commit cbfca3afae5d33f9137ae97eb4f4c27ea0d82919.\n\nThe method is not used anywhere but causes compilation errors.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/functions/casting/RawToBinaryCastRule.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 0,
+      "num_deleted_lines": 4,
+      "num_deleted_code_lines": 3,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 1
+    },
+    "explicit_developer_bics": [
+      "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
+    ],
+    "ground_truth_bics": [
+      "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "cb478fb751dbe28405152707040f9126b5a5269b",
+    "parent_hash": "9f1d43bf7fde140214df1e9ef2759db567b2ed63",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-25885",
+    "author": "Xintong Song",
+    "date": "2022-02-20",
+    "message": "Revert \"[FLINK-25885] Suppress error reporting for ResourceManagerServiceImpl.deregisterApplication\"\nThis reverts commit 59d2d84d83696d4775b6ff3ec97f8274ff6e371f.\n\nclose #18853",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/entrypoint/component/DispatcherResourceManagerComponent.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 1,
+      "num_deleted_lines": 11,
+      "num_deleted_code_lines": 10,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
+    ],
+    "ground_truth_bics": [
+      "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "67150da3ffa64064f2481f68c15109456c16c41e",
+    "parent_hash": "c0c33d3f8dd39c312111de68d3c4230d89edbb10",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-23759",
+    "author": "Yun Gao",
+    "date": "2021-09-02",
+    "message": "Revert \"[FLINK-23759][runtime][checkpoint] Ignore the restored checkpoints when reporting latest completed id with abortion message\"\nThis reverts commit 45d87361cbb6ab36956ddaa4c142ffa2249d1400.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/CheckpointCoordinator.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/CompletedCheckpointStore.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 15,
+      "num_deleted_lines": 9,
+      "num_deleted_code_lines": 7,
+      "num_deleted_comment_or_annot_lines": 2,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "45d87361cbb6ab36956ddaa4c142ffa2249d1400"
+    ],
+    "ground_truth_bics": [
+      "45d87361cbb6ab36956ddaa4c142ffa2249d1400"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "b62382e634015733754b05c2ad351d9748ced2fb",
+    "parent_hash": "bfcf9a1133a3498b471f8c9af4ebec52c4bc39aa",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-23434",
+    "author": "Dawid Wysakowicz",
+    "date": "2021-07-23",
+    "message": "Revert \"[FLINK-23434][table-planner] Fix the inconsistent type in IncrementalAggregateRule when the query has one distinct agg function and count star agg function\"\nThis reverts commit a26887e1e257c6e9e14ad09d9aebe6416e69a4e1.",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/plan/nodes/exec/stream/StreamExecGlobalGroupAggregate.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 0,
+      "num_deleted_lines": 15,
+      "num_deleted_code_lines": 10,
+      "num_deleted_comment_or_annot_lines": 5,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
+    ],
+    "ground_truth_bics": [
+      "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "208126aa242c4e217be493140aefcf16c3c3aba9",
+    "parent_hash": "d786c10cc3ab830848e80e730109dca567e3b864",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-14076",
+    "author": "Arvid Heise",
+    "date": "2020-11-23",
+    "message": "Revert \"[FLINK-14076] Ensure CheckpointException can be deserialized on JobManager\"\nThis reverts commit 2bcf5094",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/CheckpointException.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 11,
+      "num_deleted_code_lines": 7,
+      "num_deleted_comment_or_annot_lines": 4,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
+    ],
+    "ground_truth_bics": [
+      "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "73e0e5c6712fd4653040e939cf788a72f7591199",
+    "parent_hash": "91d2b628bfe1a2e7beed5111a6d9a572cc6bc310",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-19086",
+    "author": "Roman Khachatryan",
+    "date": "2020-09-02",
+    "message": "[FLINK-19086] Revert \"[FLINK-19052] [serialization] add constructor cache in PojoSerializer\"\nThis reverts commit 162e3ead63e5766cf2116af09922a88537889e53\nwhich caused\nperformance regression 2020-08-28 in globalWindow benchmark",
+    "stratum": "E2",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/api/java/typeutils/runtime/PojoSerializer.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 16,
+      "num_deleted_code_lines": 10,
+      "num_deleted_comment_or_annot_lines": 6,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "162e3ead63e5766cf2116af09922a88537889e53"
+    ],
+    "ground_truth_bics": [
+      "162e3ead63e5766cf2116af09922a88537889e53"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "aff06f86705abbe70723a28e336dd8d6d8fecd93",
+    "parent_hash": "a1b2ccd18a6c061aa2436efcadf8e03f3d3d4da7",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-39977",
+    "author": "Sergey Nuyanzin",
+    "date": "2026-09-04",
+    "message": "Revert \"[FLINK-39977][runtime] Recovery of merged channel state handles\"\nThis reverts commit 85d60af8b4413c2d223982bf7bc1e17f0cfedae6.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/filemerging/SubtaskFileMergingManagerRestoreOperation.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 8,
+      "num_deleted_code_lines": 8,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "85d60af8b4413c2d223982bf7bc1e17f0cfedae6"
+    ],
+    "ground_truth_bics": [
+      "85d60af8b4413c2d223982bf7bc1e17f0cfedae6"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "02032e2efb138b9e3c588337714e6c2f64ff2499",
+    "parent_hash": "2ad6f1e558ed4adb61be4297fe7ad75261f7cea0",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33668",
+    "author": "Yuxin Tan",
+    "date": "2024-06-21",
+    "message": "Revert \"[FLINK-33668][runtime] Avoid the potential deadlock during reserving segments\"\nThis reverts commit 4171b980717e5dc313d781210a5bbfd35449ee50.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/buffer/LocalBufferPool.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 4,
+      "num_deleted_lines": 9,
+      "num_deleted_code_lines": 9,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "4171b980717e5dc313d781210a5bbfd35449ee50"
+    ],
+    "ground_truth_bics": [
+      "4171b980717e5dc313d781210a5bbfd35449ee50"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "fcc7bc2e5e529b135aee28d732b8c5a6769afdae",
+    "parent_hash": "a3ee78767e228898a5d5133a48aacadfe0a3d671",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33523",
+    "author": "Martijn Visser",
+    "date": "2023-12-07",
+    "message": "[FLINK-33523][table-planner] Revert [FLINK-31835] Fix the array type that can't be converted from the external primitive array\"\nThis reverts commit a6adbdda",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-table/flink-table-common/src/main/java/org/apache/flink/table/types/CollectionDataType.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 2,
+      "num_deleted_lines": 19,
+      "num_deleted_code_lines": 19,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "a6adbdda0cdf90635f0cd7a3427486bced301fbd"
+    ],
+    "ground_truth_bics": [
+      "a6adbdda0cdf90635f0cd7a3427486bced301fbd"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "593cc139ab30bb81ab38d94b7b697d00eaaecada",
+    "parent_hash": "03e4f8eb13d8263a4a1f4947f5d1cb55a3d368e2",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-30513",
+    "author": "Weijie Guo",
+    "date": "2023-03-10",
+    "message": "Revert \"[FLINK-30513][runtime] Cleanup HA storage path on cluster termination\"\nThis reverts commit 13779ab8e4f5539ca311d9f233d031d818af6450.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/highavailability/AbstractHaServices.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 7,
+      "num_deleted_lines": 24,
+      "num_deleted_code_lines": 24,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 1
+    },
+    "explicit_developer_bics": [
+      "13779ab8e4f5539ca311d9f233d031d818af6450"
+    ],
+    "ground_truth_bics": [
+      "13779ab8e4f5539ca311d9f233d031d818af6450"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "e3cd3b311c1c8a6a0e0cdc849d7c951ef8beea5c",
+    "parent_hash": "7bc18ef7c3065b8c2210f66b2329dc6bdf49ff56",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-30878",
+    "author": "Matthias Pohl",
+    "date": "2023-02-02",
+    "message": "[FLINK-30878][runtime] Revert \"[FLINK-30474][runtime] Propagates leader information change only if the leadership is still acquired\"\nThis reverts commit fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/leaderelection/DefaultMultipleComponentLeaderElectionService.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 1,
+      "num_deleted_lines": 7,
+      "num_deleted_code_lines": 7,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7"
+    ],
+    "ground_truth_bics": [
+      "fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "b878f54d54bbf1b8f966924e3d1dab8c23f7c628",
+    "parent_hash": "958fc80d226c7e7b4ed73d0c14021940db7bc7c6",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-20169",
+    "author": "Dawid Wysakowicz",
+    "date": "2020-11-16",
+    "message": "[FLINK-20169] Move emitting MAX_WATERMARK out of the SourceOperator processing loop\nThis commit reverts some of the changes introduced in\nfada6fb6ac9fd7f6510f1f2d77b6baa06563e222.\n\nInstead of checking for END_OF_INPUT in the SourceOperator, I\nemit the MAX_WATERMARK from SourceOperatorStreamTask#afterInvoke. I check if the Task was cancelled or not. If it was not\nthat means the Task finished succesfully and we emit the MAX_WATERMARK.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/operators/SourceOperator.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/runtime/tasks/SourceOperatorStreamTask.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 9,
+      "num_deleted_lines": 10,
+      "num_deleted_code_lines": 10,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 2
+    },
+    "explicit_developer_bics": [
+      "fada6fb6ac9fd7f6510f1f2d77b6baa06563e222"
+    ],
+    "ground_truth_bics": [
+      "fada6fb6ac9fd7f6510f1f2d77b6baa06563e222"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "73afe2be8b75913246193607472026415a16a175",
+    "parent_hash": "82a13db052cba122eea6e1a8645a7c02c78e4201",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-17869",
+    "author": "Roman Khachatryan",
+    "date": "2020-06-03",
+    "message": "[FLINK-17869][task][checkpointing] Revert \"[FLINK-17218][checkpointing] Ensuring that ChannelStateWriter aborts previous checkpoints before a new checkpoint is started.\"\nThis reverts commit 24ff415f1b76392f75dea7c3538558d24fcb7058\nwhich introduced a race condition when task thread and netty\nthread compete for ChannelStateWriteResult.\n\nInstead, next commits fix it by:\n1. Map size validation error will be prevented simply by increasing the limit\n2. When a checkpoint is subsumed, it's write result will be removed from on future completion",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/channel/ChannelStateWriter.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/channel/ChannelStateWriterImpl.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 3,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "24ff415f1b76392f75dea7c3538558d24fcb7058"
+    ],
+    "ground_truth_bics": [
+      "24ff415f1b76392f75dea7c3538558d24fcb7058"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "840a4d954233f8769a54ac2ada5d34a5ef80c82d",
+    "parent_hash": "463dc8b9cab99d6d5df07ec0e593843885e3ac72",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "Piotr Nowojski",
+    "date": "2020-05-21",
+    "message": "Revert \"Merge pull request #12244 from pnowojski/f17258\"\nThis reverts commit 463dc8b9cab99d6d5df07ec0e593843885e3ac72.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/checkpoint/channel/ChannelStateWriterImpl.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 9,
+      "num_deleted_lines": 10,
+      "num_deleted_code_lines": 10,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "463dc8b9cab99d6d5df07ec0e593843885e3ac72"
+    ],
+    "ground_truth_bics": [
+      "463dc8b9cab99d6d5df07ec0e593843885e3ac72"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "f52899a00affcf56bfa4905c23e975d51031e72b",
+    "parent_hash": "214b83776414857a1b2b7e2ffce7b9b697e812bd",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-17356",
+    "author": "Stephan Ewen",
+    "date": "2020-05-20",
+    "message": "Revert \"[FLINK-17356][jdbc][postgres] Add IT cases for inserting group by query into posgres catalog table\"\nThis reverts commit 38ada4ad5ece2d28707e9403278133d8e5790ec0.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-connectors/flink-connector-jdbc/src/main/java/org/apache/flink/connector/jdbc/catalog/AbstractJdbcCatalog.java",
+      "flink-connectors/flink-connector-jdbc/src/main/java/org/apache/flink/connector/jdbc/catalog/PostgresCatalog.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 22,
+      "num_deleted_lines": 22,
+      "num_deleted_code_lines": 21,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 2
+    },
+    "explicit_developer_bics": [
+      "38ada4ad5ece2d28707e9403278133d8e5790ec0"
+    ],
+    "ground_truth_bics": [
+      "38ada4ad5ece2d28707e9403278133d8e5790ec0"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "91932ccc0592f969dc7d264f2adaecfa0c65d3da",
+    "parent_hash": "9207b81cb15d413c07f55d619667ab78f7725a9a",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-17467",
+    "author": "Roman Khachatryan",
+    "date": "2020-05-15",
+    "message": "[FLINK-17727][e2e] Re-enable \"[FLINK-17467][task][e2e] Modify existing upgrade test to verify aligned savepoints\" after a fix\nThis reverts commit 3af17562eb791e3f486c38dbd94dc3328309b262.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-end-to-end-tests/flink-stream-stateful-job-upgrade-test/src/main/java/org/apache/flink/streaming/tests/StatefulStreamJobUpgradeTestProgram.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 87,
+      "num_deleted_lines": 10,
+      "num_deleted_code_lines": 10,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 10
+    },
+    "explicit_developer_bics": [
+      "3af17562eb791e3f486c38dbd94dc3328309b262"
+    ],
+    "ground_truth_bics": [
+      "3af17562eb791e3f486c38dbd94dc3328309b262"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "1cc6c790e2b8139c921317bfc9cebe98393ba0e7",
+    "parent_hash": "0abab7e6ade5e762fecf6b91a59cbc8ce80b0599",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-16276",
+    "author": "Zhu Zhu",
+    "date": "2020-02-29",
+    "message": "Revert \"[FLINK-16276][tests] Introduce a builder and factory methods to create DefaultScheduler for testing\"\nThis reverts commit bd757cb2a29cc2d9046d39aee9684d5b2e5ec036.",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/scheduler/DefaultScheduler.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/scheduler/DefaultSchedulerFactory.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 2,
+      "num_deleted_lines": 2,
+      "num_deleted_code_lines": 2,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 2
+    },
+    "explicit_developer_bics": [
+      "bd757cb2a29cc2d9046d39aee9684d5b2e5ec036"
+    ],
+    "ground_truth_bics": [
+      "bd757cb2a29cc2d9046d39aee9684d5b2e5ec036"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "aacf0792bc1a39f3953724d2387ee668572b4b22",
+    "parent_hash": "fd1ee495ad145dd312ebc04f894c9be9e6142ea2",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-15992",
+    "author": "Jark Wu",
+    "date": "2020-02-21",
+    "message": "[hotfix] Revert \"[FLINK-15992][kafka][es] Use thread context classloader when finding TableFormatFactory (#11064)\"\nThis reverts commit c6158648",
+    "stratum": "E3",
+    "prod_java_files": [
+      "flink-connectors/flink-connector-elasticsearch-base/src/main/java/org/apache/flink/streaming/connectors/elasticsearch/ElasticsearchUpsertTableSinkFactoryBase.java",
+      "flink-connectors/flink-connector-kafka-base/src/main/java/org/apache/flink/streaming/connectors/kafka/KafkaTableSourceSinkFactoryBase.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 6,
+      "num_deleted_lines": 3,
+      "num_deleted_code_lines": 3,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "c6158648f851e185c86f2094cb2df785b64c28d3"
+    ],
+    "ground_truth_bics": [
+      "c6158648f851e185c86f2094cb2df785b64c28d3"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "bb8599fa780a157085f972fdfc58fa6cba80e8a4",
+    "parent_hash": "e1125e34ce13af21a85e88e24dc4ffb4cb9c4d67",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-39900",
+    "author": "Sergey Nuyanzin",
+    "date": "2026-08-01",
+    "message": "Revert \"[FLINK-39900][forst] Add configuration option for setting the number of ForSt transfer threads (#28373)\"\nThis reverts commit 01a5a7f78b4b52417d19cf061a12e5cc110f16c0.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/ForStKeyedStateBackendBuilder.java",
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/ForStOptions.java",
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/ForStResourceContainer.java",
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/datatransfer/ForStStateDataTransfer.java",
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/restore/ForStIncrementalRestoreOperation.java",
+      "flink-state-backends/flink-statebackend-forst/src/main/java/org/apache/flink/state/forst/sync/ForStSyncKeyedStateBackendBuilder.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 6,
+      "num_added_lines": 5,
+      "num_deleted_lines": 20,
+      "num_deleted_code_lines": 19,
+      "num_deleted_comment_or_annot_lines": 1,
+      "method_sig_changes": 1
+    },
+    "explicit_developer_bics": [
+      "01a5a7f78b4b52417d19cf061a12e5cc110f16c0"
+    ],
+    "ground_truth_bics": [
+      "01a5a7f78b4b52417d19cf061a12e5cc110f16c0"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "07a4ba9799c874450b4a3ef6b44de2d7c16e7abc",
+    "parent_hash": "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-40208",
+    "author": "Roman Khachatryan",
+    "date": "2026-07-30",
+    "message": "Revert \"Revert \"Revert \"[FLINK-40208] Add JobMdcRegistry for config-driven MDC enrichment\"\"\"\nThis reverts commit 3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/configuration/MdcOptions.java",
+      "flink-core/src/main/java/org/apache/flink/util/JobMdcRegistry.java",
+      "flink-core/src/main/java/org/apache/flink/util/MdcUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/dispatcher/Dispatcher.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/taskexecutor/TaskExecutor.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 5,
+      "num_added_lines": 13,
+      "num_deleted_lines": 173,
+      "num_deleted_code_lines": 104,
+      "num_deleted_comment_or_annot_lines": 69,
+      "method_sig_changes": 5
+    },
+    "explicit_developer_bics": [
+      "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85"
+    ],
+    "ground_truth_bics": [
+      "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85",
+    "parent_hash": "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-40208",
+    "author": "Roman Khachatryan",
+    "date": "2026-07-30",
+    "message": "Revert \"Revert \"[FLINK-40208] Add JobMdcRegistry for config-driven MDC enrichment\"\"\nThis reverts commit d0ce9ea58fb3334fe8f117c522223bff1a79e7cd.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/configuration/MdcOptions.java",
+      "flink-core/src/main/java/org/apache/flink/util/JobMdcRegistry.java",
+      "flink-core/src/main/java/org/apache/flink/util/MdcUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/dispatcher/Dispatcher.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/taskexecutor/TaskExecutor.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 5,
+      "num_added_lines": 173,
+      "num_deleted_lines": 13,
+      "num_deleted_code_lines": 11,
+      "num_deleted_comment_or_annot_lines": 2,
+      "method_sig_changes": 5
+    },
+    "explicit_developer_bics": [
+      "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd"
+    ],
+    "ground_truth_bics": [
+      "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd",
+    "parent_hash": "ef6633fe31fc225e0006d6c02d0e999fae9ffb7c",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-40208",
+    "author": "Roman Khachatryan",
+    "date": "2026-07-30",
+    "message": "Revert \"[FLINK-40208] Add JobMdcRegistry for config-driven MDC enrichment\"\nThis reverts commit b198cddc893246626a1a577ea7d3b208a849a483.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/configuration/MdcOptions.java",
+      "flink-core/src/main/java/org/apache/flink/util/JobMdcRegistry.java",
+      "flink-core/src/main/java/org/apache/flink/util/MdcUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/dispatcher/Dispatcher.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/taskexecutor/TaskExecutor.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 5,
+      "num_added_lines": 13,
+      "num_deleted_lines": 173,
+      "num_deleted_code_lines": 104,
+      "num_deleted_comment_or_annot_lines": 69,
+      "method_sig_changes": 5
+    },
+    "explicit_developer_bics": [
+      "b198cddc893246626a1a577ea7d3b208a849a483"
+    ],
+    "ground_truth_bics": [
+      "b198cddc893246626a1a577ea7d3b208a849a483"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "1779d20a28f5d43410138314fe3292d0e64f3148",
+    "parent_hash": "972ab832e0c7f9527aa6b3580702503b96fbd05b",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-38928",
+    "author": "Dawid Wysakowicz",
+    "date": "2026-02-12",
+    "message": "Revert \"[FLINK-38928] Implement an operator for handling DO ERROR/NOTHING (#27502)\"\nThis reverts commit 743b9bd2b32149559983eb983c9ec0391a02fb9e.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/plan/nodes/exec/common/CommonExecSink.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/plan/nodes/exec/stream/StreamExecSink.java",
+      "flink-table/flink-table-runtime/src/main/java/org/apache/flink/table/runtime/operators/sink/SortedLongSerializer.java",
+      "flink-table/flink-table-runtime/src/main/java/org/apache/flink/table/runtime/operators/sink/WatermarkCompactingSinkMaterializer.java",
+      "flink-table/flink-table-runtime/src/main/java/org/apache/flink/table/runtime/operators/sink/WatermarkTimestampAssigner.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 5,
+      "num_added_lines": 21,
+      "num_deleted_lines": 643,
+      "num_deleted_code_lines": 495,
+      "num_deleted_comment_or_annot_lines": 148,
+      "method_sig_changes": 34
+    },
+    "explicit_developer_bics": [
+      "743b9bd2b32149559983eb983c9ec0391a02fb9e"
+    ],
+    "ground_truth_bics": [
+      "743b9bd2b32149559983eb983c9ec0391a02fb9e"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "9ba5afc26057672fd0491bb3f3e50a55ce1c32b1",
+    "parent_hash": "e000678091bc7d95ef4305dc89385ce45c50ef56",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-36652",
+    "author": "Martijn Visser",
+    "date": "2025-01-21",
+    "message": "Revert \"[FLINK-36652][Formats/ORC] Upgrade Apache ORC Version to 1.9.4 (#25711)\"\nThis reverts commit 363a69dad3c22c9b7063f4eb9ba9ca17b930432a.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-formats/flink-orc-nohive/src/main/java/org/apache/flink/orc/nohive/writer/NoHivePhysicalWriterImpl.java",
+      "flink-formats/flink-orc/src/main/java/org/apache/flink/orc/writer/OrcBulkWriterFactory.java",
+      "flink-formats/flink-orc/src/main/java/org/apache/flink/orc/writer/PhysicalWriterImpl.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 3,
+      "num_added_lines": 192,
+      "num_deleted_lines": 514,
+      "num_deleted_code_lines": 439,
+      "num_deleted_comment_or_annot_lines": 75,
+      "method_sig_changes": 42
+    },
+    "explicit_developer_bics": [
+      "363a69dad3c22c9b7063f4eb9ba9ca17b930432a"
+    ],
+    "ground_truth_bics": [
+      "363a69dad3c22c9b7063f4eb9ba9ca17b930432a"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "0b60bba6715991d3bc9332956ca6abfef983ca79",
+    "parent_hash": "b782acfb9c04a18d8adb8e6596bd22e0e5ebe5c3",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33211",
+    "author": "Matthias Pohl",
+    "date": "2024-07-03",
+    "message": "Revert \"[FLINK-33211][table] support flink table lineage (#24618)\"\nThis reverts commit 960363cd3c6c82f7e56ef781295756105f7b5eba.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/functions/source/FromElementsFunction.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/graph/StreamGraph.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/graph/StreamGraphGenerator.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/lineage/DefaultLineageDataset.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/lineage/DefaultLineageEdge.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/lineage/DefaultLineageGraph.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/lineage/LineageGraph.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/lineage/LineageGraphUtils.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/transformations/LegacySinkTransformation.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/transformations/LegacySourceTransformation.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/transformations/SinkTransformation.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/transformations/SourceTransformation.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/api/transformations/TransformationWithLineage.java",
+      "flink-streaming-java/src/main/java/org/apache/flink/streaming/runtime/translators/SinkTransformationTranslator.java",
+      "flink-table/flink-table-api-java/src/main/java/org/apache/flink/table/operations/ModifyType.java",
+      "flink-table/flink-table-api-java/src/main/java/org/apache/flink/table/operations/SinkModifyOperation.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableLineageDataset.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableLineageDatasetImpl.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableLineageUtils.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableSinkLineageVertex.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableSinkLineageVertexImpl.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableSourceLineageVertex.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/lineage/TableSourceLineageVertexImpl.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/operations/SqlNodeToOperationConversion.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/plan/nodes/exec/common/CommonExecSink.java",
+      "flink-table/flink-table-planner/src/main/java/org/apache/flink/table/planner/plan/nodes/exec/common/CommonExecTableSourceScan.java",
+      "flink-table/flink-table-runtime/src/main/java/org/apache/flink/table/runtime/operators/values/ValuesInputFormat.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 27,
+      "num_added_lines": 43,
+      "num_deleted_lines": 746,
+      "num_deleted_code_lines": 449,
+      "num_deleted_comment_or_annot_lines": 297,
+      "method_sig_changes": 34
+    },
+    "explicit_developer_bics": [
+      "960363cd3c6c82f7e56ef781295756105f7b5eba"
+    ],
+    "ground_truth_bics": [
+      "960363cd3c6c82f7e56ef781295756105f7b5eba"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "e9eabb16f2ce85f2d039b8c0e94d2a47b199e444",
+    "parent_hash": "90508a00bb310d26f9be245098cda9192647ab14",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-35189",
+    "author": "fengli",
+    "date": "2024-06-25",
+    "message": "Revert \"[FLINK-35189][connectors/filesystem] Modify the visibility of filesystem connector related methods to protected\"\nThis reverts commit e3cda01cac737c97a104feae0e35da1eb91a8751.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-connectors/flink-connector-files/src/main/java/org/apache/flink/connector/file/src/AbstractFileSource.java",
+      "flink-connectors/flink-connector-files/src/main/java/org/apache/flink/connector/file/table/FileSystemTableFactory.java",
+      "flink-connectors/flink-connector-files/src/main/java/org/apache/flink/connector/file/table/FileSystemTableSource.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 3,
+      "num_added_lines": 7,
+      "num_deleted_lines": 12,
+      "num_deleted_code_lines": 12,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 8
+    },
+    "explicit_developer_bics": [
+      "e3cda01cac737c97a104feae0e35da1eb91a8751"
+    ],
+    "ground_truth_bics": [
+      "e3cda01cac737c97a104feae0e35da1eb91a8751"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "67d23fc45be45c02341a9cbd7dddea18ba40bca2",
+    "parent_hash": "eaef742964aa3adb04936b4803acf97f9bafeb21",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33668",
+    "author": "Yuxin Tan",
+    "date": "2024-06-21",
+    "message": "Revert \"[FLINK-33668][runtime] Redefine the redistribution logic of the NetworkBufferPool\"\nThis reverts commit 012b8936e119d1bfadadee3182cf86d25c6dd019.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/buffer/BufferPool.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/buffer/BufferPoolFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/buffer/LocalBufferPool.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/buffer/NetworkBufferPool.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/BufferWritingResultPartition.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/ResultPartitionFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/SortMergeResultPartition.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/GateBuffersSpec.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/InputGateSpecUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/SingleInputGateFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/shuffle/NettyShuffleUtils.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 11,
+      "num_added_lines": 163,
+      "num_deleted_lines": 286,
+      "num_deleted_code_lines": 229,
+      "num_deleted_comment_or_annot_lines": 57,
+      "method_sig_changes": 15
+    },
+    "explicit_developer_bics": [
+      "012b8936e119d1bfadadee3182cf86d25c6dd019"
+    ],
+    "ground_truth_bics": [
+      "012b8936e119d1bfadadee3182cf86d25c6dd019"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "eaef742964aa3adb04936b4803acf97f9bafeb21",
+    "parent_hash": "64c54e8776a3addb7ed9ba103ccadebce1a6c5e4",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33668",
+    "author": "Yuxin Tan",
+    "date": "2024-06-21",
+    "message": "Revert \"[FLINK-33668][runtime] Decouple the network memory and job topology on input gate side\"\nThis reverts commit 2e257896661ad5e0dca521fa274cad3a0bae7a61.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/metrics/CreditBasedInputBuffersUsageGauge.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/metrics/ExclusiveBuffersUsageGauge.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/metrics/FloatingBuffersUsageGauge.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/metrics/NettyShuffleMetricFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/netty/NettyPartitionRequestClient.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/BufferManager.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/InputGateSpecUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/LocalRecoveredInputChannel.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/RecoveredInputChannel.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/RemoteInputChannel.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/RemoteRecoveredInputChannel.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/SingleInputGate.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/SingleInputGateFactory.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 13,
+      "num_added_lines": 91,
+      "num_deleted_lines": 244,
+      "num_deleted_code_lines": 205,
+      "num_deleted_comment_or_annot_lines": 39,
+      "method_sig_changes": 8
+    },
+    "explicit_developer_bics": [
+      "2e257896661ad5e0dca521fa274cad3a0bae7a61"
+    ],
+    "ground_truth_bics": [
+      "2e257896661ad5e0dca521fa274cad3a0bae7a61"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "64c54e8776a3addb7ed9ba103ccadebce1a6c5e4",
+    "parent_hash": "af1c8605d4cc294fb01ad13f13d662417b8a0893",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33668",
+    "author": "Yuxin Tan",
+    "date": "2024-06-21",
+    "message": "Revert \"[FLINK-33668][runtime] Decouple the network memory and job topology on result partition side\"\nThis reverts commit 88138d08e731d3084d59bf14cc2fb51bdf4afbd8.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-core/src/main/java/org/apache/flink/configuration/NettyShuffleEnvironmentOptions.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/NettyShuffleServiceFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/ResultPartitionFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/SortBuffer.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/BufferManager.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/InputGateSpecUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/consumer/SingleInputGateFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/hybrid/tiered/shuffle/TieredResultPartitionFactory.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/hybrid/tiered/storage/SortBufferAccumulator.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/hybrid/tiered/storage/TieredStorageMemoryManager.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/hybrid/tiered/storage/TieredStorageMemoryManagerImpl.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/shuffle/NettyShuffleUtils.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/taskmanager/NettyShuffleEnvironmentConfiguration.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 13,
+      "num_added_lines": 63,
+      "num_deleted_lines": 153,
+      "num_deleted_code_lines": 137,
+      "num_deleted_comment_or_annot_lines": 16,
+      "method_sig_changes": 4
+    },
+    "explicit_developer_bics": [
+      "88138d08e731d3084d59bf14cc2fb51bdf4afbd8"
+    ],
+    "ground_truth_bics": [
+      "88138d08e731d3084d59bf14cc2fb51bdf4afbd8"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "af1c8605d4cc294fb01ad13f13d662417b8a0893",
+    "parent_hash": "99ad724f664155ed8a6298cf7f76bcebe5b17de4",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-33668",
+    "author": "Yuxin Tan",
+    "date": "2024-06-21",
+    "message": "Revert \"[FLINK-33668][runtime] Make the SortBuffer be able to return unused memory segments\"\nThis reverts commit ac2ec3496400b594ffe5c711bc1b6343999a8479.",
+    "stratum": "E4",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/SortBuffer.java",
+      "flink-runtime/src/main/java/org/apache/flink/runtime/io/network/partition/hybrid/tiered/storage/SortBufferAccumulator.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 2,
+      "num_added_lines": 2,
+      "num_deleted_lines": 35,
+      "num_deleted_code_lines": 25,
+      "num_deleted_comment_or_annot_lines": 10,
+      "method_sig_changes": 2
+    },
+    "explicit_developer_bics": [
+      "ac2ec3496400b594ffe5c711bc1b6343999a8479"
+    ],
+    "ground_truth_bics": [
+      "ac2ec3496400b594ffe5c711bc1b6343999a8479"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "334e01f0a48d38508abcd1096c44806d9739d88e",
+    "parent_hash": "a49eca810678d5389f0522cf13e51ce4713c87a3",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-39616",
+    "author": "Ramin Gharib",
+    "date": "2026-05-18",
+    "message": "[FLINK-39616][docs] Document ORDER BY usage with FROM_CHANGELOG (#28166)\nCDC streams often deliver events out of order. The PTF ORDER BY clause introduced in FLINK-39256 aligns naturally with FROM_CHANGELOG: partitioning by the primary key and ordering by event time reorders out-of-order CDC events per key before the operations are applied.\n\nAdds a new \"Ordering CDC events with ORDER BY\" subsection to the FROM_CHANGELOG documentation with the SQL example and the requirements (watermarked time attribute, ASC on the first order column, set semantics via PARTITION BY). Extends the Table API examples with the equivalent partitionBy(...).orderBy(...).fromChangelog() pattern.\n\nAdds a corresponding example in the PartitionedTable#fromChangelog Javadoc.\n\nAdds a cross-reference from the PTF ORDER BY guide to FROM_CHANGELOG so users discover the pattern from either side.",
+    "stratum": "E5",
+    "prod_java_files": [
+      "flink-table/flink-table-api-java/src/main/java/org/apache/flink/table/api/PartitionedTable.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 9,
+      "num_deleted_lines": 0,
+      "num_deleted_code_lines": 0,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "3afaa8cf645e39559b5e01d8ef2ae143846b161a"
+    ],
+    "ground_truth_bics": [
+      "3afaa8cf645e39559b5e01d8ef2ae143846b161a"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "a6b586aaa49e10a9793b58fee5e92ba5bc098959",
+    "parent_hash": "db4d05a9c1bf63a56218d7bbfcc2b8e9978387e0",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "Piotr Nowojski",
+    "date": "2022-03-21",
+    "message": "Partially revert \"[hotfix][runtime] Remove unnecessary method.\"\nThis reverts commit a1473daaffbab7cf7abc974fadb634408eeb3db7.",
+    "stratum": "E5",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/scheduler/strategy/SchedulingStrategyUtils.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 15,
+      "num_deleted_lines": 0,
+      "num_deleted_code_lines": 0,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "a1473daaffbab7cf7abc974fadb634408eeb3db7"
+    ],
+    "ground_truth_bics": [
+      "a1473daaffbab7cf7abc974fadb634408eeb3db7"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  },
+  {
+    "fix_commit_hash": "aaba4e82d4e7fb7060cb9d3254046dc00b68099a",
+    "parent_hash": "5f38f91a602201c4f52ac8febe13f9d72367a8c5",
+    "repo_name": "apache/flink",
+    "issue_id": "FLINK-ORACLE",
+    "author": "tison",
+    "date": "2020-02-10",
+    "message": "Revert \"[hotfix] Remove deadcode in ExecutionGraph#restart\"\nThis reverts commit 5f38f91a602201c4f52ac8febe13f9d72367a8c5.",
+    "stratum": "E5",
+    "prod_java_files": [
+      "flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/ExecutionGraph.java"
+    ],
+    "metrics": {
+      "num_prod_java_files": 1,
+      "num_added_lines": 9,
+      "num_deleted_lines": 0,
+      "num_deleted_code_lines": 0,
+      "num_deleted_comment_or_annot_lines": 0,
+      "method_sig_changes": 0
+    },
+    "explicit_developer_bics": [
+      "5f38f91a602201c4f52ac8febe13f9d72367a8c5"
+    ],
+    "ground_truth_bics": [
+      "5f38f91a602201c4f52ac8febe13f9d72367a8c5"
+    ],
+    "oracle_source": "Developer-Informed Explicit Reference"
+  }
+]

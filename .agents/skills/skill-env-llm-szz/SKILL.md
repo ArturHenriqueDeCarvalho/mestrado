@@ -4,7 +4,7 @@ description: >-
   Use this skill to configure the isolated Python environment (.venv-llm-szz),
   inspect or modify the software architecture, adapt LLM API endpoints (Gemini/OpenAI/DeepSeek),
   and execute or replicate the vulnerability-inducing commit identification tests (RQ1-RQ5)
-  for Pesquisa 1 (LLM-SZZ) in /home/artur-carvalho/mestrado/repos/01-llm-szz.
+  for Pesquisa 1 (LLM-SZZ) in /home/artur-carvalho/mestrado/repos/07-llm-szz.
 ---
 
 # Skill: Arquitetura de Software e Execução Isolada do Ambiente LLM-SZZ (Pesquisa 1)
@@ -23,13 +23,13 @@ Para detalhes de baixo nível sobre o grafo de chamadas de classes (`AbstractSZZ
    ```bash
    bash /home/artur-carvalho/mestrado/.agents/skills/skill-env-llm-szz/scripts/setup_and_verify.sh
    ```
-2. O script cria/valida o ambiente virtual isolado em `/home/artur-carvalho/mestrado/repos/01-llm-szz/.venv-llm-szz`, instala as dependências críticas (`GitPython==3.1.18`, `PyDriller==1.15.5`, `openai==1.50.0`, `Levenshtein==0.26.0`, `RapidFuzz==3.10.0`, `unidiff==0.6.0`), valida os 5 arquivos JSON de oráculo em `data/` e verifica a resolução de `WORK_DIR` em `setting.py`.
+2. O script cria/valida o ambiente virtual isolado em `/home/artur-carvalho/mestrado/repos/07-llm-szz/.venv-llm-szz`, instala as dependências críticas (`GitPython==3.1.18`, `PyDriller==1.15.5`, `openai==1.50.0`, `Levenshtein==0.26.0`, `RapidFuzz==3.10.0`, `unidiff==0.6.0`), valida os 5 arquivos JSON de oráculo em `data/` e verifica a resolução de `WORK_DIR` em `setting.py`.
 
 ## 3. Configuração Obrigatória Antes da Execução de Testes
 
-1. **Ajuste de `WORK_DIR` em [`setting.py`](file:///home/artur-carvalho/mestrado/repos/01-llm-szz/setting.py)**:
-   - Por padrão, `setting.py` define `WORK_DIR = 'LLM_SZZ/'` (caminho relativo externo). Para execução local dentro de `/home/artur-carvalho/mestrado/repos/01-llm-szz`, certifique-se de que `WORK_DIR` aponte para `/home/artur-carvalho/mestrado/repos/01-llm-szz/` (e `PYTHONPATH` inclua `SZZ/`).
-2. **Configuração da Chave e Base URL em [`SZZ/szz/core/llm.py`](file:///home/artur-carvalho/mestrado/repos/01-llm-szz/SZZ/szz/core/llm.py)**:
+1. **Ajuste de `WORK_DIR` em [`setting.py`](file:///home/artur-carvalho/mestrado/repos/07-llm-szz/setting.py)**:
+   - Por padrão, `setting.py` define `WORK_DIR = 'LLM_SZZ/'` (caminho relativo externo). Para execução local dentro de `/home/artur-carvalho/mestrado/repos/07-llm-szz`, certifique-se de que `WORK_DIR` aponte para `/home/artur-carvalho/mestrado/repos/07-llm-szz/` (e `PYTHONPATH` inclua `SZZ/`).
+2. **Configuração da Chave e Base URL em [`SZZ/szz/core/llm.py`](file:///home/artur-carvalho/mestrado/repos/07-llm-szz/SZZ/szz/core/llm.py)**:
    - Para utilizar a cota gratuita estudantil do Gemini via interface compatível com OpenAI SDK:
      - `base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"`
      - `api_key = os.environ.get("GEMINI_API_KEY")`
@@ -37,12 +37,12 @@ Para detalhes de baixo nível sobre o grafo de chamadas de classes (`AbstractSZZ
 
 ## 4. Comandos de Replicação dos Experimentos (RQ1 a RQ5)
 
-Com o ambiente `.venv-llm-szz` ativado e posicionado em `/home/artur-carvalho/mestrado/repos/01-llm-szz`:
+Com o ambiente `.venv-llm-szz` ativado e posicionado em `/home/artur-carvalho/mestrado/repos/07-llm-szz`:
 
 ```bash
-source /home/artur-carvalho/mestrado/repos/01-llm-szz/.venv-llm-szz/bin/activate
-export PYTHONPATH="/home/artur-carvalho/mestrado/repos/01-llm-szz:/home/artur-carvalho/mestrado/repos/01-llm-szz/SZZ"
-cd /home/artur-carvalho/mestrado/repos/01-llm-szz
+source /home/artur-carvalho/mestrado/repos/07-llm-szz/.venv-llm-szz/bin/activate
+export PYTHONPATH="/home/artur-carvalho/mestrado/repos/07-llm-szz:/home/artur-carvalho/mestrado/repos/07-llm-szz/SZZ"
+cd /home/artur-carvalho/mestrado/repos/07-llm-szz
 
 # 1. Pipeline Completo (CVE Description + Fixing-Commit Diff) — RQ1, RQ2, RQ4, RQ5:
 python main.py --method llm --model gpt-3.5-turbo-0125 --language Java --time 01 --levenshtein_num 0.5

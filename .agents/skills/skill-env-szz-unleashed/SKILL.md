@@ -4,7 +4,7 @@ description: >-
   Use this skill to configure the hybrid Java/JGit and Python JIT environment (.venv-szz-unleashed),
   run the pre-built fatJar (examples/data/jars/szz_find_bug_introducers-0.1.jar) or rebuild with mavenCentral(),
   assemble the 16 JIT features (including CodeMaat coupling), and execute the Random Forest JIT evaluation
-  (Stratified 10-Fold CV vs Time-Sensitive Online Change Classification) in /home/artur-carvalho/mestrado/repos/03-szz-unleashed.
+  (Stratified 10-Fold CV vs Time-Sensitive Online Change Classification) in /home/artur-carvalho/mestrado/repos/06-szz-unleashed.
 ---
 
 # Skill: Arquitetura de Software e Execução Isolada do Ambiente SZZ Unleashed (Pesquisa 3)
@@ -23,15 +23,15 @@ Para o diagrama de pacotes Java (`graph`, `parser`, `diff`, `heuristics`), detal
    ```bash
    bash /home/artur-carvalho/mestrado/.agents/skills/skill-env-szz-unleashed/scripts/setup_and_verify.sh
    ```
-2. O script cria `/home/artur-carvalho/mestrado/repos/03-szz-unleashed/.venv-szz-unleashed`, instala `scikit-learn`, `imbalanced-learn`, `pandas`, `numpy`, `scipy`, verifica o fatJar pré-compilado (`examples/data/jars/szz_find_bug_introducers-0.1.jar`) e valida os artefatos de exemplo do Jenkins (`issue_list.json`, `gitlog.json`, `fix_and_introducers_pairs.json`).
+2. O script cria `/home/artur-carvalho/mestrado/repos/06-szz-unleashed/.venv-szz-unleashed`, instala `scikit-learn`, `imbalanced-learn`, `pandas`, `numpy`, `scipy`, verifica o fatJar pré-compilado (`examples/data/jars/szz_find_bug_introducers-0.1.jar`) e valida os artefatos de exemplo do Jenkins (`issue_list.json`, `gitlog.json`, `fix_and_introducers_pairs.json`).
 
 ## 3. Comandos de Execução Individual e Replicação dos Testes
 
-Com o ambiente `.venv-szz-unleashed` ativo em `/home/artur-carvalho/mestrado/repos/03-szz-unleashed`:
+Com o ambiente `.venv-szz-unleashed` ativo em `/home/artur-carvalho/mestrado/repos/06-szz-unleashed`:
 
 ```bash
-source /home/artur-carvalho/mestrado/repos/03-szz-unleashed/.venv-szz-unleashed/bin/activate
-cd /home/artur-carvalho/mestrado/repos/03-szz-unleashed
+source /home/artur-carvalho/mestrado/repos/06-szz-unleashed/.venv-szz-unleashed/bin/activate
+cd /home/artur-carvalho/mestrado/repos/06-szz-unleashed
 
 # 1. Fase 1 — Vinculação de Issues e Commits Fixadores (BFC):
 python3 fetch_jira_bugs/git_log_to_array.py --repo-path <caminho_repo_git> --from-commit <hash>
@@ -48,7 +48,7 @@ cd data_assembler
 python3 assemble_features.py <caminho_repo_git> ../examples/data/fix_and_introducers_pairs.json
 
 # 4. Fase 4 — Execução do Experimento JIT (RQ1: Oversampling/Undersampling & RQ2: 10-Fold CV vs OCC):
-cd /home/artur-carvalho/mestrado/repos/03-szz-unleashed/model
+cd /home/artur-carvalho/mestrado/repos/06-szz-unleashed/model
 # Edite model.ini para alternar:
 #   split = kfold | occ
 #   sampler = None | smote | smotetomek | cluster

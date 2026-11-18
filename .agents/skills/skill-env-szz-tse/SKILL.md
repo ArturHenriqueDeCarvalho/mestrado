@@ -5,7 +5,7 @@ description: >-
   inspect the 10 Apache project datasets (126,526 commits with buggy_B2, buggy_AG, buggy_MA, buggy_RA labels)
   and collinearity matrix (collinearity.csv), and execute or replicate the 1,000-iteration Out-of-Bag Bootstrap,
   Scott-Knott ESD variable importance, CBS+, One-Way, and Wasted Inspection Effort LOC calculations
-  in /home/artur-carvalho/mestrado/repos/04-szz-tse.
+  in /home/artur-carvalho/mestrado/repos/05-raszz.
 ---
 
 # Skill: Arquitetura de Software e Execução Isolada do Ambiente SZZ-TSE (Pesquisa 4)
@@ -29,19 +29,19 @@ Para o diagrama detalhado dos módulos R (`measures.R`, `imbalance.R`, `CBS.R`, 
 ## 3. Comandos de Execução e Replicação dos Testes (RQ1, RQ2 e RQ3)
 
 ### A. Execução do Pipeline Estatístico Oficial em R (`classification_importance.R`)
-1. No arquivo [`szz-tse/code/calculation/classification_importance.R`](file:///home/artur-carvalho/mestrado/repos/04-szz-tse/szz-tse/code/calculation/classification_importance.R), substitua `DIR_PATH = "?"` por:
+1. No arquivo [`szz-tse/code/calculation/classification_importance.R`](file:///home/artur-carvalho/mestrado/repos/05-raszz/szz-tse/code/calculation/classification_importance.R), substitua `DIR_PATH = "?"` por:
    ```r
-   DIR_PATH = "/home/artur-carvalho/mestrado/repos/04-szz-tse/szz-tse"
+   DIR_PATH = "/home/artur-carvalho/mestrado/repos/05-raszz/szz-tse"
    ```
 2. Para validação rápida (*smoke test*), ajuste temporariamente `bootstrap_times <- 10` (ou mantenha `1000` para replicação completa) e execute:
    ```bash
-   cd /home/artur-carvalho/mestrado/repos/04-szz-tse/szz-tse
+   cd /home/artur-carvalho/mestrado/repos/05-raszz/szz-tse
    Rscript code/calculation/classification_importance.R
    ```
 
 ### B. Inspeção de Rótulos e Cálculo de Discrepância / Wasted Effort via Python (`.venv-szz-tse`)
 ```bash
-source /home/artur-carvalho/mestrado/repos/04-szz-tse/.venv-szz-tse/bin/activate
-cd /home/artur-carvalho/mestrado/repos/04-szz-tse/szz-tse
+source /home/artur-carvalho/mestrado/repos/05-raszz/.venv-szz-tse/bin/activate
+cd /home/artur-carvalho/mestrado/repos/05-raszz/szz-tse
 # O ambiente .venv-szz-tse possui pandas, numpy, scikit-learn e scipy para auditoria cruzada instantânea dos CSVs
 ```

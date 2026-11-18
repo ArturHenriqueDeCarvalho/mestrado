@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Setup e Verificação do Ambiente Isolado: Pesquisa 2 (PySZZ v2)
-# Local: /home/artur-carvalho/mestrado/repos/02-pyszz-v2/.venv-pyszz-v2
+# Local: /home/artur-carvalho/mestrado/repos/04-lszz/.venv-pyszz-v2
 # ==============================================================================
 set -euo pipefail
 
-REPO_DIR="/home/artur-carvalho/mestrado/repos/02-pyszz-v2"
+REPO_DIR="/home/artur-carvalho/mestrado/repos/04-lszz"
 VENV_DIR="${REPO_DIR}/.venv-pyszz-v2"
 UV_BIN="${HOME}/.local/bin/uv"
 

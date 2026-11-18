@@ -4,10 +4,10 @@
 
 Os 6 projetos possuem restrições estritas e conflitantes de versões (por exemplo, `02-pyszz-v2` exige `GitPython==3.1.7` e `PyDriller==1.15.2`, enquanto `01-llm-szz` exige `GitPython==3.1.18`, `PyDriller==1.15.5` e `pydantic>=2.9.2`). Por essa razão, a arquitetura do workspace adota **isolamento estrito por repositório**:
 
-1. `repos/01-llm-szz/.venv-llm-szz` (Python 3 + OpenAI SDK + Levenshtein + PyDriller 1.15.5)
-2. `repos/02-pyszz-v2/.venv-pyszz-v2` (Python 3 + PyDriller 1.15.2 + RefactoringMiner 2.0 + srcML)
-3. `repos/03-szz-unleashed/.venv-szz-unleashed` + `szz_find_bug_introducers-0.1.jar` (Java JGit 4.10.0 + Python scikit-learn / imbalanced-learn + code-maat)
-4. `repos/04-szz-tse/.venv-szz-tse` + R Statistical Engine (10 CSVs Apache = 126.526 commits + OOB Bootstrap 1.000x + Scott-Knott ESD)
+1. `repos/07-llm-szz/.venv-llm-szz` (Python 3 + OpenAI SDK + Levenshtein + PyDriller 1.15.5)
+2. `repos/04-lszz/.venv-pyszz-v2` (Python 3 + PyDriller 1.15.2 + RefactoringMiner 2.0 + srcML)
+3. `repos/06-szz-unleashed/.venv-szz-unleashed` + `szz_find_bug_introducers-0.1.jar` (Java JGit 4.10.0 + Python scikit-learn / imbalanced-learn + code-maat)
+4. `repos/05-raszz/.venv-szz-tse` + R Statistical Engine (10 CSVs Apache = 126.526 commits + OOB Bootstrap 1.000x + Scott-Knott ESD)
 5. `repos/05-cc2vec/.venv-cc2vec` (PyTorch + NLTK + 3-Level Bi-GRU HAN + Neural Tensor Network)
 6. `repos/06-jit-smart/.venv-jit-smart` (PyTorch + Transformers CodeBERT + DLN BiLSTM + MultiFocalLoss + JIT-Defect4J 21 projetos Java)
 
