@@ -5,445 +5,76 @@
   "benchmark": "apache/flink",
   "results": [
     {
-      "fix_commit_hash": "0d0c185c7c29bef472c3755a4e395748dec5eaec",
-      "issue_id": "FLINK-37158",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "6099697b501d58d08deb9154f77cb81e46117fd6"
-      ],
-      "predicted_bics": [
-        "6099697b501d58d08deb9154f77cb81e46117fd6"
-      ],
-      "latency_sec": 0.0159,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "46db92641602313c4f5c1390807222c344880e2d",
-      "issue_id": "FLINK-34954",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "39779829b8853c61c9da9eaf193f0fedf5857f7b"
-      ],
-      "predicted_bics": [
-        "39779829b8853c61c9da9eaf193f0fedf5857f7b"
-      ],
-      "latency_sec": 0.0705,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "431f757aa3547833b3684f7e80dcc3ec8d2d8311",
-      "issue_id": "FLINK-19543",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "c3a6b514595ea3c1bf52126f6f1715b26c871ae9"
-      ],
-      "predicted_bics": [
-        "c6997c97c575d334679915c328792b8a3067cfb5"
-      ],
-      "latency_sec": 0.0413,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "141189fb1a6af566569c65e111461e64bd05e4c5",
-      "issue_id": "FLINK-ORACLE",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "1cd880139d90c45933018d549d7a6f394f7eee80"
-      ],
-      "predicted_bics": [
-        "1cd880139d90c45933018d549d7a6f394f7eee80"
-      ],
-      "latency_sec": 0.038,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "6a6dfef228336c560671e6ce8af946e070b8a1d2",
-      "issue_id": "FLINK-23954",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
-      ],
-      "predicted_bics": [
-        "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
-      ],
-      "latency_sec": 0.0496,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "9588c5da3b8393b76c44acd23e4f8a349562e00b",
-      "issue_id": "FLINK-21178",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "816ce969df408dcaff52c6341be9299ffaa61805"
-      ],
-      "predicted_bics": [
-        "816ce969df408dcaff52c6341be9299ffaa61805"
-      ],
-      "latency_sec": 0.0203,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "e33fa27d3e2db1ee2eec5bd3dd331656a115ae50",
-      "issue_id": "FLINK-18500",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
-      ],
-      "predicted_bics": [
-        "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
-      ],
-      "latency_sec": 0.0453,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "89262012a86647ebc3658027e5690a242b2f0782",
-      "issue_id": "FLINK-20033",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "03047a78b6ad8017eb240548a009424d68ffc971"
-      ],
-      "predicted_bics": [
-        "eaaa174247097dce2dbe3b3812af0dc5aec990a0"
-      ],
-      "latency_sec": 0.0242,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "a064db81d422c2383d1131c67ac0bcc6b45058e7",
-      "issue_id": "FLINK-ORACLE",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
-      ],
-      "predicted_bics": [
-        "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
-      ],
-      "latency_sec": 0.0575,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "d3fa2e5224a331ccdc9d141fe33f69977b8eedb5",
-      "issue_id": "FLINK-16945",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "288750a76f64269de7f5eb2aee72feb92b048036"
-      ],
-      "predicted_bics": [
-        "288750a76f64269de7f5eb2aee72feb92b048036"
-      ],
-      "latency_sec": 0.0177,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "95d640b832a91b05d6031dbb09086206369666d3",
-      "issue_id": "FLINK-ORACLE",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "5fa389014a3ce40534703c8a5731c8a9a955058a"
-      ],
-      "predicted_bics": [
-        "5fa389014a3ce40534703c8a5731c8a9a955058a"
-      ],
-      "latency_sec": 0.016,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "81cf2296683a473db4061dd3bed0aeb249e05058",
-      "issue_id": "FLINK-4154",
-      "stratum": "E1",
-      "ground_truth_bics": [
-        "641a0d436c9b7a34ff33ceb370cf29962cac4dee"
-      ],
-      "predicted_bics": [
-        "760a0d9e7fd9fa88e9f7408b137d78df384d764f"
-      ],
-      "latency_sec": 0.0142,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "c09a21c82bc15ae9b515c49bbffee64f11ea6311",
-      "issue_id": "FLINK-39520",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "3aef0932ded1a1ece9943915c681e1fe33433700",
-        "4f192b3323891adb3b9b8dda7de62d14b901c570",
-        "cebc174ad5f86716aba5b54017269e7263b6dec0",
-        "d1914c63c95715086884fee20cfe08fe8388547b"
-      ],
-      "predicted_bics": [
-        "3aef0932ded1a1ece9943915c681e1fe33433700",
-        "9ce47b215fc0ceec92d90c5c719de7d58befb28b",
-        "cebc174ad5f86716aba5b54017269e7263b6dec0",
-        "d1914c63c95715086884fee20cfe08fe8388547b"
-      ],
-      "latency_sec": 0.0294,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "076fa80e3147d2d19f2f54af6b85fd63038fb6a0",
-      "issue_id": "FLINK-37158",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "0d0c185c7c29bef472c3755a4e395748dec5eaec"
-      ],
-      "predicted_bics": [
-        "0d0c185c7c29bef472c3755a4e395748dec5eaec",
-        "36eb336e4a623400a6bfdf1aab29723038e472a1"
-      ],
-      "latency_sec": 0.0851,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "77b03d94ab3857f80379ce6a6d10c142bddf72e5",
-      "issue_id": "FLINK-36585",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
-      ],
-      "predicted_bics": [
-        "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
-      ],
-      "latency_sec": 0.0309,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "99ad724f664155ed8a6298cf7f76bcebe5b17de4",
-      "issue_id": "FLINK-33668",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
-      ],
-      "predicted_bics": [
-        "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
-      ],
-      "latency_sec": 0.0169,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "974f884021ea0587ffa029b997a76487e9911a36",
-      "issue_id": "FLINK-30166",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "1a7a83b9639a07a7dd1dd324f669fb04a522c3e1",
-        "1ac202dd8c21a9362611f45b6de2773699790acf",
-        "21c44c0863b52090a49da46ed228d3de18799506",
-        "24a133c7bda0b07bbae166db6e92435117071f84",
-        "3ef68ae2d3b0be58d9c015a260c668a3c4723d97",
-        "440a275cad1092be7245f0438b7e5b5b1691f708",
-        "88c450b458e2f53f132d7f51cfd7771cc54fc072",
-        "cd54dfef4fc2c6f97f6e1ff3c0580a47641158a0"
-      ],
-      "predicted_bics": [
-        "440a275cad1092be7245f0438b7e5b5b1691f708",
-        "88c450b458e2f53f132d7f51cfd7771cc54fc072"
-      ],
-      "latency_sec": 0.0837,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "fa199c1b51455ecb44c1869154f9452facd43403",
-      "issue_id": "FLINK-19869",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
-      ],
-      "predicted_bics": [
-        "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
-      ],
-      "latency_sec": 0.0828,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "d212b83fddb53f2ec0363b6c08cd3cabb3c02990",
-      "issue_id": "FLINK-ORACLE",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
-      ],
-      "predicted_bics": [
-        "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
-      ],
-      "latency_sec": 0.0615,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "cb478fb751dbe28405152707040f9126b5a5269b",
-      "issue_id": "FLINK-25885",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
-      ],
-      "predicted_bics": [
-        "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
-      ],
-      "latency_sec": 0.0337,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "67150da3ffa64064f2481f68c15109456c16c41e",
-      "issue_id": "FLINK-23759",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "45d87361cbb6ab36956ddaa4c142ffa2249d1400"
-      ],
-      "predicted_bics": [
-        "45d87361cbb6ab36956ddaa4c142ffa2249d1400",
-        "4987190b66040a78bdc4b488f45c9f71f027f460"
-      ],
-      "latency_sec": 0.0432,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "b62382e634015733754b05c2ad351d9748ced2fb",
-      "issue_id": "FLINK-23434",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
-      ],
-      "predicted_bics": [
-        "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
-      ],
-      "latency_sec": 0.0533,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "208126aa242c4e217be493140aefcf16c3c3aba9",
-      "issue_id": "FLINK-14076",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
-      ],
-      "predicted_bics": [
-        "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
-      ],
-      "latency_sec": 0.0671,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "73e0e5c6712fd4653040e939cf788a72f7591199",
-      "issue_id": "FLINK-19086",
-      "stratum": "E2",
-      "ground_truth_bics": [
-        "162e3ead63e5766cf2116af09922a88537889e53"
-      ],
-      "predicted_bics": [
-        "162e3ead63e5766cf2116af09922a88537889e53"
-      ],
-      "latency_sec": 0.0371,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
       "fix_commit_hash": "aff06f86705abbe70723a28e336dd8d6d8fecd93",
       "issue_id": "FLINK-39977",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "85d60af8b4413c2d223982bf7bc1e17f0cfedae6"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "85d60af8b4413c2d223982bf7bc1e17f0cfedae6"
       ],
-      "latency_sec": 0.1091,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "02032e2efb138b9e3c588337714e6c2f64ff2499",
-      "issue_id": "FLINK-33668",
-      "stratum": "E3",
-      "ground_truth_bics": [
-        "4171b980717e5dc313d781210a5bbfd35449ee50"
-      ],
-      "predicted_bics": [
-        "4171b980717e5dc313d781210a5bbfd35449ee50"
-      ],
-      "latency_sec": 0.0246,
+      "latency_sec": 0.1336,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "fcc7bc2e5e529b135aee28d732b8c5a6769afdae",
       "issue_id": "FLINK-33523",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "a6adbdda0cdf90635f0cd7a3427486bced301fbd"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "a6adbdda0cdf90635f0cd7a3427486bced301fbd"
       ],
-      "latency_sec": 0.0534,
+      "latency_sec": 0.0573,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "593cc139ab30bb81ab38d94b7b697d00eaaecada",
       "issue_id": "FLINK-30513",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "13779ab8e4f5539ca311d9f233d031d818af6450"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "13779ab8e4f5539ca311d9f233d031d818af6450"
       ],
-      "latency_sec": 0.0453,
+      "latency_sec": 0.036,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "e3cd3b311c1c8a6a0e0cdc849d7c951ef8beea5c",
-      "issue_id": "FLINK-30878",
+      "issue_id": "FLINK-30474",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "fd4f918bbaa6f3fb1876dc90d9528d190b98a2f7"
       ],
-      "latency_sec": 0.0945,
+      "latency_sec": 0.1054,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "b878f54d54bbf1b8f966924e3d1dab8c23f7c628",
       "issue_id": "FLINK-20169",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "fada6fb6ac9fd7f6510f1f2d77b6baa06563e222"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "0e281f75386fad5fb2c0c3b10e246b37d02e432d"
       ],
-      "latency_sec": 0.0321,
-      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
-    },
-    {
-      "fix_commit_hash": "73afe2be8b75913246193607472026415a16a175",
-      "issue_id": "FLINK-17869",
-      "stratum": "E3",
-      "ground_truth_bics": [
-        "24ff415f1b76392f75dea7c3538558d24fcb7058"
-      ],
-      "predicted_bics": [
-        "24ff415f1b76392f75dea7c3538558d24fcb7058",
-        "82a13db052cba122eea6e1a8645a7c02c78e4201"
-      ],
-      "latency_sec": 0.0326,
+      "latency_sec": 0.0381,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "840a4d954233f8769a54ac2ada5d34a5ef80c82d",
       "issue_id": "FLINK-ORACLE",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "463dc8b9cab99d6d5df07ec0e593843885e3ac72"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "463dc8b9cab99d6d5df07ec0e593843885e3ac72"
       ],
-      "latency_sec": 0.0179,
+      "latency_sec": 0.0194,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "f52899a00affcf56bfa4905c23e975d51031e72b",
       "issue_id": "FLINK-17356",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "38ada4ad5ece2d28707e9403278133d8e5790ec0"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "38ada4ad5ece2d28707e9403278133d8e5790ec0"
       ],
@@ -452,233 +83,1512 @@
     },
     {
       "fix_commit_hash": "91932ccc0592f969dc7d264f2adaecfa0c65d3da",
-      "issue_id": "FLINK-17467",
+      "issue_id": "FLINK-17727",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "3af17562eb791e3f486c38dbd94dc3328309b262"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "3af17562eb791e3f486c38dbd94dc3328309b262",
         "fbec926d239ee7462059ab1cc43182d2e0a2a2ee"
       ],
-      "latency_sec": 0.0362,
+      "latency_sec": 0.0393,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "1cc6c790e2b8139c921317bfc9cebe98393ba0e7",
       "issue_id": "FLINK-16276",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "bd757cb2a29cc2d9046d39aee9684d5b2e5ec036"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "bd757cb2a29cc2d9046d39aee9684d5b2e5ec036"
       ],
-      "latency_sec": 0.0344,
+      "latency_sec": 0.0358,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
-      "fix_commit_hash": "aacf0792bc1a39f3953724d2387ee668572b4b22",
-      "issue_id": "FLINK-15992",
+      "fix_commit_hash": "676b53fe799374aa9e86ce65a12bc788a5b42f2f",
+      "issue_id": "FLINK-14894",
       "stratum": "E3",
-      "ground_truth_bics": [
-        "c6158648f851e185c86f2094cb2df785b64c28d3"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
-        "c6158648f851e185c86f2094cb2df785b64c28d3"
+        "6dcaae0e403a8d7322d5c63e82b01ed24340d984"
       ],
-      "latency_sec": 0.0427,
+      "latency_sec": 0.0608,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "d77151c3907895abc586e0fc651a49f148a302be",
+      "issue_id": "FLINK-10848",
+      "stratum": "E3",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "e26d90fc86b266978b4bac84fe02ca34b62983fe"
+      ],
+      "latency_sec": 0.0425,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "93c87ea58e7f8bcf530be5a1bf7fa89a1e976f07",
+      "issue_id": "FLINK-10354",
+      "stratum": "E3",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "727370aacf63cefc6aed7c46dc2d63517e4b708d",
+        "9e0a4b5403bb2a5cc98502dd9ce0c576a915c31b"
+      ],
+      "latency_sec": 0.029,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "2e4f9f53b0f9e6f1ca1f5dcf3cbd570269be4aa9",
+      "issue_id": "FLINK-39290",
+      "stratum": "E3",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "e56d433218dc0e3e6a6bdc4834b680a6b2fa56bf"
+      ],
+      "latency_sec": 0.1218,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "e8b118598c6acdbf8a529bb0194988783d452bf4",
+      "issue_id": "FLINK-32569",
+      "stratum": "E8",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "d3b1531fa43d3ca4a67443d8480d2812e23ed8fb"
+      ],
+      "latency_sec": 0.1609,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "8bd62ec0819d73b7b42d74835b3077f7f25ab48d",
+      "issue_id": "FLINK-25786",
+      "stratum": "E8",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "34d0972655deb33b68768f641b7ca97dec30a768"
+      ],
+      "latency_sec": 0.0177,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "bb8599fa780a157085f972fdfc58fa6cba80e8a4",
       "issue_id": "FLINK-39900",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "01a5a7f78b4b52417d19cf061a12e5cc110f16c0"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "01a5a7f78b4b52417d19cf061a12e5cc110f16c0"
       ],
-      "latency_sec": 0.0633,
+      "latency_sec": 0.0563,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "07a4ba9799c874450b4a3ef6b44de2d7c16e7abc",
       "issue_id": "FLINK-40208",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85"
       ],
-      "latency_sec": 0.2276,
+      "latency_sec": 0.2447,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "3d23bdfbda2e9bdce646dc5adde2b3a717d4fd85",
       "issue_id": "FLINK-40208",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [],
-      "latency_sec": 0.2022,
+      "latency_sec": 0.2151,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "d0ce9ea58fb3334fe8f117c522223bff1a79e7cd",
       "issue_id": "FLINK-40208",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "b198cddc893246626a1a577ea7d3b208a849a483"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "b198cddc893246626a1a577ea7d3b208a849a483"
       ],
-      "latency_sec": 0.2112,
+      "latency_sec": 0.2493,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "1779d20a28f5d43410138314fe3292d0e64f3148",
       "issue_id": "FLINK-38928",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "743b9bd2b32149559983eb983c9ec0391a02fb9e"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "743b9bd2b32149559983eb983c9ec0391a02fb9e"
       ],
-      "latency_sec": 0.148,
+      "latency_sec": 0.1646,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "9ba5afc26057672fd0491bb3f3e50a55ce1c32b1",
       "issue_id": "FLINK-36652",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "363a69dad3c22c9b7063f4eb9ba9ca17b930432a"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "363a69dad3c22c9b7063f4eb9ba9ca17b930432a",
         "c6997c97c575d334679915c328792b8a3067cfb5"
       ],
-      "latency_sec": 0.7629,
+      "latency_sec": 0.9127,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "0b60bba6715991d3bc9332956ca6abfef983ca79",
       "issue_id": "FLINK-33211",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "960363cd3c6c82f7e56ef781295756105f7b5eba"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "960363cd3c6c82f7e56ef781295756105f7b5eba"
       ],
-      "latency_sec": 0.1055,
+      "latency_sec": 0.1106,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "e9eabb16f2ce85f2d039b8c0e94d2a47b199e444",
       "issue_id": "FLINK-35189",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "e3cda01cac737c97a104feae0e35da1eb91a8751"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "e3cda01cac737c97a104feae0e35da1eb91a8751"
       ],
-      "latency_sec": 0.0741,
+      "latency_sec": 0.0884,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "67d23fc45be45c02341a9cbd7dddea18ba40bca2",
       "issue_id": "FLINK-33668",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "012b8936e119d1bfadadee3182cf86d25c6dd019"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "012b8936e119d1bfadadee3182cf86d25c6dd019",
         "4171b980717e5dc313d781210a5bbfd35449ee50"
       ],
-      "latency_sec": 0.1856,
+      "latency_sec": 0.2229,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "eaef742964aa3adb04936b4803acf97f9bafeb21",
       "issue_id": "FLINK-33668",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "2e257896661ad5e0dca521fa274cad3a0bae7a61"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "2e257896661ad5e0dca521fa274cad3a0bae7a61"
       ],
-      "latency_sec": 0.3441,
+      "latency_sec": 0.3472,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "64c54e8776a3addb7ed9ba103ccadebce1a6c5e4",
       "issue_id": "FLINK-33668",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "88138d08e731d3084d59bf14cc2fb51bdf4afbd8"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "1d62a358719266385773506b5a29af0371f36834",
         "23fa2aeb01861a6f8b85f911c5a3f989a1f75898"
       ],
-      "latency_sec": 0.0697,
+      "latency_sec": 0.0656,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "af1c8605d4cc294fb01ad13f13d662417b8a0893",
       "issue_id": "FLINK-33668",
       "stratum": "E4",
-      "ground_truth_bics": [
-        "ac2ec3496400b594ffe5c711bc1b6343999a8479"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [
         "68a84fd02fb8e288ff7605073f55834468dcf53a",
         "ac2ec3496400b594ffe5c711bc1b6343999a8479"
       ],
-      "latency_sec": 0.0918,
+      "latency_sec": 0.0848,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "894feed5f3eb4fb38c53001a7cc8727d7fe46bb5",
+      "issue_id": "FLINK-34123",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "73676da59584f360c02d139a916033e8967583b3",
+        "e1b45684394541ee290a3d81cc59a85623396c42"
+      ],
+      "latency_sec": 0.0272,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "65f0b4002c85122b226ab640d8c6d959b7e1fb7a",
+      "issue_id": "FLINK-35068",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "e1b45684394541ee290a3d81cc59a85623396c42"
+      ],
+      "latency_sec": 0.2168,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "caa68c2481f7c483d0364206d36654af26f2074f",
+      "issue_id": "FLINK-35282",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "91a9e06d3cb611e048274088e56b2c110cd29926"
+      ],
+      "latency_sec": 0.125,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "f0b28bf47a31a7403d90da8d43cfbec2bc6c4869",
+      "issue_id": "FLINK-33973",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6afe98daf6190a77a67a1fa8ac8f12337a75f8e7"
+      ],
+      "latency_sec": 0.1776,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "55d3a39fd47659fafd54be3498c94504005bf5eb",
+      "issue_id": "FLINK-25857",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c3a07f98e5d1d7624adc967932f57d31355d9ddd"
+      ],
+      "latency_sec": 0.0705,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "87d7b4abd0a1ec92433603c83401cc8ad00fd500",
+      "issue_id": "FLINK-32878",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c7da98f23c3f86de3a3b12355fa7a1289200f93d"
+      ],
+      "latency_sec": 0.1805,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "c7da98f23c3f86de3a3b12355fa7a1289200f93d",
+      "issue_id": "FLINK-32878",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "dc1db12137ecad921ae90969d7bfbf1ee7d3d2ef"
+      ],
+      "latency_sec": 0.1809,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "51e5ce6f4b9c889e7e253b3b8eba3ca8ee6af4e8",
+      "issue_id": "FLINK-33064",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "be509e6d67471d886e58d3ddea6ddd3627a191a8"
+      ],
+      "latency_sec": 0.1771,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "5ad86c2f01bea141ca76250ae4035d4e6403c8ea",
+      "issue_id": "FLINK-32257",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "318d7e4daa8c791521ed2c256285c42a35b4eba6"
+      ],
+      "latency_sec": 0.064,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "17a782c202c93343b8884cb52f4562f9c4ba593f",
+      "issue_id": "FLINK-25745",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1e7d45d53b7ea7b9cfadf2e293ba790f3a9e90c3",
+        "bf983ab1f9bdc7ef1daed15397abf0b032ad2919",
+        "c0936deaf99390fc727acc8633e3be22e62f4bf5",
+        "d8a4304b892412eab4c5c19b5deb84166943d3bb",
+        "d91cb003221d65e07e135d510ff897f7520add6f"
+      ],
+      "latency_sec": 0.0627,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "4e790646c378ee69c149781950cdcab50d891618",
+      "issue_id": "FLINK-28373",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1c044753b0f0e4c23f954d71f355d1368c41061f"
+      ],
+      "latency_sec": 0.2518,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "99c74d5b4301436fbaf597dc24ff852428243a8d",
+      "issue_id": "FLINK-25188",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "7e9be78974f95e4eb3c8bb442564c81ea61c563e"
+      ],
+      "latency_sec": 0.2028,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "16ab8b41af06bb071686a7f3305db8aeba3b82b6",
+      "issue_id": "FLINK-24041",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1702c9e4f4be0f8c6c482601cd1e1029ab8a0a16",
+        "2e33a40cde17aaa8bfc171f3ea28d2961733fb9d"
+      ],
+      "latency_sec": 0.1894,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "68a29f3c4acced62a1c76a0e9c09562b42cb7534",
+      "issue_id": "FLINK-23544",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "34d51002796afd800fc99d47e3dd06acbd403531"
+      ],
+      "latency_sec": 0.1834,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "e45c72d1bc6f8c81ba8bb3659fd1cd58e56652d9",
+      "issue_id": "FLINK-23875",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "31e5fa196de6d695e062d942e9d952e300439840"
+      ],
+      "latency_sec": 0.1226,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "70d3f84ed8ae0f19081ac3dd40d1c2f0ee286522",
+      "issue_id": "FLINK-18783",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "e341e47804ca966f22056bce8533b0d92a993953"
+      ],
+      "latency_sec": 0.1706,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "8758b21b44d84412113df03255f2bad9d2fb6372",
+      "issue_id": "FLINK-22881",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "2c260b53a37dfcc040c8d5cfbca36d010f9a3cef"
+      ],
+      "latency_sec": 0.1173,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "214ade6d0d73b21e8a541501ecb64b4d28bdc74d",
+      "issue_id": "FLINK-22038",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "362aadc335af2b6887798d22f97bf72a74229e22"
+      ],
+      "latency_sec": 0.0706,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "37633211cff21050e7bf0dafa9006ad1700ceb7a",
+      "issue_id": "FLINK-22680",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "a364daa37202dc4d7a60c613f547cdcd6893ecd2"
+      ],
+      "latency_sec": 0.1967,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "f220277c907852c028150a26fb5aff55dcff9d57",
+      "issue_id": "FLINK-20130",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "889b3845217141b295eb2b60c3dd8a2c245b429a"
+      ],
+      "latency_sec": 0.0947,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "3187c3431039c261b81fd641a157c6fb1e37a4bb",
+      "issue_id": "FLINK-21206",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "fc995d3af957941e0e16e56e6830ef97acbadfd1"
+      ],
+      "latency_sec": 0.1712,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "2445a3faf1493785b481d9b9b1fe8c8ea81da0ec",
+      "issue_id": "FLINK-21206",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "d67ace2395e21188ad9663e36a1caaf357867897"
+      ],
+      "latency_sec": 0.3431,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "a1588e55d2a88282882d686478218807f6332691",
+      "issue_id": "FLINK-20946",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "cf443681e89e3e942b200253e1b494aa02641bcb"
+      ],
+      "latency_sec": 0.0746,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "3e89818414728a4c90b7335d2fd2566477b9274a",
+      "issue_id": "FLINK-19850",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "dfd2a55065e228b973f9e2343b6252ca308e5398"
+      ],
+      "latency_sec": 0.1152,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "2569d1b8aa4004eb112ba82c2d89f7d0c9714493",
+      "issue_id": "FLINK-17126",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "31827ff01a8525778c3adb53814fd8fc9ad1c1ed",
+        "c983ac9c49b7b58394574efdde4f39e8d33a8582"
+      ],
+      "latency_sec": 0.133,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "f6f51d8767990cee7f1ca052b040530b646c3efe",
+      "issue_id": "FLINK-17800",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "59486908060cbb04c9b34d800a935758d06d1c69",
+        "8ca388ca0225ff22f532c8a65f97d8cfea027c22"
+      ],
+      "latency_sec": 0.1084,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "59486908060cbb04c9b34d800a935758d06d1c69",
+      "issue_id": "FLINK-17800",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "f1250625b2ade530fa2619d6e1bb734832748d31"
+      ],
+      "latency_sec": 0.0945,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "ec4e874847386ba2a4b87e3a9fa84840da516f1e",
+      "issue_id": "FLINK-17935",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "2eb7377163490878f12e4687db5fb4db0e6f47c2"
+      ],
+      "latency_sec": 0.0855,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "bf58725e7ad80f276a458007a2d5b890d8ffc4f5",
+      "issue_id": "FLINK-15670",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "9fd02fe24d1ad68693f7f88f58929369f8b8022b",
+        "e929c3c5fa631f9b35c73fd8e1e0db1f5a70b6df"
+      ],
+      "latency_sec": 0.0897,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "c3a4a1241164d43476d6c96959dfaffc848e5754",
+      "issue_id": "FLINK-17593",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "339f5d84d0b7e9fe64534ea4e2adf7e35dee8398"
+      ],
+      "latency_sec": 0.1282,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "aa2f67f5c9eea697ae8e1aea580e4022411c7443",
+      "issue_id": "FLINK-17594",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "f850ec78b1554989f39053569ea821b19a2adc34"
+      ],
+      "latency_sec": 0.1177,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "770d7c7d051cd39ff204aea23d6c038728c87808",
+      "issue_id": "FLINK-14255",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "547c168a8978a80072187a80d84d53d6e7f02260"
+      ],
+      "latency_sec": 0.1061,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "e69d21b6cd99201dfe4ae19d477064be7bc80be0",
+      "issue_id": "FLINK-17435",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "32bd0944d0519093c0a4d5d809c6636eb3a7fc31"
+      ],
+      "latency_sec": 0.1111,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "3af17562eb791e3f486c38dbd94dc3328309b262",
+      "issue_id": "FLINK-17467",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "5ac4d29609842cb086b46fd56f6e49a4287cfa1b",
+        "69bcacb0d26244cdb542143162f8c14c8926d755",
+        "fbec926d239ee7462059ab1cc43182d2e0a2a2ee"
+      ],
+      "latency_sec": 0.0646,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "dcd81133fdd16804d6ff855d0ad74280d0396587",
+      "issue_id": "FLINK-14499",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "0cf9c2846ad1b293b91059d172dd68dd0ffbf803"
+      ],
+      "latency_sec": 0.1529,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "d69d3c05894fe6fd925fa3856b8334a953b49b43",
+      "issue_id": "FLINK-16864",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "18787230ea0bb3b502a8002b9f4f0fa0afb85f63"
+      ],
+      "latency_sec": 0.1732,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "6a42bf6e72ddd86b88554c2342f0696b7c9af12b",
+      "issue_id": "FLINK-16535",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "9ffa85aaa1b9025e3d2becdc084a02aa8440d4d9"
+      ],
+      "latency_sec": 0.1062,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "9c9ac528d510fd075d7d51e5d4f07aa884a00238",
+      "issue_id": "FLINK-14813",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "2772cd02ed7fe611b9d04449cefd05d495db6ae0"
+      ],
+      "latency_sec": 0.1676,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "fdc2555c7d417ddd62a700b2ea67b59193ea720e",
+      "issue_id": "FLINK-13850",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "22b2a8856307c310b4c75b32eeed33ba66c0206e"
+      ],
+      "latency_sec": 0.0972,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "623d2540c8a4142ef016eeccd4b120c7a595117a",
+      "issue_id": "FLINK-8801",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c90a757b29f168144b1bae99df532911ae682e63",
+        "dac36482e2bc7b16d0c1e8dc8ae986d5cf6c1db6"
+      ],
+      "latency_sec": 0.0254,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "bf55c547655006be2c03dd1afa1f7db6dda6c0f4",
+      "issue_id": "FLINK-12904",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "147022cf7984b8e56d1e01e826d9640674837e68",
+        "7992e987d4d1fa1610e68451206c5988ff044566",
+        "d87d94474ee28f7d2cf317f1e717b35047d12ea4"
+      ],
+      "latency_sec": 0.0816,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "dd1eb082fdd291523ec931a01b295e407a2df1f5",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "d3fd7a6794a8ffd16e00bb1867b6e62c3909a2d2"
+      ],
+      "latency_sec": 0.1191,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "1b5a25178789945d63356bd6f923051e8c7fec4d",
+      "issue_id": "FLINK-11669",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c3a929346f9993d5177978053fc0bedd482faf7c"
+      ],
+      "latency_sec": 0.0867,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "51a278778c3536aa9f5030a8f43a7faea6889992",
+      "issue_id": "FLINK-8392",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1804aa33d0996810ad35bfa4dd526c86a1e12828",
+        "4947ee669fe267e3f71853cd14228b350cf10ac8",
+        "d95d20eb45185151d731c9b41e9b1ac22cf81334"
+      ],
+      "latency_sec": 0.078,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "142bde0e8410224de821cefe3876afb8bc6aaf1a",
+      "issue_id": "FLINK-7541",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "f1b2b83d639658907bbc521f967e2673c4c866a1",
+        "f7980a7e29457753eb3c5b975f3bb4b59d2014f8"
+      ],
+      "latency_sec": 0.2476,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "0182141d41be52ae0cf4a3563d4b8c6f3daca02e",
+      "issue_id": "FLINK-5808",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "9cfae899358e0694c3ecedae1fad20e428a1d359"
+      ],
+      "latency_sec": 0.0754,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "a13750ccf7bf2fc8c15746d891d8d6959ea073ad",
+      "issue_id": "FLINK-5808",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "e4fbae36207c563363eed39886c24eea51d7db01"
+      ],
+      "latency_sec": 0.0525,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "5b4dd4117d111514590dfb1bd0a1f4bba3db2b9e",
+      "issue_id": "FLINK-5808",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "f31a55e08ddb7b4bc9e47577a187bac31ad42f4b"
+      ],
+      "latency_sec": 0.0459,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "02c10d312371aaad12ed8961cdf96288fe78a983",
+      "issue_id": "FLINK-4177",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "62523acbe175cf159fe1b4ab6cf5c0412fc4d232",
+        "95d640b832a91b05d6031dbb09086206369666d3"
+      ],
+      "latency_sec": 0.0211,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "fd08ad2e715a86d7ca5dfcb3220318b421440ff1",
+      "issue_id": "FLINK-4894",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "cbdb784dc24abba50674d054bb21c94dd7a559a5"
+      ],
+      "latency_sec": 0.0478,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "b2f6f8c53a36f7f01aff9a8aee638382da415451",
+      "issue_id": "FLINK-3369",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "cf3ae88b73e30a2d69ac1cc6009a8304ea3f53cc"
+      ],
+      "latency_sec": 0.065,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "83e6a2b5f7621a2bfd8797ab071a94492bbac3d5",
+      "issue_id": "FLINK-3265",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6b01a89020f2de3f7710cf72336291b1e8ca8562"
+      ],
+      "latency_sec": 0.0523,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "53d8f1f0988e33fb5b43db113a4afd47a8aa5072",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "74dded1c2cb87c459be3444d1c7387bbc510e154"
+      ],
+      "latency_sec": 0.092,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "cac6e60b18497ee93b7cdc1841fa752c88afa93f",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "f5220d64b71a4e1468e6e045b06896f47e91fb02"
+      ],
+      "latency_sec": 0.1134,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "276cd616435e1397991c779ebde05a2b0b8747cc",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "9f4543e07e56ff17cdfd764169000acdd61b9bdc"
+      ],
+      "latency_sec": 0.037,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "8dd6660e4b45d38c698ba661c07c0f7f1dc70eac",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E4",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "a7a85e66ffb30154cf1b0c602b4b43f030425aad"
+      ],
+      "latency_sec": 0.0444,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "c09a21c82bc15ae9b515c49bbffee64f11ea6311",
+      "issue_id": "FLINK-39520",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "3aef0932ded1a1ece9943915c681e1fe33433700",
+        "9ce47b215fc0ceec92d90c5c719de7d58befb28b",
+        "cebc174ad5f86716aba5b54017269e7263b6dec0",
+        "d1914c63c95715086884fee20cfe08fe8388547b"
+      ],
+      "latency_sec": 0.0383,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "076fa80e3147d2d19f2f54af6b85fd63038fb6a0",
+      "issue_id": "FLINK-37158",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "0d0c185c7c29bef472c3755a4e395748dec5eaec",
+        "36eb336e4a623400a6bfdf1aab29723038e472a1"
+      ],
+      "latency_sec": 0.1027,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "77b03d94ab3857f80379ce6a6d10c142bddf72e5",
+      "issue_id": "FLINK-36585",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "fdf9b292b0db87b8639da1337d04c4ef570e5ca1"
+      ],
+      "latency_sec": 0.0271,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "99ad724f664155ed8a6298cf7f76bcebe5b17de4",
+      "issue_id": "FLINK-33668",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c1ea971129aa1f91c07cbb250ef4e377a7d67dec"
+      ],
+      "latency_sec": 0.0289,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "974f884021ea0587ffa029b997a76487e9911a36",
+      "issue_id": "FLINK-30166",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "440a275cad1092be7245f0438b7e5b5b1691f708",
+        "88c450b458e2f53f132d7f51cfd7771cc54fc072"
+      ],
+      "latency_sec": 0.099,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "fa199c1b51455ecb44c1869154f9452facd43403",
+      "issue_id": "FLINK-19869",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6aeb91ef0b4abcde0c3e9f561f1e8b849976ec50"
+      ],
+      "latency_sec": 0.0974,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "d212b83fddb53f2ec0363b6c08cd3cabb3c02990",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "cbfca3afae5d33f9137ae97eb4f4c27ea0d82919"
+      ],
+      "latency_sec": 0.0628,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "cb478fb751dbe28405152707040f9126b5a5269b",
+      "issue_id": "FLINK-25885",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "59d2d84d83696d4775b6ff3ec97f8274ff6e371f"
+      ],
+      "latency_sec": 0.034,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "b62382e634015733754b05c2ad351d9748ced2fb",
+      "issue_id": "FLINK-23434",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "a26887e1e257c6e9e14ad09d9aebe6416e69a4e1"
+      ],
+      "latency_sec": 0.0525,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "208126aa242c4e217be493140aefcf16c3c3aba9",
+      "issue_id": "FLINK-14076",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "2bcf5094919a0b3e6db99efcea0b259826f59ad0"
+      ],
+      "latency_sec": 0.0812,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "73e0e5c6712fd4653040e939cf788a72f7591199",
+      "issue_id": "FLINK-19052",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "162e3ead63e5766cf2116af09922a88537889e53"
+      ],
+      "latency_sec": 0.0383,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "9572c926194a9a29173ef1102d871653385639a3",
+      "issue_id": "FLINK-17558",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "90b8455d08eda7a6a55f5cc952fa1adf3a48ff96"
+      ],
+      "latency_sec": 0.0545,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "f33819b95f8d0eef5dd6a00c86b5cff6aea24e87",
+      "issue_id": "FLINK-17593",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "0341b4a8c5d45d0860e1a4671accf7772d515991"
+      ],
+      "latency_sec": 0.0247,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "344df74025f519d1e25ab6764d7fe863bab78870",
+      "issue_id": "FLINK-10727",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "194603a89844af1f6613b88d6401d28a170494a6"
+      ],
+      "latency_sec": 0.0256,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "91d346e9e7611be530509154cc7034cbde22653d",
+      "issue_id": "FLINK-7851",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "d9c669d4781f095806013651c1a579eae0ca2650"
+      ],
+      "latency_sec": 0.0475,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "0f92a6b575cefcb6d5e9e151f6651ff31b126c7c",
+      "issue_id": "FLINK-4154",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "81cf2296683a473db4061dd3bed0aeb249e05058"
+      ],
+      "latency_sec": 0.0237,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "684ec7ef51d816a6df6446d8a689730187ead10d",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "5c6603e2984d2e580ac105237b997e1373635762",
+        "9d7acf3657cbd3fb0b238b20ba864b6a74774e40"
+      ],
+      "latency_sec": 0.0382,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "84209975a2a8b645c3708e3f8c9594972ca97f18",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E2",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "a452fd48e971fa17423785398015aac887dbb6c0"
+      ],
+      "latency_sec": 0.0147,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "334e01f0a48d38508abcd1096c44806d9739d88e",
       "issue_id": "FLINK-39616",
       "stratum": "E5",
-      "ground_truth_bics": [
-        "3afaa8cf645e39559b5e01d8ef2ae143846b161a"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [],
-      "latency_sec": 0.075,
+      "latency_sec": 0.1158,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "a6b586aaa49e10a9793b58fee5e92ba5bc098959",
       "issue_id": "FLINK-ORACLE",
       "stratum": "E5",
-      "ground_truth_bics": [
-        "a1473daaffbab7cf7abc974fadb634408eeb3db7"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [],
-      "latency_sec": 0.0469,
+      "latency_sec": 0.0665,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     },
     {
       "fix_commit_hash": "aaba4e82d4e7fb7060cb9d3254046dc00b68099a",
       "issue_id": "FLINK-ORACLE",
       "stratum": "E5",
-      "ground_truth_bics": [
-        "5f38f91a602201c4f52ac8febe13f9d72367a8c5"
-      ],
+      "ground_truth_bics": [],
       "predicted_bics": [],
-      "latency_sec": 0.0218,
+      "latency_sec": 0.0213,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "c1baf07d7601a683f42997dc35dfaef4e41bc928",
+      "issue_id": "FLINK-35215",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.0793,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "e33034f8aa359c9233e5c1fa570e5270c7a03737",
+      "issue_id": "FLINK-30958",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.1066,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "362ac9136eb6db5aaaeb41de61a883a1c4d4faf1",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.0409,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "fc343e0c390991d1d647df89041b4d872e29b6d3",
+      "issue_id": "FLINK-5296",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.0522,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "cce6834859e70d5eaa964916c9bbe9294a2c01cc",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.0414,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "3e6471436eb6e1e3763345a79023a8583a1e1b23",
+      "issue_id": "FLINK-41260",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.0195,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "d851e0a897a68655f061b096bb70c6d245b10adc",
+      "issue_id": "FLINK-41040",
+      "stratum": "E5",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.091,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "0d0c185c7c29bef472c3755a4e395748dec5eaec",
+      "issue_id": "FLINK-37158",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6099697b501d58d08deb9154f77cb81e46117fd6"
+      ],
+      "latency_sec": 0.0207,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "46db92641602313c4f5c1390807222c344880e2d",
+      "issue_id": "FLINK-34954",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "39779829b8853c61c9da9eaf193f0fedf5857f7b"
+      ],
+      "latency_sec": 0.0839,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "431f757aa3547833b3684f7e80dcc3ec8d2d8311",
+      "issue_id": "FLINK-26285",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c6997c97c575d334679915c328792b8a3067cfb5"
+      ],
+      "latency_sec": 0.0446,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "141189fb1a6af566569c65e111461e64bd05e4c5",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1cd880139d90c45933018d549d7a6f394f7eee80"
+      ],
+      "latency_sec": 0.0476,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "6a6dfef228336c560671e6ce8af946e070b8a1d2",
+      "issue_id": "FLINK-23954",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6a7b5e8079cfced519ac5e106f0fb7277131f8bd"
+      ],
+      "latency_sec": 0.056,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "9588c5da3b8393b76c44acd23e4f8a349562e00b",
+      "issue_id": "FLINK-21178",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "816ce969df408dcaff52c6341be9299ffaa61805"
+      ],
+      "latency_sec": 0.0199,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "e33fa27d3e2db1ee2eec5bd3dd331656a115ae50",
+      "issue_id": "FLINK-18500",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1909e933a7b9d6cbbbc7b79b6db62ebce041c136"
+      ],
+      "latency_sec": 0.0581,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "89262012a86647ebc3658027e5690a242b2f0782",
+      "issue_id": "FLINK-20033",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "eaaa174247097dce2dbe3b3812af0dc5aec990a0"
+      ],
+      "latency_sec": 0.0208,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "a064db81d422c2383d1131c67ac0bcc6b45058e7",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "9eb295f1dfdd6eb669376656f0b2156bedf687a9"
+      ],
+      "latency_sec": 0.0745,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "95d640b832a91b05d6031dbb09086206369666d3",
+      "issue_id": "FLINK-ORACLE",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "5fa389014a3ce40534703c8a5731c8a9a955058a"
+      ],
+      "latency_sec": 0.0213,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "81cf2296683a473db4061dd3bed0aeb249e05058",
+      "issue_id": "FLINK-4154",
+      "stratum": "E1",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "760a0d9e7fd9fa88e9f7408b137d78df384d764f"
+      ],
+      "latency_sec": 0.0204,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "189b6ca8313ada196596cb53315866e7a531d441",
+      "issue_id": "FLINK-40592",
+      "stratum": "E8",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "4cbe3644ac70e773c042ef5e42eda1e7baaab200"
+      ],
+      "latency_sec": 0.0491,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "2b9453a6d11d091e8a734e1fc0b0abc49e45628a",
+      "issue_id": "FLINK-40335",
+      "stratum": "E8",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1786e2ddfd1a1df5e907f5719138f63e819cb1a3"
+      ],
+      "latency_sec": 0.1342,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "88b3432a2845952543a8396aeb8e2cddab77b509",
+      "issue_id": "FLINK-32029",
+      "stratum": "E8",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "a81ffa6d019d9891bd3a54f50fb36ad847721daa"
+      ],
+      "latency_sec": 0.0253,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "753734f0a1a6f44b9e33e84377f63ea6f0a85769",
+      "issue_id": "FLINK-31272",
+      "stratum": "E8",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "fea9ffedecf81a97de5c31519ade3bab8228e743"
+      ],
+      "latency_sec": 0.0197,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "02032e2efb138b9e3c588337714e6c2f64ff2499",
+      "issue_id": "FLINK-33668",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "4171b980717e5dc313d781210a5bbfd35449ee50"
+      ],
+      "latency_sec": 0.0281,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "7a709bf323c1cce3440887fe937311bae119aab0",
+      "issue_id": "FLINK-33532",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "d18a4bfe596fc580f8280750fa3bfa22007671d9"
+      ],
+      "latency_sec": 0.2887,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "c0936deaf99390fc727acc8633e3be22e62f4bf5",
+      "issue_id": "FLINK-26985",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "31222b9adf1c354b22fd50c587efc16734b18d40",
+        "718609d1d0349ab544f09012894d68fa10d10b1f"
+      ],
+      "latency_sec": 0.1146,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "be75c0d82613726a7f508824730bbf2c9f6e8625",
+      "issue_id": "FLINK-25085",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "5580cd6283eec0b977e1c5351fd3cdec2956510a"
+      ],
+      "latency_sec": 0.1624,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "1702c9e4f4be0f8c6c482601cd1e1029ab8a0a16",
+      "issue_id": "FLINK-24041",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "271a346920f4ff873ef21957e97332fcf1af14be"
+      ],
+      "latency_sec": 0.1483,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "67150da3ffa64064f2481f68c15109456c16c41e",
+      "issue_id": "FLINK-23759",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "45d87361cbb6ab36956ddaa4c142ffa2249d1400",
+        "4987190b66040a78bdc4b488f45c9f71f027f460"
+      ],
+      "latency_sec": 0.0545,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "73afe2be8b75913246193607472026415a16a175",
+      "issue_id": "FLINK-17869",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "24ff415f1b76392f75dea7c3538558d24fcb7058",
+        "82a13db052cba122eea6e1a8645a7c02c78e4201"
+      ],
+      "latency_sec": 0.0343,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "ffa44756858562d52a119c5560bf848ee669072b",
+      "issue_id": "FLINK-14971",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "214896aeee8531c24c27d000a2c49a70858c1c39",
+        "2813be7a3e199da208ebc66acb840375f7004167",
+        "5d5a29bbe1ec3649ee29629a52e1ee264a02ba6c",
+        "874310f68acd418a0a1390f9bd667e506e0efb90"
+      ],
+      "latency_sec": 0.1374,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "2813be7a3e199da208ebc66acb840375f7004167",
+      "issue_id": "FLINK-14971",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "1a1386266ee94bf318f8105b96d2c84d74016f62",
+        "214896aeee8531c24c27d000a2c49a70858c1c39"
+      ],
+      "latency_sec": 0.1287,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "6adbe94b0ef269df6f50bfb2dbc0d766e9f848c0",
+      "issue_id": "FLINK-14971",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "f248e6df7e79245091b569fa3afd107b78058fd9"
+      ],
+      "latency_sec": 0.1243,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "214896aeee8531c24c27d000a2c49a70858c1c39",
+      "issue_id": "FLINK-14971",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "d8267be27ff397aaa3f0b7c2860f4bf8885fcd4b"
+      ],
+      "latency_sec": 0.1597,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "5d5a29bbe1ec3649ee29629a52e1ee264a02ba6c",
+      "issue_id": "FLINK-14971",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6936713b3b9b0caea8ce080d9b9d3de16a4db46f"
+      ],
+      "latency_sec": 0.056,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "d3fa2e5224a331ccdc9d141fe33f69977b8eedb5",
+      "issue_id": "FLINK-16945",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "288750a76f64269de7f5eb2aee72feb92b048036"
+      ],
+      "latency_sec": 0.0208,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "aacf0792bc1a39f3953724d2387ee668572b4b22",
+      "issue_id": "FLINK-15992",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "c6158648f851e185c86f2094cb2df785b64c28d3"
+      ],
+      "latency_sec": 0.0508,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "2c8b4ef572f05bf4740b7e204af1e5e709cd945c",
+      "issue_id": "FLINK-14553",
+      "stratum": "E7",
+      "ground_truth_bics": [],
+      "predicted_bics": [],
+      "latency_sec": 0.1814,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "8386ef57ca5667588d0db0f19a335ef4c30094a7",
+      "issue_id": "FLINK-32223",
+      "stratum": "E6",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "70e635983dc9aa4bd772042f34a04099256a8750"
+      ],
+      "latency_sec": 0.3242,
+      "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
+    },
+    {
+      "fix_commit_hash": "b49684cb4a80106872b07cffd03261285c3bb271",
+      "issue_id": "FLINK-40727",
+      "stratum": "E6",
+      "ground_truth_bics": [],
+      "predicted_bics": [
+        "6afaa60978cf5d1044caff7557e24f27e1fa6d18",
+        "c8ae39d4ac73f81873e1d8ac37e17c29ae330b23"
+      ],
+      "latency_sec": 0.1617,
       "reasoning_or_metadata": "Annotation graph with whitespace & comment filtering"
     }
   ]

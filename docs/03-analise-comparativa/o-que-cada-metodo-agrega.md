@@ -1,7 +1,7 @@
 # Síntese Científica: O que Cada Algoritmo SZZ Agrega e Onde Cada um é Superior
 
 > [!IMPORTANT]
-> **Fundamentação Teórica (`DEC-008`, `DEC-010`)**: Este documento detalha a tese científica, a contribuição original e o **nicho exato de superioridade de cada um dos 10 algoritmos SZZ**, permitindo interpretar com precisão os resultados na base unificada do **Apache Flink** e nas 10 bases históricas.
+> **Fundamentação Teórica (`DEC-008`, `DEC-010`, `DEC-012`, `DEC-013`)**: Este documento detalha a tese científica, a contribuição original e o **nicho exato de superioridade de cada um dos 10 algoritmos SZZ**, permitindo interpretar com precisão os resultados na base unificada do **Apache Flink** e o roadmap para as 20 bases empíricas.
 
 ---
 
@@ -56,17 +56,34 @@
   - Em commits de segurança onde o patch de correção apenas **adiciona verificações defensivas** (*null checks*, limites de buffer) sem deletar nenhuma linha de código pré-existente (cenário onde o `git blame` tradicional falha 100% das vezes).
   - Desambigua commits mistos onde o desenvolvedor corrigiu o bug e aproveitou para fazer melhorias não relacionadas.
 
-### 3.2 LLM4SZZ (Tang et al., 2025 - arXiv:2504.01404)
-* **Contribuição Original**: Abordagem em duas fases: ranqueamento de linhas suspeitas com LLM e avaliação de contexto estendido para filtrar falsas causalidades no patch.
+### 3.2 LLM4SZZ (Tang et al., 2025 - arXiv:2504.01404 / ACM TOSEM)
+* **Contribuição Original**: Mecanismo adaptativo de **Ability Check** integrando duas frentes:
+  1. *Rank-based Suspicious Statement Identification*: Ranqueia as declarações deletadas por probabilidade causal $P(\text{RootCause} \mid \text{Patch, Msg})$ para guiar o blame focado;
+  2. *Context-Enhanced Candidate Assessment*: Fornece contexto semântico alargado para patches onde a causa raiz reside fora das linhas removidas.
 * **Onde é Superior**:
-  - Em correções extensas com múltiplos blocos de código deletados, ranqueando com probabilidade semântica qual bloco continha a causa raiz da falha antes de invocar o rastreador de versão.
+  - Em patches com múltiplas linhas deletadas onde apenas uma sub-expressão é causal (*Tangled Commits* — `E4`), reduzindo o *Wasted Inspection Effort LOC* ao nível mais baixo da literatura.
 
 ### 3.3 AgentSZZ (Risse & Böhme, IEEE/ACM ASE 2026)
-* **Contribuição Original**: Agente autônomo baseado no paradigma ReAct que atua como um "detetive", formulando consultas dinâmicas de `git log` e `git diff` para inspecionar causalmente o histórico.
+* **Contribuição Original**: Agente autônomo baseado no paradigma ReAct (Reasoning + Acting) que formula consultas dinâmicas de `git log` e `git diff` para inspecionar causalmente o histórico evolutivo.
 * **Onde é Superior**:
-  - Em falhas complexas multi-arquivo e bugs arquiteturais que cruzam vários componentes do sistema (cenário muito comum no Apache Flink).
+  - Em falhas complexas multi-arquivo, regressões de concorrência (`E7`) e bugs arquiteturais que cruzam vários componentes do sistema distribuído.
 
 ### 3.4 Prompt-SZZ / CoT-SZZ (Baseline Canônico de Raciocínio)
 * **Contribuição Original**: Aplicação de *Chain-of-Thought (CoT)* e *Zero-Shot Reasoning* direto sobre o diff unificado da correção e a mensagem do commit.
 * **Onde é Superior**:
   - Como linha de base ágil e econômica para quantificar o ganho marginal de abordagens baseadas em agentes multi-turn (*AgentSZZ*) versus inferência direta em etapa única.
+
+---
+
+## 🎯 4. Matriz de Cobertura nos 8 Cenários de Erro (`E1` a `E8`)
+
+| Cenário de Erro | Algoritmo Recomendado | Família | Justificativa Técnica |
+| :--- | :---: | :---: | :--- |
+| **E1 (Bugs Atômicos Diretos)** | `01-bszz` / `04-lszz` | Heurística / AST | Blame direto atinge alta precisão sem custo de inferência de IA. |
+| **E2 (Ruído Cosmético & Metadados)** | `04-lszz` | AST (`srcML`) | AST descarta 100% de mudanças cosméticas sem custo de LLM. |
+| **E3 (Refatorações Estruturais Java)** | `05-raszz` | Refatoração | `RefactoringMiner 2.0` rastreia movimentações de métodos com precisão determinística. |
+| **E4 (Tangled & Large Patches)** | `08-llm4szz` | LLM Ability Check | Ranqueamento causal isola as declarações defeituosas dentre dezenas de mudanças cosméticas. |
+| **E5 (Add-Only Fixes & Multi-Arquivo)**| `07-llm-szz` / `08-llm4szz` | LLM Contextual | Métodos heurísticos e sintáticos falham ($F_1 = 0.00$); apenas LLMs recuperam o contexto. |
+| **E6 (Vulnerabilidades / CVEs)** | `07-llm-szz` | LLM Reflexivo | Conexão semântica entre a descrição da CVE no NVD e a introdução da vulnerabilidade. |
+| **E7 (Concorrência & Estado Distribuído)**| `09-agentszz` | LLM ReAct Agent | Investigação multi-turn analisa locks, canais e condições de corrida entre múltiplos arquivos. |
+| **E8 (Alta Latência de Verificação)** | `08-llm4szz` / `09-agentszz` | LLM Adaptativo | Resiliente ao acúmulo de commits intermediários durante o período dormente (>180 dias). |

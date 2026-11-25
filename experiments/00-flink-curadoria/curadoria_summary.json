@@ -6,13 +6,16 @@
     "non_java_docs_py_scala": 940,
     "merge_or_empty": 0
   },
-  "stratified_benchmark_total": 51,
+  "stratified_benchmark_total": 143,
   "strata_counts": {
-    "E1": 12,
-    "E2": 12,
-    "E3": 12,
-    "E4": 12,
-    "E5": 3
+    "E1": 11,
+    "E2": 18,
+    "E3": 13,
+    "E4": 68,
+    "E5": 10,
+    "E6": 2,
+    "E7": 15,
+    "E8": 6
   },
-  "developer_explicit_oracle_count": 51
+  "developer_explicit_oracle_count": 128
 }

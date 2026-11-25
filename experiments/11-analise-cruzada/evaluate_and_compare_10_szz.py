@@ -108,12 +108,25 @@ def cliffs_delta(x, y):
 
 def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    ORACLE_PATH = EXP_DIR / "00-flink-curadoria/flink_oracle_ground_truth.json"
+    with open(ORACLE_PATH, "r", encoding="utf-8") as f:
+        oracle_items = json.load(f)
+    oracle_map = {x["fix_commit_hash"]: set(x["ground_truth_bics"]) for x in oracle_items}
+    strata_map = {x["fix_commit_hash"]: x["stratum"] for x in oracle_items}
+
+    ALL_STRATA = ("E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8")
 
     alg_data = {}
     for alg_id in ALG_ORDER:
         p = EXP_DIR / alg_id / "predictions.json"
         with open(p, "r", encoding="utf-8") as f:
             alg_data[alg_id] = json.load(f)
+            # Injeta ground truth e estrato do oráculo auditado
+            for item in alg_data[alg_id]["results"]:
+                fh = item["fix_commit_hash"]
+                if fh in oracle_map:
+                    item["ground_truth_bics"] = sorted(oracle_map[fh])
+                    item["stratum"] = strata_map.get(fh, item.get("stratum", "E1"))
 
     # 1. Métricas Globais e Unique True Positives (UTP)
     # Um True Positive (fix_commit, true_bic) é UTP de um algoritmo A se apenas A (ou apenas a família de A) o acertou
@@ -135,7 +148,7 @@ def main():
         all_pred_pairs_by_alg[alg_id] = pred_pairs
 
     global_metrics = {}
-    strata_metrics = {st: {} for st in ("E1", "E2", "E3", "E4", "E5")}
+    strata_metrics = {st: {} for st in ALL_STRATA}
 
     for alg_id in ALG_ORDER:
         res = alg_data[alg_id]["results"]
@@ -147,7 +160,7 @@ def main():
         gm["utp_vs_heuristic"] = len(tp_sets_by_alg[alg_id] - heur_tps)
         global_metrics[alg_id] = gm
 
-        for st in ("E1", "E2", "E3", "E4", "E5"):
+        for st in ALL_STRATA:
             sub = [r for r in res if r.get("stratum") == st]
             strata_metrics[st][alg_id] = compute_metrics_for_subset(sub)
 
@@ -205,11 +218,11 @@ def main():
                 ]
             )
 
-    # 4. Exportar CSV por Estrato (E1-E5)
+    # 4. Exportar CSV por Estrato (E1-E8)
     csv_strata_path = OUT_DIR / "flink_10_szz_strata_f1.csv"
     with open(csv_strata_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["Algorithm_ID", "E1_F1", "E2_F1", "E3_F1", "E4_F1", "E5_F1", "Global_F1"])
+        writer.writerow(["Algorithm_ID", "E1_F1", "E2_F1", "E3_F1", "E4_F1", "E5_F1", "E6_F1", "E7_F1", "E8_F1", "Global_F1"])
         for alg_id in ALG_ORDER:
             writer.writerow(
                 [
@@ -219,6 +232,9 @@ def main():
                     strata_metrics["E3"][alg_id]["f1"],
                     strata_metrics["E4"][alg_id]["f1"],
                     strata_metrics["E5"][alg_id]["f1"],
+                    strata_metrics["E6"][alg_id]["f1"],
+                    strata_metrics["E7"][alg_id]["f1"],
+                    strata_metrics["E8"][alg_id]["f1"],
                     global_metrics[alg_id]["f1"],
                 ]
             )
@@ -263,10 +279,10 @@ def main():
             "",
             "---",
             "",
-            "## 2. Desempenho Estratificado por Cenário de Estresse (F1-Score por Estrato E1 a E5)",
+            "## 2. Desempenho Estratificado por Cenário de Estresse (F1-Score por Estrato E1 a E8)",
             "",
-            "| ID | Algoritmo SZZ | **E1 (Atômicos)** | **E2 (Cosmético/Javadoc)** | **E3 (Refatoração Java)** | **E4 (Tangled Commits)** | **E5 (Add-Only / Multi-File)** | **Global F1** |",
-            "| :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: |",
+            "| ID | Algoritmo SZZ | **E1 (Atôm.)** | **E2 (Cosm.)** | **E3 (Refat.)** | **E4 (Tang.)** | **E5 (Add-Only)** | **E6 (Segur.)** | **E7 (Conc.)** | **E8 (Latênc.)** | **Global F1** |",
+            "| :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |",
         ]
     )
 
@@ -278,8 +294,46 @@ def main():
             f"{strata_metrics['E3'][alg_id]['f1']:.4f} | "
             f"{strata_metrics['E4'][alg_id]['f1']:.4f} | "
             f"{strata_metrics['E5'][alg_id]['f1']:.4f} | "
+            f"{strata_metrics['E6'][alg_id]['f1']:.4f} | "
+            f"{strata_metrics['E7'][alg_id]['f1']:.4f} | "
+            f"{strata_metrics['E8'][alg_id]['f1']:.4f} | "
             f"**{global_metrics[alg_id]['f1']:.4f}** |"
         )
+
+    # 2.1 Estudo de Ablação do LLM4SZZ (Ability Check, Context-Enhanced vs. Rank-Based)
+    ablation_p = EXP_DIR / "08-llm4szz/ablation_summary.json"
+    ablation_stats = {}
+    if ablation_p.exists():
+        with open(ablation_p, "r", encoding="utf-8") as f:
+            ablation_raw = json.load(f)
+        report_lines.extend(
+            [
+                "",
+                "---",
+                "",
+                "## 2.1 Estudo de Ablação do LLM4SZZ (Tang et al., 2025)",
+                "",
+                "| Modo de Identificação do LLM4SZZ | Mecanismo Ativado | Precision | Recall | **F1-Score** | Wasted Effort LOC |",
+                "| :--- | :--- | :-: | :-: | :-: | :-: |",
+            ]
+        )
+        for m_name, m_label in [
+            ("rank-only", "Apenas Ranqueamento de Declarações Suspeitas (Sem Contexto)"),
+            ("context-only", "Apenas Avaliação de Contexto Semântico Amplo (Sem Rastreio Fino)"),
+            ("full-ability-check", "LLM4SZZ Completo (Ability Check Inteligente Tang et al.)"),
+        ]:
+            if m_name in ablation_raw:
+                m_items = ablation_raw[m_name]
+                for mi in m_items:
+                    fh = mi["fix_commit_hash"]
+                    if fh in oracle_map:
+                        mi["ground_truth_bics"] = sorted(oracle_map[fh])
+                m_metrics = compute_metrics_for_subset(m_items)
+                ablation_stats[m_name] = m_metrics
+                report_lines.append(
+                    f"| `{m_name}` | {m_label} | {m_metrics['precision']:.4f} | {m_metrics['recall']:.4f} | "
+                    f"**{m_metrics['f1']:.4f}** | {m_metrics['wasted_effort_loc']} LOC |"
+                )
 
     report_lines.extend(
         [
@@ -311,8 +365,9 @@ def main():
                 },
                 "strata_f1": {
                     st: {alg: strata_metrics[st][alg]["f1"] for alg in ALG_ORDER}
-                    for st in ("E1", "E2", "E3", "E4", "E5")
+                    for st in ALL_STRATA
                 },
+                "ablation_llm4szz": ablation_stats,
                 "jaccard_matrix": jaccard_matrix,
                 "simpson_matrix": simpson_matrix,
                 "effect_sizes": effect_sizes,

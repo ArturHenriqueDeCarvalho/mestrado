@@ -209,3 +209,51 @@ Este documento registra formalmente todas as escolhas, adaptações, critérios 
 * **Pesquisas Afetadas**: Todos os 10 Algoritmos SZZ (`01-bszz` a `10-promptszz`) e a base `00-flink`.
 * **Impacto na Escrita do Artigo**:
   - *Desenho Experimental*, *Protocolo de Curadoria de Dados*, *Resultados por Estrato (RQ1–RQ3)* e *Ameaças à Validade*.
+
+---
+
+### DEC-012: Blindagem Anti-Vazamento (Zero Target Leakage), Protocolo Cego e Ampliação para 8 Cenários de Erro (E1–E8)
+
+* **Data**: 25/11/2026
+* **Decisão Metodológica**:
+  1. **Separação Rígida entre Entrada Cega e Gabarito de Avaliação**:
+     - Fica estritamente proibido aos algoritmos `01` a `10` ter acesso aos campos `ground_truth_bics` ou `explicit_developer_bics` durante a execução de predição.
+     - A curadoria do Apache Flink exporta dois artefatos formalmente desacoplados:
+       - `flink_blind_input.json`: fornecido aos algoritmos, contendo exclusivamente metadados operacionais da alteração (`fix_commit_hash`, `parent_hash`, arquivos `.java`, mensagens e métricas);
+       - `flink_oracle_ground_truth.json`: mantido isolado e consumido exclusivamente pelo motor de avaliação estatística cruzada (`evaluate_and_compare_10_szz.py`).
+  2. **Expansão dos Cenários de Erro de 5 para 8 Estratos (`E1` a `E8`)**:
+     - Preservar os estratos seminais `E1` (Atômicos), `E2` (Cosmético/Anotações), `E3` (Refatoração Java), `E4` (Tangled Commits) e `E5` (Add-Only Fixes);
+     - Incorporar três novos cenários críticos:
+       - `E6`: Vulnerabilidades de Segurança / CVEs (NVD/Advisories do Apache Flink);
+       - `E7`: Concorrência, Sincronização e Estado Distribuído (*race conditions*, *deadlocks*, locks, canais assíncronos);
+       - `E8`: Alta Latência de Verificação / Bugs Dormentes ($\Delta t > 180$ dias entre BIC e BFC), conectando experimentalmente o SZZ ao fenômeno de *Verification Latency* em *Just-In-Time Defect Prediction* (Song et al., ACM ESEC/FSE 2023).
+  3. **Estudo de Ablação Sistemático do LLM4SZZ**:
+     - Implementar no algoritmo `08-llm4szz` a execução isolada de seus submódulos (*Rank-based* vs. *Context-enhanced* vs. *Full Ability Check* de Tang et al., 2025) para mensurar a contribuição exata de cada componente.
+* **Motivo & Racional Científico**:
+  Garantir integridade metodológica absoluta (Wohlin et al.), eliminar qualquer viés de contaminação amostral e viabilizar a análise empírica discriminada nos cenários de maior impacto na indústria.
+* **Pesquisas Afetadas**: Todos os 10 Algoritmos SZZ e a base `00-flink`.
+* **Impacto na Escrita do Artigo**:
+  - *Metodologia / Procedimentos Experimentais*, *Desenho Experimental*, *Resultados (RQ1 e RQ2)* e *Ameaças à Validade Interna*.
+
+---
+
+### DEC-013: Estruturação do Artigo em Formato de Periódico Científico, 3 Research Questions (JIT-SDP / Song et al., FSE 2023) e Roadmap das 20 Bases (Java & Python)
+
+* **Data**: 25/11/2026
+* **Decisão Metodológica**:
+  1. **Formato Editorial Sem Limitação de Páginas**:
+     - Redigir o documento científico principal da pesquisa na estrutura de artigo de revista científica internacional (padrão *Empirical Software Engineering - EMSE* / *IEEE TSE*), sem restrição de páginas, servindo integralmente como entrega de final do 1º ano e base nuclear da Dissertação de Mestrado.
+  2. **Formalização de 3 Research Questions Conectando SZZ e JIT-SDP**:
+     - Inspiradas no rigor do trabalho seminal de Song et al. (ACM ESEC/FSE 2023 — *HumLa* e *ECo-HumLa*), as questões de pesquisa estruturam-se em:
+       - **RQ1 (Eficácia Discriminada e Concordância Multi-Cenário E1–E8)**: Mapeamento de `Precision`, `Recall`, `F1`, `UTP`, `Jaccard` e `Kappa` nos 8 cenários;
+       - **RQ2 (Anatomia Interna, Ablação do LLM4SZZ e Comparação de LLMs/Agentes)**: Avaliação do *Ability Check* e trade-offs entre abordagens reflexivas, line-ranking e agentes ReAct;
+       - **RQ3 (Redução do Esforço de Inspeção Humana e Sinergia com Predição JIT por Commit)**: Quantificação do *Wasted Inspection Effort LOC*, mitigação da latência `E8` e economia de esforço humano (`ECo-HumLa`).
+  3. **Catálogo Futuro de 20 Bases Maximizadas (14 Java + 6 Python)**:
+     - Consolidar a estratégia em duas fases:
+       - **Fase Atual**: Conduzida com profundidade sobre as 12 bases já presentes no acervo local (destaque para o benchmark pareado no Apache Flink e os 10 datasets Apache do `SZZ-TSE`);
+       - **Fase Futura (Escalonamento com Agentes)**: Expansão para 20 bases completas (>309k commits curados), integrando 14 bases Java (para confronto estático vs. neural) e 6 bases Python (`Django`, `Nova`, `TensorFlow`, `Ansible`, `Airflow`, `Scikit-Learn`), demonstrando que agentes autônomos LLM resolvem a ausência de ferramentas de refatoração para linguagens de tipagem dinâmica.
+* **Motivo & Racional Científico**:
+  Atender com fidelidade aos direcionamentos do Professor Orientador na reunião de acompanhamento, garantindo alta densidade acadêmica e clareza de horizonte até a defesa da Dissertação.
+* **Pesquisas Afetadas**: Todas as 10 implementações de SZZ, as bases locais e futuras.
+* **Impacto na Escrita do Artigo**:
+  - Todo o corpo do artigo (`docs/05-artigo-cientifico/artigo-revista-szz-flink-jitsdp.md`), matriz comparativa e planejamento de qualificações.

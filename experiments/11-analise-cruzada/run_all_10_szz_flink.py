@@ -14,7 +14,7 @@ from pathlib import Path
 
 REPO_ROOT = Path("/home/artur-carvalho/mestrado")
 FLINK_DIR = REPO_ROOT / "repos/00-flink"
-BENCH_PATH = REPO_ROOT / "experiments/00-flink-curadoria/flink_stratified_benchmark.json"
+BENCH_PATH = REPO_ROOT / "experiments/00-flink-curadoria/flink_blind_input.json"
 EXP_DIR = REPO_ROOT / "experiments"
 
 
@@ -181,7 +181,7 @@ def run_deterministic_szz_family(bench: list):
         h = item["fix_commit_hash"]
         parent = item["parent_hash"]
         prod_files = item["prod_java_files"]
-        gt = item["ground_truth_bics"]
+        gt = item.get("ground_truth_bics", [])
         st = item["stratum"]
         iss = item["issue_id"]
 
@@ -338,19 +338,19 @@ def main():
     ]
     for alg_id, script_path in llm_runners:
         out_p = EXP_DIR / alg_id / "predictions.json"
-        subprocess.run(
-            [
-                "python3",
-                str(script_path),
-                "--benchmark",
-                str(BENCH_PATH),
-                "--repo",
-                str(FLINK_DIR),
-                "--output",
-                str(out_p),
-            ],
-            check=True,
-        )
+        cmd = [
+            "python3",
+            str(script_path),
+            "--benchmark",
+            str(BENCH_PATH),
+            "--repo",
+            str(FLINK_DIR),
+            "--output",
+            str(out_p),
+        ]
+        if alg_id == "08-llm4szz":
+            cmd.extend(["--ablation-output", str(EXP_DIR / "08-llm4szz/ablation_summary.json")])
+        subprocess.run(cmd, check=True)
 
 
 if __name__ == "__main__":

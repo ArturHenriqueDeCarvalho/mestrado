@@ -1,3 +1,8 @@
+# Credenciais e Variáveis de Ambiente
+.env
+.env.*
+!.env.example
+
 # Ambientes Virtuais Python
 .venv*/
 venv/

@@ -4,33 +4,43 @@
 
 | ID | Algoritmo SZZ | Família | TP | FP | FN | Precision | Recall | **F1-Score** | UTP (vs. Heur.) | Wasted Effort (LOC) | Latência/Commit (s) | Cliff's $\delta$ (vs. B-SZZ) |
 | :-: | :--- | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| `01-bszz` | **B-SZZ (Śliwerski et al., FSE 2005)** | Heuristic | 46 | 15 | 15 | 0.7541 | 0.7541 | **0.7541** | 0 | 720 LOC | 0.0836s | +0.00 (*negligible*) |
-| `02-agszz` | **AG-SZZ (Kim et al., ASE 2006)** | Heuristic | 45 | 14 | 16 | 0.7627 | 0.7377 | **0.7500** | 0 | 672 LOC | 0.0836s | -0.02 (*negligible*) |
-| `03-maszz` | **MA-SZZ (da Costa et al., EMSE 2017)** | Heuristic | 45 | 13 | 16 | 0.7759 | 0.7377 | **0.7563** | 0 | 624 LOC | 0.0836s | +0.01 (*negligible*) |
-| `04-lszz` | **L-SZZ (Rosa et al., ICSE 2021 - AST/srcML)** | Syntactic | 41 | 6 | 20 | 0.8723 | 0.6721 | **0.7593** | 0 | 288 LOC | 0.0836s | +0.06 (*negligible*) |
-| `05-raszz` | **RA-SZZ (Neto/Fan et al., TSE 2021 - RefactoringMiner)** | Syntactic | 36 | 11 | 25 | 0.7660 | 0.5902 | **0.6667** | 0 | 528 LOC | 0.0836s | -0.03 (*negligible*) |
-| `06-szz-unleashed` | **SZZ Unleashed (Borg et al., ESEM 2019 - JGit Jaccard)** | Syntactic | 45 | 15 | 16 | 0.7500 | 0.7377 | **0.7438** | 0 | 720 LOC | 0.0836s | -0.04 (*negligible*) |
-| `07-llm-szz` | **LLM-SZZ (Fan et al., FSE 2024)** | LLM | 46 | 4 | 15 | 0.9200 | 0.7541 | **0.8288** | 5 | 192 LOC | 0.5331s | +0.18 (*small*) |
-| `08-llm4szz` | **LLM4SZZ (Tang et al., 2025)** | LLM | 50 | 1 | 11 | 0.9804 | 0.8197 | **0.8929** | 8 | 48 LOC | 0.3807s | +0.27 (*small*) |
-| `09-agentszz` | **AgentSZZ (Risse & Böhme, ASE 2026)** | LLM | 46 | 5 | 15 | 0.9020 | 0.7541 | **0.8214** | 7 | 240 LOC | 0.4802s | +0.18 (*small*) |
-| `10-promptszz` | **Prompt-SZZ (Zero-Shot CoT Baseline)** | LLM | 48 | 3 | 13 | 0.9412 | 0.7869 | **0.8571** | 5 | 144 LOC | 0.2428s | +0.22 (*small*) |
+| `01-bszz` | **B-SZZ (Śliwerski et al., FSE 2005)** | Heuristic | 123 | 56 | 37 | 0.6872 | 0.7688 | **0.7257** | 0 | 2688 LOC | 0.1031s | +0.00 (*negligible*) |
+| `02-agszz` | **AG-SZZ (Kim et al., ASE 2006)** | Heuristic | 121 | 48 | 39 | 0.7160 | 0.7562 | **0.7356** | 0 | 2304 LOC | 0.1031s | +0.00 (*negligible*) |
+| `03-maszz` | **MA-SZZ (da Costa et al., EMSE 2017)** | Heuristic | 109 | 37 | 51 | 0.7466 | 0.6813 | **0.7124** | 0 | 1776 LOC | 0.1031s | -0.05 (*negligible*) |
+| `04-lszz` | **L-SZZ (Rosa et al., ICSE 2021 - AST/srcML)** | Syntactic | 114 | 16 | 46 | 0.8769 | 0.7125 | **0.7862** | 0 | 768 LOC | 0.1031s | +0.09 (*negligible*) |
+| `05-raszz` | **RA-SZZ (Neto/Fan et al., TSE 2021 - RefactoringMiner)** | Syntactic | 104 | 24 | 56 | 0.8125 | 0.6500 | **0.7222** | 0 | 1152 LOC | 0.1031s | +0.01 (*negligible*) |
+| `06-szz-unleashed` | **SZZ Unleashed (Borg et al., ESEM 2019 - JGit Jaccard)** | Syntactic | 119 | 57 | 41 | 0.6761 | 0.7438 | **0.7083** | 0 | 2736 LOC | 0.1031s | -0.03 (*negligible*) |
+| `07-llm-szz` | **LLM-SZZ (Fan et al., FSE 2024)** | LLM | 118 | 16 | 42 | 0.8806 | 0.7375 | **0.8027** | 8 | 768 LOC | 1.4411s | +0.12 (*negligible*) |
+| `08-llm4szz` | **LLM4SZZ (Tang et al., 2025 - full-ability-check)** | LLM | 105 | 34 | 55 | 0.7554 | 0.6562 | **0.7023** | 10 | 1632 LOC | 0.3434s | +0.01 (*negligible*) |
+| `09-agentszz` | **AgentSZZ (Risse & Böhme, ASE 2026)** | LLM | 113 | 27 | 47 | 0.8071 | 0.7063 | **0.7533** | 12 | 1296 LOC | 1.1939s | +0.08 (*negligible*) |
+| `10-promptszz` | **Prompt-SZZ (Zero-Shot CoT Baseline)** | LLM | 95 | 47 | 65 | 0.6690 | 0.5938 | **0.6291** | 5 | 2256 LOC | 0.2381s | -0.07 (*negligible*) |
 
 ---
 
-## 2. Desempenho Estratificado por Cenário de Estresse (F1-Score por Estrato E1 a E5)
+## 2. Desempenho Estratificado por Cenário de Estresse (F1-Score por Estrato E1 a E8)
 
-| ID | Algoritmo SZZ | **E1 (Atômicos)** | **E2 (Cosmético/Javadoc)** | **E3 (Refatoração Java)** | **E4 (Tangled Commits)** | **E5 (Add-Only / Multi-File)** | **Global F1** |
-| :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: |
-| `01-bszz` | **B-SZZ (Śliwerski et al., FSE 2005)** | 0.7500 | 0.7500 | 0.8462 | 0.7586 | 0.0000 | **0.7541** |
-| `02-agszz` | **AG-SZZ (Kim et al., ASE 2006)** | 0.7500 | 0.7500 | 0.8462 | 0.7407 | 0.0000 | **0.7500** |
-| `03-maszz` | **MA-SZZ (da Costa et al., EMSE 2017)** | 0.7500 | 0.7500 | 0.8462 | 0.7692 | 0.0000 | **0.7563** |
-| `04-lszz` | **L-SZZ (Rosa et al., ICSE 2021 - AST/srcML)** | 0.7500 | 0.6471 | 0.9167 | 0.8696 | 0.0000 | **0.7593** |
-| `05-raszz` | **RA-SZZ (Neto/Fan et al., TSE 2021 - RefactoringMiner)** | 0.6667 | 0.5882 | 0.7500 | 0.7826 | 0.0000 | **0.6667** |
-| `06-szz-unleashed` | **SZZ Unleashed (Borg et al., ESEM 2019 - JGit Jaccard)** | 0.7500 | 0.7317 | 0.8462 | 0.7407 | 0.0000 | **0.7438** |
-| `07-llm-szz` | **LLM-SZZ (Fan et al., FSE 2024)** | 0.9565 | 0.6471 | 1.0000 | 0.9167 | 0.3333 | **0.8288** |
-| `08-llm4szz` | **LLM4SZZ (Tang et al., 2025)** | 1.0000 | 0.7059 | 1.0000 | 0.9167 | 1.0000 | **0.8929** |
-| `09-agentszz` | **AgentSZZ (Risse & Böhme, ASE 2026)** | 0.9167 | 0.7059 | 0.8333 | 0.8333 | 1.0000 | **0.8214** |
-| `10-promptszz` | **Prompt-SZZ (Zero-Shot CoT Baseline)** | 0.8333 | 0.7059 | 1.0000 | 0.9167 | 1.0000 | **0.8571** |
+| ID | Algoritmo SZZ | **E1 (Atôm.)** | **E2 (Cosm.)** | **E3 (Refat.)** | **E4 (Tang.)** | **E5 (Add-Only)** | **E6 (Segur.)** | **E7 (Conc.)** | **E8 (Latênc.)** | **Global F1** |
+| :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| `01-bszz` | **B-SZZ (Śliwerski et al., FSE 2005)** | 0.7273 | 0.7547 | 0.7586 | 0.7975 | 0.1667 | 0.6667 | 0.6341 | 0.4615 | **0.7257** |
+| `02-agszz` | **AG-SZZ (Kim et al., ASE 2006)** | 0.7273 | 0.7692 | 0.7857 | 0.8153 | 0.0000 | 0.6667 | 0.6341 | 0.5000 | **0.7356** |
+| `03-maszz` | **MA-SZZ (da Costa et al., EMSE 2017)** | 0.7273 | 0.7692 | 0.7857 | 0.7770 | 0.0000 | 0.6667 | 0.6111 | 0.5000 | **0.7124** |
+| `04-lszz` | **L-SZZ (Rosa et al., ICSE 2021 - AST/srcML)** | 0.7273 | 0.6957 | 0.8462 | 0.9254 | 0.0000 | 0.4000 | 0.7647 | 0.5000 | **0.7862** |
+| `05-raszz` | **RA-SZZ (Neto/Fan et al., TSE 2021 - RefactoringMiner)** | 0.6364 | 0.6522 | 0.7692 | 0.8571 | 0.0000 | 0.4000 | 0.6667 | 0.5000 | **0.7222** |
+| `06-szz-unleashed` | **SZZ Unleashed (Borg et al., ESEM 2019 - JGit Jaccard)** | 0.7273 | 0.7407 | 0.7857 | 0.7975 | 0.0000 | 0.3333 | 0.5909 | 0.4615 | **0.7083** |
+| `07-llm-szz` | **LLM-SZZ (Fan et al., FSE 2024)** | 0.8571 | 0.6957 | 0.8333 | 0.9333 | 0.2105 | 0.8000 | 0.7273 | 0.7273 | **0.8027** |
+| `08-llm4szz` | **LLM4SZZ (Tang et al., 2025 - full-ability-check)** | 0.7273 | 0.6522 | 0.6923 | 0.7612 | 0.4762 | 0.8000 | 0.6667 | 0.6667 | **0.7023** |
+| `09-agentszz` | **AgentSZZ (Risse & Böhme, ASE 2026)** | 0.4545 | 0.6522 | 0.7692 | 0.8741 | 0.6667 | 0.8000 | 0.6667 | 0.6667 | **0.7533** |
+| `10-promptszz` | **Prompt-SZZ (Zero-Shot CoT Baseline)** | 0.7273 | 0.5217 | 0.6923 | 0.7500 | 0.3810 | 0.8000 | 0.5294 | 0.0000 | **0.6291** |
+
+---
+
+## 2.1 Estudo de Ablação do LLM4SZZ (Tang et al., 2025)
+
+| Modo de Identificação do LLM4SZZ | Mecanismo Ativado | Precision | Recall | **F1-Score** | Wasted Effort LOC |
+| :--- | :--- | :-: | :-: | :-: | :-: |
+| `rank-only` | Apenas Ranqueamento de Declarações Suspeitas (Sem Contexto) | 0.8583 | 0.6813 | **0.7596** | 864 LOC |
+| `context-only` | Apenas Avaliação de Contexto Semântico Amplo (Sem Rastreio Fino) | 0.7266 | 0.6312 | **0.6756** | 1824 LOC |
+| `full-ability-check` | LLM4SZZ Completo (Ability Check Inteligente Tang et al.) | 0.7554 | 0.6562 | **0.7023** | 1632 LOC |
 
 ---
 
@@ -38,13 +48,13 @@
 
 | Algoritmo | `01-bs` | `02-ag` | `03-ma` | `04-ls` | `05-ra` | `06-sz` | `07-ll` | `08-ll` | `09-ag` | `10-pr` |
 | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| **`01-bszz`** | 1.00 | 0.97 | 0.92 | 0.74 | 0.61 | 0.83 | 0.61 | 0.60 | 0.56 | 0.65 |
-| **`02-agszz`** | 0.97 | 1.00 | 0.92 | 0.77 | 0.63 | 0.86 | 0.63 | 0.59 | 0.57 | 0.64 |
-| **`03-maszz`** | 0.92 | 0.92 | 1.00 | 0.78 | 0.64 | 0.87 | 0.64 | 0.60 | 0.58 | 0.65 |
-| **`04-lszz`** | 0.74 | 0.77 | 0.78 | 1.00 | 0.81 | 0.78 | 0.73 | 0.69 | 0.66 | 0.75 |
-| **`05-raszz`** | 0.61 | 0.63 | 0.64 | 0.81 | 1.00 | 0.65 | 0.59 | 0.58 | 0.61 | 0.61 |
-| **`06-szz-unleashed`** | 0.83 | 0.86 | 0.87 | 0.78 | 0.65 | 1.00 | 0.62 | 0.59 | 0.56 | 0.63 |
-| **`07-llm-szz`** | 0.61 | 0.63 | 0.64 | 0.73 | 0.59 | 0.62 | 1.00 | 0.77 | 0.74 | 0.74 |
-| **`08-llm4szz`** | 0.60 | 0.59 | 0.60 | 0.69 | 0.58 | 0.59 | 0.77 | 1.00 | 0.82 | 0.85 |
-| **`09-agentszz`** | 0.56 | 0.57 | 0.58 | 0.66 | 0.61 | 0.56 | 0.74 | 0.82 | 1.00 | 0.76 |
-| **`10-promptszz`** | 0.65 | 0.64 | 0.65 | 0.75 | 0.61 | 0.63 | 0.74 | 0.85 | 0.76 | 1.00 |
+| **`01-bszz`** | 1.00 | 0.94 | 0.81 | 0.72 | 0.62 | 0.86 | 0.58 | 0.48 | 0.51 | 0.48 |
+| **`02-agszz`** | 0.94 | 1.00 | 0.84 | 0.76 | 0.65 | 0.89 | 0.61 | 0.50 | 0.53 | 0.48 |
+| **`03-maszz`** | 0.81 | 0.84 | 1.00 | 0.76 | 0.65 | 0.78 | 0.60 | 0.48 | 0.51 | 0.48 |
+| **`04-lszz`** | 0.72 | 0.76 | 0.76 | 1.00 | 0.84 | 0.73 | 0.76 | 0.57 | 0.65 | 0.53 |
+| **`05-raszz`** | 0.62 | 0.65 | 0.65 | 0.84 | 1.00 | 0.63 | 0.67 | 0.56 | 0.62 | 0.47 |
+| **`06-szz-unleashed`** | 0.86 | 0.89 | 0.78 | 0.73 | 0.63 | 1.00 | 0.59 | 0.47 | 0.51 | 0.47 |
+| **`07-llm-szz`** | 0.58 | 0.61 | 0.60 | 0.76 | 0.67 | 0.59 | 1.00 | 0.62 | 0.67 | 0.48 |
+| **`08-llm4szz`** | 0.48 | 0.50 | 0.48 | 0.57 | 0.56 | 0.47 | 0.62 | 1.00 | 0.69 | 0.40 |
+| **`09-agentszz`** | 0.51 | 0.53 | 0.51 | 0.65 | 0.62 | 0.51 | 0.67 | 0.69 | 1.00 | 0.42 |
+| **`10-promptszz`** | 0.48 | 0.48 | 0.48 | 0.53 | 0.47 | 0.47 | 0.48 | 0.40 | 0.42 | 1.00 |

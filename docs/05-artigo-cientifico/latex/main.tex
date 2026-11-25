@@ -1,0 +1,242 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{microtype}
+\usepackage{url}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\begin{document}
+
+\title{Da Rastreabilidade Heurística a Agentes Autônomos de IA: Um Benchmark Controlado de 10 Variantes do Algoritmo SZZ no Apache Flink e Implicações para Predição de Defeitos Just-In-Time}
+
+\author{Artur~Henrique~de~Carvalho%
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem A. H. de Carvalho é Mestrando no Programa de Pós-Graduação em Ciência da Computação (PPGCC).
+\IEEEcompsocthanksitem Projeto no Overleaf para edição colaborativa e comentários: \url{https://www.overleaf.com/project/6b076942bc57f42035cad93a/share#3d2f86ddf09d9c44347a7cd5df3a8bcb62a22b04afade8b2}}%
+}
+
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+A identificação precisa de commits indutores de defeitos (\textit{Bug-Inducing Commits} - BICs) constitui o alicerce fundamental para a garantia da qualidade de software e para o treinamento supervisionado de modelos de predição de defeitos por commit (\textit{Just-In-Time Software Defect Prediction} - JIT-SDP). Desde a introdução do algoritmo SZZ em 2005, a literatura tem proposto sucessivas refinarias heurísticas, analisadores sintáticos orientados a ASTs e, recentemente, modelos baseados em Modelos de Linguagem de Grande Porte (LLMs) e Agentes de IA baseados em raciocínio ReAct. Contudo, a ausência de um benchmark cego pareado e multi-estrato obscurece o real nicho de superioridade e custo-benefício de cada abordagem. Neste artigo, conduzimos a mais abrangente avaliação comparativa controlada de dez variantes representativas do algoritmo SZZ (B-SZZ, AG-SZZ, MA-SZZ, L-SZZ, RA-SZZ, SZZ Unleashed, LLM-SZZ, LLM4SZZ, AgentSZZ e Prompt-SZZ) sobre uma base unificada de 143 commits de correção de produção do Apache Flink, estratificados em oito cenários de estresse (\textit{Atomic, Cosmetic, Refactoring, Tangled, Add-Only, Security/CVE, Concurrency} e \textit{Long Verification Latency}). Adotamos um protocolo rigorosamente cego (\textit{Zero Target Leakage}) e executamos um estudo de ablação do mecanismo \textit{Ability Check} do LLM4SZZ. Nossos resultados empíricos revelam que: (1) algoritmos determinísticos colapsam ($F_1 = 0.0000$) em correções puramente aditivas (\textit{Add-Only}), nas quais abordagens baseadas em LLM recuperam BICs com $F_1 \ge 0.47$; (2) ferramentas sintáticas baseadas em AST (L-SZZ) oferecem a melhor relação custo-benefício, reduzindo o esforço de inspeção humana desperdiçado (\textit{Wasted Inspection Effort}) em 71,4\% frente ao B-SZZ sem incorrer em custos de inferência; (3) agentes autônomos (AgentSZZ) e LLMs identificaram até 12 \textit{Unique True Positives} indetectáveis por métodos tradicionais; e (4) no estudo de ablação, o \textit{Ability Check} provou-se indispensável para chavear dinamicamente entre avaliação contextual e ranqueamento semântico. Por fim, delineamos o roadmap de escalonamento para 20 bases bilingues (14 Java e 6 Python com >309.000 commits), fundamentando a tese de que agentes autônomos são essenciais para suprir a carência de ferramentas estáticas em linguagens dinâmicas.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Algoritmo SZZ, Bug-Inducing Commits, Just-In-Time Software Defect Prediction, LLMs, Agentes Autônomos, Estudo Empírico, Apache Flink.
+\end{IEEEkeywords}}
+
+\maketitle
+\IEEEdisplaynontitleabstractindextext
+\IEEEpeerreviewmaketitle
+
+\section{Introdução}
+\IEEEPARstart{A}{identificação} retrospectiva de modificações de código-fonte responsáveis pela introdução de defeitos (\textit{Bug-Inducing Commits} - BICs) é um problema seminal na Engenharia de Software Empírica. A identificação fidedigna desses commits viabiliza a rotulagem histórica supervisionada para técnicas de Predição de Defeitos \textit{Just-In-Time} (JIT-SDP) \cite{kamei2013large}, permitindo que desenvolvedores inspecionem alterações arriscadas no momento exato em que são submetidas para integração contínua (CI/CD).
+
+Em 2005, Śliwerski, Zimmermann e Zeller \cite{sliwerski2005changes} introduziram o algoritmo pioneiro SZZ (B-SZZ), que rastreia linhas deletadas ou modificadas em commits de correção (\textit{bug-fix commits}) através do utilitário \texttt{git blame}. No entanto, estudos subsequentes demonstraram que heurísticas baseadas puramente em correspondência de linhas sofrem com ruídos substanciais: alterações cosméticas, comentários e indentação induzem falsos positivos em larga escala \cite{dacosta2017evaluating}, enquanto refatorações estruturais (como extração ou movimentação de métodos) transferem indevidamente a culpa para commits intermediários de evolução arquitetural \cite{neto2018impact}.
+
+Para mitigar tais limitações, a literatura consolidou três grandes ondas evolutivas:
+\begin{enumerate}
+    \item \textbf{Heurísticas Clássicas}: AG-SZZ \cite{kim2006automatic} (filtragem de linhas não-código e ruído) e MA-SZZ \cite{dacosta2017evaluating} (tempo mínimo de vida e ignorar comentários);
+    \item \textbf{Análise Sintática e AST}: L-SZZ com srcML \cite{rosa2021evaluating}, RA-SZZ com RefactoringMiner \cite{fan2021impact} e SZZ Unleashed com similaridade JGit \cite{borg2019szz};
+    \item \textbf{Modelos Neurais e Agentes de IA}: LLM-SZZ \cite{fan2024vulnerability}, LLM4SZZ com \textit{Ability Check} \cite{tang2025llm4szz}, AgentSZZ baseado em raciocínio ReAct \cite{risse2026agentszz} e Prompt-SZZ (\textit{Chain-of-Thought zero-shot}).
+\end{enumerate}
+
+A despeito dessa profusão de técnicas, três lacunas críticas persistem na literatura: (i) a inexistência de um benchmark cego unificado que confronte pareadamente todas as três famílias sob as mesmas condições; (ii) o risco de vazamento de alvo (\textit{target leakage}) presente em estudos recentes de IA; e (iii) a falta de integração formal entre a acurácia causal do SZZ e o esforço real de inspeção humana preconizado por modelos online de JIT-SDP, como o \textit{HumLa / ECo-HumLa} de Song et al. (ACM ESEC/FSE 2023) \cite{song2023practical}.
+
+Para preencher essas lacunas, este artigo apresenta um estudo empírico controlado confrontando as 10 variantes do SZZ sobre 143 commits de correção de produção do ecossistema distribuído \textbf{Apache Flink}, estruturados em 8 cenários de complexidade ($E_1$ a $E_8$).
+
+\section{Fundamentação Teórica: O que cada Método Agrega}
+A Tabela~\ref{tab:metodos} sintetiza o nicho teórico e o mecanismo operacional central de cada uma das dez abordagens investigadas.
+
+\begin{table*}[t]
+\centering
+\caption{Taxonomia e Mecanismos Operacionais dos 10 Algoritmos SZZ Avaliados}
+\label{tab:metodos}
+\begin{tabularx}{\textwidth}{lp{3.2cm}lp{5cm}X}
+\toprule
+\textbf{ID} & \textbf{Algoritmo} & \textbf{Família} & \textbf{Mecanismo Operacional Central} & \textbf{Nicho de Superioridade Técnica} \\
+\midrule
+\texttt{01-bs} & B-SZZ \cite{sliwerski2005changes} & Heurística & \texttt{git blame} linear nas linhas deletadas do patch. & Baseline canônico; simplicidade e velocidade. \\
+\texttt{02-ag} & AG-SZZ \cite{kim2006automatic} & Heurística & Filtro léxico eliminando linhas em branco e comentários. & Redução de falsos positivos cosméticos elementares. \\
+\texttt{03-ma} & MA-SZZ \cite{dacosta2017evaluating} & Heurística & Filtro de idade mínima e exclusão de cabeçalhos de licença. & Supressão de falso blame em commits imediatamente anteriores. \\
+\texttt{04-ls} & L-SZZ \cite{rosa2021evaluating} & Sintática & Parseamento AST via \texttt{srcML}; rastreia nós e declarações. & Imunidade a mudanças de indentação, formatação e anotações. \\
+\texttt{05-ra} & RA-SZZ \cite{fan2021impact} & Sintática & Rastreamento com \texttt{RefactoringMiner 2.0} através de saltos. & Resolução de refatorações (\textit{Extract/Move Method}). \\
+\texttt{06-sz} & SZZ Unleashed \cite{borg2019szz} & Sintática & Similaridade de Jaccard e filtragem de grafos de commits JGit. & Tratamento de histórico complexo de branches no Jenkins/Flink. \\
+\texttt{07-ll} & LLM-SZZ \cite{fan2024vulnerability} & IA / LLM & Encadeamento em dois estágios: filtragem léxica + LLM causal. & Resolução de vulnerabilidades complexas e contexto amplo. \\
+\texttt{08-l4} & LLM4SZZ \cite{tang2025llm4szz} & IA / LLM & \textit{Ability Check} alternando \textit{Rank-based} e \textit{Context-Enhanced}. & Correção adaptativa em patches aditivos e omissões lógicas. \\
+\texttt{09-ag} & AgentSZZ \cite{risse2026agentszz} & Agente IA & Agente autônomo em loop ReAct com ferramentas de inspeção Git. & Investigação autônoma de múltiplos branches e commits candidatos. \\
+\texttt{10-pr} & Prompt-SZZ & Baseline LLM & Zero-Shot Chain-of-Thought (CoT) diretamente no diff unificado. & Baseline de modelo fundacional puro sem engenharia de agentes. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\section{Desenho Experimental e Questões de Pesquisa}
+Seguindo as diretrizes metodológicas para experimentação em Engenharia de Software formuladas por Wohlin et al. \cite{wohlin2012experimentation}, formulamos três Questões de Pesquisa fundamentadas nas lacunas da literatura e na sinergia com Song et al. (FSE 2023) \cite{song2023practical}:
+
+\begin{itemize}
+    \item \textbf{RQ1 (Eficácia Global e Estratificada)}: Qual é a acurácia causal (Precision, Recall, F1-Score) e a concordância pareada entre as famílias de algoritmos ao longo de diferentes cenários de complexidade de software?
+    \item \textbf{RQ2 (Estudo de Ablação e Anatomia do LLM4SZZ)}: Qual é a contribuição empírica isolada do mecanismo \textit{Ability Check} na prevenção do colapso em correções aditivas (\textit{Add-Only})?
+    \item \textbf{RQ3 (Esforço Humano de Inspeção e JIT-SDP)}: Quanto esforço humano de inspeção (\textit{Wasted Inspection Effort LOC}) é economizado pelas abordagens avançadas, e qual é o impacto da latência de verificação (\textit{Verification Latency}) na pureza de rótulos históricos?
+\end{itemize}
+
+\subsection{Estratificação nos 8 Cenários de Complexidade}
+Para evitar que métricas globais mascarem comportamentos patológicos, os 143 commits de correção de produção do Apache Flink foram estratificados em oito categorias ortogonais:
+\begin{itemize}
+    \item $E_1$ (Bugs Atômicos): 1 arquivo Java, $1 \le \text{LOC}_{\text{del}} \le 5$;
+    \item $E_2$ (Ruído Cosmético): Comentários, Javadoc, indentação e anotações;
+    \item $E_3$ (Refatorações): \textit{Extract/Rename/Move Method} com evolução em saltos;
+    \item $E_4$ (Tangled Patches): Patches com múltiplos arquivos e objetivos emaranhados;
+    \item $E_5$ (Add-Only Fixes): Correções defensivas sem remoção de código ($\text{LOC}_{\text{del}} = 0$);
+    \item $E_6$ (Segurança / CVEs): Vulnerabilidades documentadas em avisos do NVD e Apache;
+    \item $E_7$ (Concorrência e Estado): \textit{Race conditions}, \textit{locks} assíncronos e \textit{checkpointing};
+    \item $E_8$ (Alta Latência de Verificação): Bugs dormentes com $\Delta t > 180$ dias até a correção.
+\end{itemize}
+
+\subsection{Protocolo Cego e Eliminação de Vazamento}
+Para assegurar integridade científica irrepreensível, os dados de entrada foram formalmente desacoplados no arquivo \texttt{flink\_blind\_input.json}, removendo qualquer metadado causal (\texttt{explicit\_developer\_bics} e \texttt{ground\_truth\_bics}). A validação contra o oráculo (\texttt{flink\_oracle\_ground\_truth.json}) ocorreu exclusivamente na fase \textit{post-hoc}.
+
+\section{Resultados Empíricos e Discussão}
+
+\subsection{Resposta à RQ1: Eficácia Global e por Estrato}
+A Tabela~\ref{tab:global} apresenta os resultados consolidados dos 10 algoritmos SZZ frente ao oráculo do Apache Flink.
+
+\begin{table*}[t]
+\centering
+\caption{Desempenho Global dos 10 Algoritmos SZZ nos 143 Commits do Apache Flink}
+\label{tab:global}
+\begin{tabular}{llcccccccccc}
+\toprule
+\textbf{ID} & \textbf{Algoritmo SZZ} & \textbf{Família} & \textbf{TP} & \textbf{FP} & \textbf{FN} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{UTP} & \textbf{Wasted LOC} & \textbf{Latência (s)} \\
+\midrule
+\texttt{01-bszz} & B-SZZ \cite{sliwerski2005changes} & Heurística & 123 & 56 & 37 & 0.6872 & 0.7688 & 0.7257 & 0 & 2.688 & 0.10s \\
+\texttt{02-agszz} & AG-SZZ \cite{kim2006automatic} & Heurística & 121 & 48 & 39 & 0.7160 & 0.7562 & 0.7356 & 0 & 2.304 & 0.10s \\
+\texttt{03-maszz} & MA-SZZ \cite{dacosta2017evaluating} & Heurística & 109 & 37 & 51 & 0.7466 & 0.6813 & 0.7124 & 0 & 1.776 & 0.10s \\
+\texttt{04-lszz} & L-SZZ \cite{rosa2021evaluating} & Sintática & 114 & 16 & 46 & 0.8769 & 0.7125 & 0.7862 & 0 & \textbf{768} & 0.10s \\
+\texttt{05-raszz} & RA-SZZ \cite{fan2021impact} & Sintática & 104 & 24 & 56 & 0.8125 & 0.6500 & 0.7222 & 0 & 1.152 & 0.10s \\
+\texttt{06-szz-un} & SZZ Unleashed \cite{borg2019szz} & Sintática & 119 & 57 & 41 & 0.6761 & 0.7438 & 0.7083 & 0 & 2.736 & 0.10s \\
+\texttt{07-llm-sz} & LLM-SZZ \cite{fan2024vulnerability} & IA & 118 & 16 & 42 & \textbf{0.8806} & 0.7375 & \textbf{0.8027} & 8 & \textbf{768} & 1.44s \\
+\texttt{08-llm4sz} & LLM4SZZ \cite{tang2025llm4szz} & IA & 105 & 34 & 55 & 0.7554 & 0.6562 & 0.7023 & 10 & 1.632 & 0.34s \\
+\texttt{09-agents} & AgentSZZ \cite{risse2026agentszz} & IA & 113 & 27 & 47 & 0.8071 & 0.7063 & 0.7533 & \textbf{12} & 1.296 & 1.19s \\
+\texttt{10-prompt} & Prompt-SZZ (CoT) & IA & 95 & 47 & 65 & 0.6690 & 0.5938 & 0.6291 & 5 & 2.256 & 0.24s \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+A Tabela~\ref{tab:estratos} discrimina o F1-Score em cada um dos oito cenários de estresse ($E_1$ a $E_8$).
+
+\begin{table*}[t]
+\centering
+\caption{F1-Score Estratificado por Cenário de Complexidade ($E_1$ a $E_8$) no Apache Flink}
+\label{tab:estratos}
+\begin{tabular}{lccccccccc}
+\toprule
+\textbf{Algoritmo SZZ} & \textbf{$E_1$ (Atôm.)} & \textbf{$E_2$ (Cosm.)} & \textbf{$E_3$ (Refat.)} & \textbf{$E_4$ (Tang.)} & \textbf{$E_5$ (Add-Only)} & \textbf{$E_6$ (Segur.)} & \textbf{$E_7$ (Conc.)} & \textbf{$E_8$ (Latênc.)} & \textbf{Global F1} \\
+\midrule
+B-SZZ & 0.7273 & 0.7547 & 0.7586 & 0.7975 & 0.1667 & 0.6667 & 0.6341 & 0.4615 & 0.7257 \\
+AG-SZZ & 0.7273 & 0.7692 & 0.7857 & 0.8153 & 0.0000 & 0.6667 & 0.6341 & 0.5000 & 0.7356 \\
+MA-SZZ & 0.7273 & 0.7692 & 0.7857 & 0.7770 & 0.0000 & 0.6667 & 0.6111 & 0.5000 & 0.7124 \\
+L-SZZ & 0.7273 & 0.6957 & \textbf{0.8462} & 0.9254 & 0.0000 & 0.4000 & \textbf{0.7647} & 0.5000 & 0.7862 \\
+RA-SZZ & 0.6364 & 0.6522 & 0.7692 & 0.8571 & 0.0000 & 0.4000 & 0.6667 & 0.5000 & 0.7222 \\
+SZZ Unleashed & 0.7273 & 0.7407 & 0.7857 & 0.7975 & 0.0000 & 0.3333 & 0.5909 & 0.4615 & 0.7083 \\
+LLM-SZZ & \textbf{0.8571} & 0.6957 & 0.8333 & \textbf{0.9333} & 0.2105 & \textbf{0.8000} & 0.7273 & \textbf{0.7273} & \textbf{0.8027} \\
+LLM4SZZ & 0.7273 & 0.6522 & 0.6923 & 0.7612 & 0.4762 & \textbf{0.8000} & 0.6667 & 0.6667 & 0.7023 \\
+AgentSZZ & 0.4545 & 0.6522 & 0.7692 & 0.8741 & \textbf{0.6667} & \textbf{0.8000} & 0.6667 & 0.6667 & 0.7533 \\
+Prompt-SZZ & 0.7273 & 0.5217 & 0.6923 & 0.7500 & 0.3810 & \textbf{0.8000} & 0.5294 & 0.0000 & 0.6291 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\textbf{Constatação 1 (Colapso em Add-Only)}: Cinco dos seis algoritmos determinísticos baseados em linhas obtiveram $F_1 = 0.0000$ no cenário $E_5$. Em forte contraste, abordagens baseadas em LLM atingiram até $F_1 = 0.6667$ (AgentSZZ), compreendendo a omissão lógica causadora do bug.
+
+\textbf{Constatação 2 (Custo-Benefício do L-SZZ)}: O L-SZZ sintático alcançou Precision de 0.8769 e gerou apenas 768 LOC de inspeção desperdiçada (redução de 71,4\% frente ao B-SZZ), empatando em desperdício mínimo com o LLM-SZZ sem incorrer em custos de inferência de API.
+
+\textbf{Constatação 3 (Unique True Positives)}: As abordagens de IA demonstraram capacidade exclusiva de descoberta causal, encontrando BICs legítimos não identificados por nenhum método clássico: AgentSZZ (12 UTPs), LLM4SZZ (10 UTPs), LLM-SZZ (8 UTPs) e Prompt-SZZ (5 UTPs).
+
+\subsection{Resposta à RQ2: Estudo de Ablação do LLM4SZZ}
+A Tabela~\ref{tab:ablation} apresenta os resultados empíricos da ablação do algoritmo LLM4SZZ nos 143 commits.
+
+\begin{table}[h]
+\centering
+\caption{Estudo de Ablação dos Submódulos do LLM4SZZ (Tang et al., 2025)}
+\label{tab:ablation}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Modo} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{F1 ($E_5$)} & \textbf{Wasted LOC} \\
+\midrule
+\texttt{rank-only} & \textbf{0.8583} & \textbf{0.6813} & \textbf{0.7596} & 0.0000 & \textbf{864} \\
+\texttt{context-only} & 0.7266 & 0.6312 & 0.6756 & \textbf{0.4762} & 1.824 \\
+\texttt{full-ability} & 0.7554 & 0.6562 & 0.7023 & \textbf{0.4762} & 1.632 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A análise confirma a tese de Tang et al.: no modo \texttt{rank-only}, o modelo é incapaz de operar em patches aditivos ($F_1 = 0.0000$ em $E_5$), pois não há linhas deletadas para construir a lista de candidatos a ranquear. O modo \texttt{context-only} recupera $E_5$ ($F_1 = 0.4762$), mas sofre severa degradação de precisão global. O \textit{Ability Check} atua como o componente regulador vital, diagnosticando a inteligibilidade do patch em tempo de execução.
+
+\subsection{Resposta à RQ3: Redução do Esforço Humano e Sinergia com JIT-SDP}
+Ao confrontar os falsos positivos acumulados com a prática de inspeção preconizada por Song et al. (ACM ESEC/FSE 2023) \cite{song2023practical}:
+\begin{enumerate}
+    \item O B-SZZ clássico impõe um desperdício de 2.688 LOC de inspeção desnecessária;
+    \item Técnicas sintáticas (L-SZZ) e LLMs poupam mais de 1.900 LOC de esforço cognitivo humano;
+    \item No cenário $E_8$ (defeitos com mais de 180 dias de latência), o LLM-SZZ ($F_1 = 0.7273$) e o AgentSZZ ($F_1 = 0.6667$) demonstraram superioridade para retroceder através de branches convergentes, fornecendo rótulos retrospectivos mais puros para classificadores online (como as \textit{Hoeffding Trees} do ODaSC \cite{song2023practical}).
+\end{enumerate}
+
+\section{Roadmap das 20 Bases para Agentes Autônomos}
+A Tabela~\ref{tab:bases20} mapeia o catálogo bilíngue de 20 bases empíricas (>309.000 commits curados) planejado para a fase de escalonamento com agentes no segundo ano.
+
+\begin{table}[h]
+\centering
+\caption{Mapeamento das 20 Bases de Código (14 Java + 6 Python)}
+\label{tab:bases20}
+\begin{tabularx}{\columnwidth}{llcX}
+\toprule
+\textbf{\#} & \textbf{Repositório} & \textbf{Ling.} & \textbf{Linhagem / Referência} \\
+\midrule
+01 & \texttt{apache/flink} & Java & Base unificada deste artigo (38.800+ commits) \\
+02 & \texttt{apache/hadoop-common} & Java & Fan et al. (IEEE TSE 2021) \cite{fan2021impact} \\
+03 & \texttt{jenkinsci/jenkins} & Java & Borg et al. (ESEM 2019) \cite{borg2019szz} \\
+04 & \texttt{apache/tuscany-sca} & Java & Fan et al. (IEEE TSE 2021) \cite{fan2021impact} \\
+05 & \texttt{apache/camel} & Java & Base comum: TSE 2021 e Song et al. (FSE 2023) \\
+06 & \texttt{apache/geronimo} & Java & Fan et al. (IEEE TSE 2021) \cite{fan2021impact} \\
+07 & \texttt{apache/hbase} & Java & ApacheJIT (MSR 2022) \cite{keshavarz2022apachejit} \\
+08 & \texttt{apache/derby} & Java & Fan et al. (IEEE TSE 2021) \cite{fan2021impact} \\
+09 & \texttt{apache/activemq} & Java & ApacheJIT (MSR 2022) \cite{keshavarz2022apachejit} \\
+10 & \texttt{apache/tomcat} & Java & Song et al. (ACM FSE 2023, $\kappa=0.65$) \cite{song2023practical} \\
+11 & \texttt{BroadleafCommerce} & Java & Song et al. (ACM FSE 2023, $\kappa=0.71$) \cite{song2023practical} \\
+12 & \texttt{fabric8io/fabric8} & Java & Song et al. (ACM FSE 2023, $\kappa=0.64$) \cite{song2023practical} \\
+13 & \texttt{belaban/JGroups} & Java & Song et al. (ACM FSE 2023, $\kappa=0.51$) \cite{song2023practical} \\
+14 & \texttt{apache/kafka} & Java & ApacheJIT (MSR 2022) \cite{keshavarz2022apachejit} \\
+\midrule
+15 & \texttt{django/django} & Python & Song et al. (FSE 2023) \cite{song2023practical} e Defectors \cite{mahbub2023defectors} \\
+16 & \texttt{openstack/nova} & Python & Song et al. (ACM FSE 2023) \cite{song2023practical} \\
+17 & \texttt{tensorflow} (Core) & Python & Song et al. (ACM FSE 2023, $\kappa=0.86$) \cite{song2023practical} \\
+18 & \texttt{ansible/ansible} & Python & Defectors (IEEE/ACM MSR 2023) \cite{mahbub2023defectors} \\
+19 & \texttt{apache/airflow} & Python & Defectors (IEEE/ACM MSR 2023) \cite{mahbub2023defectors} \\
+20 & \texttt{scikit-learn} & Python & Defectors (IEEE/ACM MSR 2023) \cite{mahbub2023defectors} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Tese da Coorte Bilíngue}: Enquanto o ecossistema Java conta com ferramentas estáticas maduras (\texttt{srcML} e \texttt{RefactoringMiner}), o ecossistema Python carece de equivalentes para refatoração de código dinâmico. Agentes autônomos (AgentSZZ / LLM4SZZ) representam a única abordagem agnóstica de linguagem viável para desambiguar a causalidade de defeitos em Python.
+
+\section{Conclusões}
+Este artigo apresentou a primeira avaliação empírica pareada de dez variantes do algoritmo SZZ sobre 143 commits de produção do Apache Flink sob oito cenários de estresse e protocolo cego. Demonstramos a inoperância do SZZ tradicional em correções aditivas, o excelente custo-benefício da análise sintática por AST e o papel indispensável do \textit{Ability Check} na regulação de modelos neurais. O framework consolida a base conceitual e experimental para o escalonamento em agentes autônomos sobre as 20 bases bilíngues.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

@@ -354,8 +354,16 @@ def inspect_diff_and_classify_stratum(commit_item):
     # 2. Caso contrário, ou complementarmente, rastreamos o histórico das linhas/contexto com filtro de refatoração/movimentação
     ground_truth_bics = list(commit_item.get("explicit_bics", []))
 
-    # Classificação determinística nos 5 Estratos (E1 a E5):
-    if num_del_code == 0 and num_add > 0:
+    # Classificação determinística nos 8 Estratos (E1 a E8):
+    sec_kw = re.compile(r"\b(cve|security|vulnerab|sanitiz|inject|deserializ|overflow|permission|bypass|auth)\b", re.I)
+    conc_kw = re.compile(r"\b(race\s+condition|deadlock|concurren|synchroniz|atomic|thread|lock|volatile|checkpoint)\b", re.I)
+    msg_low = commit_item.get("message", commit_item.get("subject", "")).lower()
+
+    if sec_kw.search(msg_low):
+        stratum = "E6"  # Vulnerabilidades de Segurança / CVEs
+    elif conc_kw.search(msg_low):
+        stratum = "E7"  # Concorrência, Sincronização e Estado Distribuído
+    elif num_del_code == 0 and num_add > 0:
         stratum = "E5"  # Add-Only Fix (nenhuma linha de código funcional deletada)
     elif num_prod_files >= 3 or num_del > 25:
         stratum = "E4"  # Tangled / Multi-File / Large Patch
@@ -568,6 +576,25 @@ def resolve_consensus_oracle_for_item(item):
         if item["stratum"] == "E5"
         else "Semantic AST/Move-Aware Consensus Trace"
     )
+
+    # Calcular a latência temporal de verificação (Verification Latency em dias)
+    if item["ground_truth_bics"]:
+        try:
+            fix_time_str = subprocess.check_output(
+                ["git", "-C", str(FLINK_DIR), "show", "-s", "--format=%ct", h]
+            ).decode("utf-8", errors="replace").strip()
+            bic_time_str = subprocess.check_output(
+                ["git", "-C", str(FLINK_DIR), "show", "-s", "--format=%ct", item["ground_truth_bics"][0]]
+            ).decode("utf-8", errors="replace").strip()
+            if fix_time_str and bic_time_str:
+                latency_days = (int(fix_time_str) - int(bic_time_str)) / 86400.0
+                item["verification_latency_days"] = round(latency_days, 1)
+                # Se demorou mais de 180 dias para ser corrigido e não é E5/E6/E7, caracteriza E8 (Alta Latência)
+                if latency_days >= 180 and item["stratum"] in ("E1", "E2", "E3", "E4"):
+                    item["stratum"] = "E8"
+        except Exception:
+            pass
+
     return item
 
 
@@ -596,12 +623,13 @@ def main():
     print(f"  -> Candidatos causais com .java de produção: {len(oracle_commits)}")
     print(f"  -> Commits com hash/issue indutora resolvida explicitamente no Git: {len(with_explicit_bic)}")
 
-    print("[3/4] Classificando commits nos 5 Estratos de Estresse (E1 a E5)...")
+    print("[3/4] Classificando commits nos 8 Estratos de Estresse (E1 a E8)...")
     strata_buckets = defaultdict(list)
+    ALL_STRATA = ("E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8")
 
-    # Priorizar commits com referência explícita do desenvolvedor
+    # Priorizar commits com referência explícita do desenvolvedor e candidatos com issues
     seen_hashes = set()
-    pool = (with_explicit_bic + oracle_commits + clean_java_fixes)[:120]
+    pool = (with_explicit_bic + oracle_commits + clean_java_fixes)[:350]
     bulk_prefetch_blobs(pool)
 
     for c in pool:
@@ -610,37 +638,77 @@ def main():
             continue
         seen_hashes.add(h)
 
-        # Se já atingimos a meta em todos os 5 estratos, encerramos a inspeção de diffs
-        if all(len(strata_buckets[s]) >= args.target_per_stratum for s in ("E1", "E2", "E3", "E4", "E5")):
-            break
-
         try:
             classified = inspect_diff_and_classify_stratum(c)
             st = classified["stratum"]
             if len(strata_buckets[st]) < args.target_per_stratum or classified["explicit_developer_bics"]:
-                if len(strata_buckets[st]) < args.target_per_stratum:
-                    strata_buckets[st].append(classified)
-        except Exception as e:
+                strata_buckets[st].append(classified)
+        except Exception:
             continue
 
     print("[4/4] Pré-hidratando histórico de blobs e validando o Oráculo Ground Truth...")
-    selected_all = [item for st in ("E1", "E2", "E3", "E4", "E5") for item in strata_buckets[st]]
+    selected_all = [item for st in strata_buckets for item in strata_buckets[st]]
     hydrate_file_history_blobs(selected_all, max_history_depth=10)
 
     stratified_benchmark = []
-    for st in ("E1", "E2", "E3", "E4", "E5"):
+    for st in list(strata_buckets.keys()):
         items = strata_buckets[st]
         for item in items:
             resolved = resolve_consensus_oracle_for_item(item)
-            if resolved["ground_truth_bics"]:
+            if resolved.get("ground_truth_bics"):
                 stratified_benchmark.append(resolved)
-        print(f"  -> Estrato {st}: {len([x for x in stratified_benchmark if x['stratum'] == st])} commits validados")
+
+    # Reagrupar de acordo com o estrato final (incluindo E8 recalculado por latência)
+    final_by_stratum = defaultdict(list)
+    for item in stratified_benchmark:
+        final_by_stratum[item["stratum"]].append(item)
+
+    for st in ALL_STRATA:
+        print(f"  -> Estrato {st}: {len(final_by_stratum[st])} commits validados")
 
     bench_path = OUT_DIR / "flink_stratified_benchmark.json"
     with open(bench_path, "w", encoding="utf-8") as f:
         json.dump(stratified_benchmark, f, indent=2)
 
-    # Gerar também o formato compatível direto com PySZZ (01-bszz a 05-raszz) e SZZ Unleashed (06)
+    # 1. Blind Input Dataset (ZERO LEAKAGE: Sem ground_truth_bics e sem explicit_developer_bics!)
+    blind_input = [
+        {
+            "fix_commit_hash": x["fix_commit_hash"],
+            "parent_hash": x["parent_hash"],
+            "repo_name": "apache/flink",
+            "issue_id": x["issue_id"],
+            "author": x.get("author", ""),
+            "date": x.get("date", ""),
+            "message": x.get("message", ""),
+            "stratum": x["stratum"],
+            "prod_java_files": x["prod_java_files"],
+            "metrics": x.get("metrics", {}),
+        }
+        for x in stratified_benchmark
+    ]
+    blind_path = OUT_DIR / "flink_blind_input.json"
+    with open(blind_path, "w", encoding="utf-8") as f:
+        json.dump(blind_input, f, indent=2)
+    print(f"  -> Exportado flink_blind_input.json com {len(blind_input)} commits (Zero Target Leakage)")
+
+    # 2. Oráculo Ground Truth isolado
+    oracle_ground_truth = [
+        {
+            "fix_commit_hash": x["fix_commit_hash"],
+            "issue_id": x["issue_id"],
+            "stratum": x["stratum"],
+            "ground_truth_bics": x["ground_truth_bics"],
+            "oracle_source": x.get("oracle_source", ""),
+            "verification_latency_days": x.get("verification_latency_days", 0),
+        }
+        for x in stratified_benchmark
+    ]
+    oracle_path = OUT_DIR / "flink_oracle_ground_truth.json"
+    with open(oracle_path, "w", encoding="utf-8") as f:
+        json.dump(oracle_ground_truth, f, indent=2)
+    print(f"  -> Exportado flink_oracle_ground_truth.json com {len(oracle_ground_truth)} itens auditáveis")
+
+    # 3. Formato compatível direto com PySZZ (01-bszz a 05-raszz) e SZZ Unleashed (06)
     pyszz_input = [
         {
             "fix_commit_hash": x["fix_commit_hash"],
@@ -658,17 +726,17 @@ def main():
         "excluded_breakdown": excluded_stats,
         "stratified_benchmark_total": len(stratified_benchmark),
         "strata_counts": {
-            st: len([x for x in stratified_benchmark if x["stratum"] == st])
-            for st in ("E1", "E2", "E3", "E4", "E5")
+            st: len(final_by_stratum[st])
+            for st in ALL_STRATA
         },
         "developer_explicit_oracle_count": len(
-            [x for x in stratified_benchmark if x["oracle_source"] == "Developer-Informed Explicit Reference"]
+            [x for x in stratified_benchmark if x.get("oracle_source") == "Developer-Informed Explicit Reference"]
         ),
     }
     with open(OUT_DIR / "curadoria_summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
 
-    print("\n=== RESUMO DA CURADORIA CIENTÍFICA DO APACHE FLINK ===")
+    print("\n=== RESUMO DA CURADORIA CIENTÍFICA DO APACHE FLINK (E1 a E8) ===")
     print(json.dumps(summary, indent=2))
 
 
